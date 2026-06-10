@@ -1,181 +1,210 @@
-# Krijo Studio — Studio Dixhitale Shqiptare
+# Krijo Studio
 
-A calm, editorial-style one-page site for an Albanian web-development /
-hosting / maintenance studio, built with **Next.js 16, React 19, Tailwind v4**
-(no heavy animation libraries — native `<details>` for FAQ only) plus a tiny
-**SQLite** backend for contact submissions.
+Albanian-first marketing site for a web development, hosting, and maintenance studio — a single-page Next.js application with a SQLite-backed contact pipeline.
 
-> Albanian-first copy. Pricing in EUR. Warm paper tones, serif headlines, readable on phones.
+## Overview
 
----
+Krijo Studio is the public site of a small digital studio in Tirana. It presents the studio's services, pricing packages, selected work, and process in Albanian, and collects project inquiries through a contact form. Submissions are validated, rate-limited, and stored in a local SQLite database, then reviewed through a Basic-Auth-protected admin dashboard.
 
-## ✨ Features
+The site is intentionally lightweight: no CMS, no animation frameworks, no external services. Everything runs from a single Node.js process and a single database file, which makes it cheap to host and trivial to back up.
 
-- **Hero** with newspaper-style index + slow desktop-only marquee / static chips on phones
-- **Services** grid (Krijim Faqesh · Domain · Hosting · Mirëmbajtje · UI/UX · SEO)
-- **4 Pricing Packages**
-  - **Vetëm Faqja** — €299 one-time (website only)
-  - **Faqja + Domain** — €399 one-time (website + domain + email) — _highlighted_
-  - **Mirëmbajtje** — €29/month (maintenance only)
-  - **Premium · Gjithçka** — €799 + €39/month (everything)
-- **Why Us · Process · Portfolio · Testimonials · FAQ**
-- **Contact form** wired to a Next.js API route → **SQLite** database
-- Honeypot + per-IP rate-limit + Zod validation
-- Sticky minimalist nav + mobile sheet menu + toast notifications
+## Features
 
-## 🧰 Stack
+- Single-page editorial layout: Hero, Pricing, Portfolio, Services, Format picker, Philosophy, Process timeline, Testimonials, FAQ, Contact
+- Contact form with Zod validation, spam honeypot, and per-IP rate limiting (5 submissions / 10 minutes)
+- Submissions persisted to SQLite via `better-sqlite3` (synchronous, zero-config)
+- Admin dashboard at `/admin` and JSON listing at `/api/contacts`, both behind Basic Auth in production
+- Warm-paper editorial design system: serif display type, mono labels, grain texture, scroll-reveal motion
+- Accessibility: skip link, visible focus states, reduced-motion support, semantic landmarks, native `<details>` FAQ
+- Albanian (`sq`) locale throughout, including metadata and Open Graph tags
 
-- [Next.js 16](https://nextjs.org/) (App Router, Turbopack)
-- React 19, TypeScript
-- Tailwind CSS v4 — **DM Sans · Source Serif 4 · IBM Plex Mono**
-- Native `<details>/<summary>` for FAQ (no animation framework)
-- [react-hot-toast](https://react-hot-toast.com/)
-- [Zod](https://zod.dev/) for input validation
-- [better-sqlite3](https://github.com/WiseLibs/better-sqlite3) for storage
+## Tech stack
 
-## 🚀 How to run this on your own laptop
+| Layer      | Technology                                              |
+| ---------- | ------------------------------------------------------- |
+| Framework  | Next.js 16 (App Router, Turbopack)                      |
+| UI         | React 19, TypeScript 5                                  |
+| Styling    | Tailwind CSS v4, design tokens in `src/app/globals.css` |
+| Fonts      | DM Sans, Source Serif 4, IBM Plex Mono (`next/font`)    |
+| Validation | Zod 4                                                   |
+| Storage    | SQLite via `better-sqlite3`                             |
+| Feedback   | react-hot-toast                                         |
 
-You only ever need **3 commands**. Open the Terminal app and type:
-
-### Step 1 — Go to the project folder
-
-```bash
-cd /Users/bruna/Projects/krijo-studio
-```
-
-### Step 2 — First time only (needs internet, ~1 min)
-
-```bash
-npm install
-```
-
-This downloads all the code libraries into a `node_modules/` folder.
-**After this, you can run the site fully offline forever.**
-
-### Step 3 — Every time you want to work on it
-
-```bash
-npm run dev
-```
-
-You'll see something like:
+## Architecture
 
 ```
-▲ Next.js 16.2.6 (Turbopack)
-- Local:    http://localhost:3000
-✓ Ready in 242ms
+Browser
+  │
+  ├─ GET /              → Server-rendered single page (mostly Server Components;
+  │                       Navbar, Format, Process, Contact are Client Components)
+  │
+  ├─ POST /api/contact  → Route handler: Zod validation → honeypot check
+  │                       → per-IP rate limit → INSERT into SQLite
+  │
+  ├─ GET /admin         ┐ Basic Auth gate (src/proxy.ts, production only)
+  └─ GET /api/contacts  ┘ → read from SQLite
+                              │
+                              ▼
+                        data/krijo.db (WAL mode, auto-created)
 ```
 
-Now open <http://localhost:3000> in your browser. That's your website.
+The database layer (`src/lib/db.ts`) opens a single shared connection, creates the schema on first use, and exposes three typed functions: `insertContact`, `listContacts`, and `countContactsSince` (used by the rate limiter). There is no ORM and no migration tooling — the schema is one table.
 
-### To stop the server
+`src/proxy.ts` is the Next.js 16 proxy file (the renamed `middleware` convention). It enforces Basic Auth for `/admin` and `/api/contacts` in production and is a no-op in development.
 
-Click on the terminal window and press **`Ctrl + C`** (the letter C, not Cmd).
-
-### To edit the site
-
-Open any file in `src/components/` in your editor (e.g. `Pricing.tsx`), save
-it, and the browser refreshes automatically. No need to restart `npm run dev`.
-
-### Common issues
-
-| Problem | Fix |
-|---|---|
-| `npm: command not found` | Install Node.js from [nodejs.org](https://nodejs.org) (LTS) |
-| Port 3000 already in use | `pkill -f "next dev"` then try again, or just let it pick 3001 |
-| Accidentally deleted `node_modules/` | Run `npm install` again (needs internet) |
-| Want a production build | `npm run build` then `npm start` instead of `npm run dev` |
-| Cursor asks permission / “prediction” keeps blocking `npm install` | See **Running inside Cursor vs macOS Terminal** below |
-
-### Running inside Cursor vs macOS Terminal
-
-If the site **always works** when Cursor runs commands but feels “blocked” when *you*
-run them, it is usually **not** Next.js asking for predictions — it is one of:
-
-1. **Sandbox / restricted terminal** inside the editor (installing packages or spawning the dev server may need network access). Easiest workaround: open **Terminal.app** (outside Cursor),
-   `cd` into this folder and run `npm install` / `npm run dev` there.
-
-2. **Cursor “AI” confirmations** sometimes appear when autocomplete or agent tooling wants network.
-   Plain `npm` does **not** need AI — ignoring those prompts or running commands in Terminal.app avoids the confusion entirely.
-
-Next.js telemetry (anonymous usage stats) can print once on first dev start —
-it is unrelated to “prediction”; you can opt out with `NEXT_TELEMETRY_DISABLED=1`:
-`NEXT_TELEMETRY_DISABLED=1 npm run dev`.
-
-### Files & folders explained
-
-| Folder | What's in it |
-|---|---|
-| `src/app/` | The pages and API routes (the `page.tsx` is your homepage) |
-| `src/components/` | Each section of the page (Hero, Pricing, etc.) |
-| `src/lib/` | The database setup |
-| `data/` | Where the SQLite database file lives (auto-created on first contact form submit). Local file. No internet. |
-| `node_modules/` | All the downloaded code libraries. Safe to delete + reinstall. |
-| `.next/` | The build cache. Safe to delete. |
-
-> **Offline note:** Everything works offline after the first `npm install`.
-> The database is a local file. Google Fonts are downloaded once during the
-> first build and cached — if you ever rebuild offline and fonts fail, just
-> Comment out `DM_Sans`, `Source_Serif_4`, `IBM_Plex_Mono` in
-> `src/app/layout.tsx` temporarily.
-
-## 🔐 Admin (list submissions)
-
-Set an `ADMIN_TOKEN` in `.env.local`:
-
-```env
-ADMIN_TOKEN=your-very-long-secret
-```
-
-Then:
-
-```bash
-curl http://localhost:3000/api/contact/list \
-  -H "Authorization: Bearer your-very-long-secret"
-```
-
-## 📤 Contact API
-
-`POST /api/contact`
-
-```jsonc
-{
-  "name": "Arben Hoxha",
-  "email": "arben@biznesi.al",
-  "phone": "+355 69 ...",        // optional
-  "business": "Aroma Café",        // optional
-  "package": "faqja-plus-domain",  // one of: vetem-faqja | faqja-plus-domain | mirembajtje | premium | tjeter
-  "message": "Dua të ndërtoj ..."  // min 10 chars
-}
-```
-
-Returns `201` on success, `422` on validation errors, `429` if rate-limited.
-
-## 🏗 Project structure
+## Project structure
 
 ```
 src/
 ├─ app/
-│  ├─ api/contact/route.ts          # POST endpoint → SQLite
-│  ├─ api/contact/list/route.ts     # GET admin endpoint
-│  ├─ globals.css
-│  ├─ layout.tsx
-│  └─ page.tsx
-├─ components/                       # All section components
-│  ├─ Navbar.tsx / Hero.tsx / Services.tsx ...
-│  └─ ui/                            # Button, Container, SectionHeading
-└─ lib/
-   ├─ db.ts                          # SQLite setup (better-sqlite3)
-   └─ utils.ts                       # cn() helper
+│  ├─ api/
+│  │  ├─ contact/route.ts     # POST — validate and store a submission
+│  │  └─ contacts/route.ts    # GET  — list submissions (Basic Auth in prod)
+│  ├─ admin/page.tsx          # Server-rendered submissions dashboard
+│  ├─ layout.tsx              # Fonts, metadata, toaster, skip link
+│  ├─ page.tsx                # Homepage section composition
+│  └─ globals.css             # Tailwind v4 theme tokens + custom CSS
+├─ components/
+│  ├─ Hero / Pricing / Portfolio / Services / Format / WhyUs /
+│  │  Process / Testimonials / Faq / Contact / Footer / Navbar
+│  ├─ MotionLayer.tsx         # IntersectionObserver scroll-reveal (progressive)
+│  ├─ icons/Social.tsx        # Inline SVG social icons
+│  ├─ process/                # Step navigation + scroll-spy hook
+│  └─ ui/                     # Container, SectionHeading, Eyebrow
+├─ lib/
+│  ├─ db.ts                   # SQLite connection, schema, typed queries
+│  └─ utils.ts                # cn() class-merge helper
+└─ proxy.ts                   # Basic Auth gate for the admin area
+data/                          # SQLite files (gitignored, auto-created)
+public/images/                 # Local photography assets
 ```
 
-## 📝 Customise
+## Getting started
 
-- Brand & copy: edit components in `src/components/*` (all text is in Albanian).
-- Colors / fonts / shadows: `src/app/globals.css` (CSS variables under `@theme`).
-- Pricing plans: `src/components/Pricing.tsx`.
-- Contact info / socials: `src/components/Contact.tsx` and `Footer.tsx`.
+Prerequisites: Node.js 20+ and npm.
 
-## 📜 License
+```bash
+git clone <repository-url>
+cd krijo-studio
+npm install
+cp .env.example .env.local   # optional in development
+npm run dev
+```
 
-Built for Bruna · 2026. Use freely for your own studio.
+The site is available at `http://localhost:3000`. The database file is created automatically on the first contact submission. After the initial `npm install` (and the first build, which caches Google Fonts), the project runs fully offline.
+
+Production:
+
+```bash
+npm run build
+npm start
+```
+
+## Environment variables
+
+| Variable         | Required               | Default  | Description                                                                                       |
+| ---------------- | ---------------------- | -------- | ------------------------------------------------------------------------------------------------- |
+| `ADMIN_USER`     | Production only        | —        | Basic Auth username for `/admin` and `/api/contacts`. If unset in production, the admin area returns `503`. |
+| `ADMIN_PASSWORD` | Production only        | —        | Basic Auth password. Same fail-closed behavior as `ADMIN_USER`.                                    |
+| `DATA_DIR`       | No                     | `./data` | Directory for the SQLite database file. Point at a persistent volume in production.               |
+
+See [.env.example](.env.example) for a ready-to-copy template. In development the admin area is open on localhost and the auth variables are ignored.
+
+## API reference
+
+### `POST /api/contact`
+
+Stores a contact submission.
+
+```bash
+curl -X POST http://localhost:3000/api/contact \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Arben Hoxha",
+    "email": "arben@biznesi.al",
+    "phone": "+355 69 000 0000",
+    "business": "Aroma Café",
+    "package": "faqja-plus-domain",
+    "message": "Dua të ndërtoj një faqe për kafenenë time."
+  }'
+```
+
+| Field      | Type   | Rules                                                                          |
+| ---------- | ------ | ------------------------------------------------------------------------------ |
+| `name`     | string | Required, 2–120 characters                                                     |
+| `email`    | string | Required, valid email (normalized to lowercase)                                |
+| `phone`    | string | Optional, ≤ 40 characters                                                      |
+| `business` | string | Optional, ≤ 120 characters                                                     |
+| `package`  | enum   | Optional: `vetem-faqja` · `faqja-plus-domain` · `mirembajtje` · `premium` · `tjeter` |
+| `message`  | string | Required, 10–4000 characters                                                   |
+| `website`  | string | Honeypot — must be left empty by real clients                                  |
+
+Responses: `201` created (`{ "ok": true, "id": n }`), `400` malformed JSON, `422` validation error (Albanian message in `error`), `429` rate-limited, `500` storage failure (generic message, no internals leaked).
+
+### `GET /api/contacts`
+
+Lists submissions, newest first. Basic Auth in production.
+
+```bash
+curl -u "$ADMIN_USER:$ADMIN_PASSWORD" "https://example.com/api/contacts?limit=50"
+```
+
+| Parameter | Type | Default | Notes        |
+| --------- | ---- | ------- | ------------ |
+| `limit`   | int  | 200     | Clamped 1–500; invalid values fall back to the default |
+
+Responses: `200` (`{ "ok": true, "count": n, "contacts": [...] }`), `401` missing/wrong credentials, `503` credentials not configured on the server.
+
+## Admin access
+
+There is a single auth mechanism: **HTTP Basic Auth, enforced by [src/proxy.ts](src/proxy.ts) in production** for both the `/admin` dashboard and `GET /api/contacts`.
+
+- Set `ADMIN_USER` and `ADMIN_PASSWORD` in the production environment.
+- Visit `/admin` and enter the credentials at the browser prompt, or pass them with `curl -u` for the API.
+- If either variable is missing in production, the admin area responds with `503` — it never falls back to default credentials.
+- In development (`npm run dev`), the gate is bypassed so the dashboard is directly accessible on localhost.
+
+## Deployment notes
+
+- **SQLite persistence** — the database lives on the filesystem (`DATA_DIR`, default `./data`). Deploy to a host with a persistent disk (VPS, Fly.io volume, Railway volume). Serverless platforms without persistent storage will silently lose submissions between invocations.
+- **Native module** — `better-sqlite3` compiles a native binding; run `npm install` on the same OS/architecture as production, and note it is declared in `serverExternalPackages` in [next.config.ts](next.config.ts).
+- **Fonts** — Google Fonts are downloaded at build time and cached by `next/font`. Build once with network access; subsequent offline builds reuse the cache.
+- **Remote images** — Hero/Portfolio/Process use Unsplash placeholders allowed via `images.remotePatterns`. Replace with client photography in `public/images/` before a real launch and remove the Unsplash pattern.
+- **Reverse proxies** — the rate limiter reads `x-forwarded-for`; make sure your proxy sets it accurately, otherwise all traffic appears to share one IP.
+
+## Development
+
+- `npm run dev` — dev server with HMR (Turbopack)
+- `npm run lint` — ESLint (`eslint-config-next` core-web-vitals + TypeScript)
+- `npm run build` / `npm start` — production build and serve
+
+Where to edit common things:
+
+- **Copy** (all Albanian): section components in `src/components/` — each holds its own content arrays at the top of the file
+- **Pricing**: the `plans` array in [Pricing.tsx](src/components/Pricing.tsx); keep the package `id`s in sync with the Zod enum in [route.ts](src/app/api/contact/route.ts) and the radio options in [Contact.tsx](src/components/Contact.tsx)
+- **Design tokens** (colors, fonts): the `@theme` block in [globals.css](src/app/globals.css)
+- **Contact details / socials**: [Contact.tsx](src/components/Contact.tsx) and [Footer.tsx](src/components/Footer.tsx)
+
+Conventions: Server Components by default — `"use client"` only where state or browser APIs are needed (Navbar, Format, Process, Contact, MotionLayer). Shared UI primitives live in `src/components/ui/`. Class names are merged with the `cn()` helper.
+
+## Security
+
+Implemented:
+
+- Zod validation on all contact input; field sizes capped; unknown packages rejected
+- Honeypot field that silently swallows bot submissions (indistinguishable response)
+- Per-IP rate limiting: max 5 submissions per 10 minutes, derived from stored rows
+- Basic Auth (constant-time credential comparison) for the admin area in production, failing closed when unconfigured
+- Generic error responses — no stack traces or internal paths leak to clients
+- Database files and env files are gitignored
+
+Known limitations, acceptable at this scale:
+
+- Rate limiting trusts `x-forwarded-for` and resets if the database is emptied
+- Basic Auth has no lockout or audit trail; use long random credentials and HTTPS
+- Submissions store IP and user-agent for spam triage — disclose this in the privacy policy
+- The admin area is intentionally open in local development
+
+## License
+
+MIT — see [LICENSE](LICENSE). Use it freely as a starting point for your own studio site.

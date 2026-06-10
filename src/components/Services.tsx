@@ -17,7 +17,7 @@ const services = [
   {
     title: "Domain & DNS",
     text:
-      "Një adresë që të përfaqëson denjësisht — e regjistrojmë, e lidhim dhe e konfigurojmë DNS-in, që email-i dhe faqja jote të punojnë së bashku.",
+      "Një adresë që i shkon markës tënde — e regjistrojmë, e lidhim dhe e konfigurojmë DNS-in, që email-i dhe faqja jote të punojnë së bashku.",
     bullets: [
       "Regjistrim & rinovim",
       "Konfigurim DNS sipas nevojës",

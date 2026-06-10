@@ -1,4 +1,5 @@
 import { Container } from "./ui/Container";
+import { Eyebrow } from "./ui/Eyebrow";
 
 const principles = [
   {
@@ -38,10 +39,7 @@ export function WhyUs() {
           {/* Sticky manifesto heading (left column on desktop). */}
           <div className="col-span-12 lg:col-span-4">
             <div className="lg:sticky lg:top-24 flex flex-col gap-5">
-              <p className="mono inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-accent">
-                <span aria-hidden className="h-px w-6 bg-accent" />
-                Filozofia
-              </p>
+              <Eyebrow>Filozofia</Eyebrow>
               <h2 className="serif text-balance text-[2.1rem] font-semibold leading-[1.05] tracking-[-0.025em] text-ink sm:text-[2.6rem] lg:text-[2.9rem]">
                 Gjashtë parime që nuk i{" "}
                 <span className="italic">shpallim me zë të lartë</span> — por i zbatojmë çdo ditë.

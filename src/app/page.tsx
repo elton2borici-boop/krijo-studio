@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="relative flex-1">
+      <main id="permbajtja" className="relative flex-1">
         <Hero />
         <Pricing />
         <Portfolio />

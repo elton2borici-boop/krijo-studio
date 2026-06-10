@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Container } from "./ui/Container";
+import { Eyebrow } from "./ui/Eyebrow";
 
 const quotes = [
   {
@@ -23,10 +24,7 @@ export function Testimonials() {
   return (
     <section className="relative border-t border-rule py-16 sm:py-24">
       <Container>
-        <p className="mono mb-14 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-accent">
-          <span aria-hidden className="h-px w-6 bg-accent" />
-          Zëra klientësh
-        </p>
+        <Eyebrow className="mb-14">Zëra klientësh</Eyebrow>
 
         <div className="grid grid-cols-12 gap-x-8 gap-y-16">
           {quotes.map((q) => (

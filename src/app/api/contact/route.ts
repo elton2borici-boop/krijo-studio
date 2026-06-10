@@ -15,9 +15,21 @@ const contactSchema = z.object({
     .string()
     .trim()
     .toLowerCase()
-    .email("Email-i nuk është i vlefshëm."),
-  phone: z.string().trim().max(40).optional().nullable(),
-  business: z.string().trim().max(120).optional().nullable(),
+    .pipe(z.email("Email-i nuk është i vlefshëm.")),
+  phone: z
+    .string()
+    .trim()
+    .max(40)
+    .optional()
+    .nullable()
+    .transform((v) => v || null),
+  business: z
+    .string()
+    .trim()
+    .max(120)
+    .optional()
+    .nullable()
+    .transform((v) => v || null),
   package: z
     .enum([
       "vetem-faqja",
@@ -64,9 +76,10 @@ export async function POST(req: Request) {
 
   const data = parsed.data;
 
-  // Honeypot: bot fills this field, real users won't.
+  // Honeypot: bots fill this hidden field, real users won't. Respond exactly
+  // like a successful submission so bots can't detect the trap.
   if (data.website && data.website.length > 0) {
-    return NextResponse.json({ ok: true }, { status: 200 });
+    return NextResponse.json({ ok: true, id: 0 }, { status: 201 });
   }
 
   const ip = clientIp(req);
@@ -108,11 +121,4 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-}
-
-export async function GET() {
-  return NextResponse.json(
-    { ok: true, hint: "POST {name, email, message, ...} në këtë endpoint." },
-    { status: 200 }
-  );
 }

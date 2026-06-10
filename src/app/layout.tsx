@@ -57,6 +57,9 @@ export default function RootLayout({
       className={`${dmSans.variable} ${sourceSerif.variable} ${ibmMono.variable} h-full antialiased`}
     >
       <body className="relative min-h-full flex flex-col bg-paper text-ink">
+        <a href="#permbajtja" className="skip-link">
+          Kalo te përmbajtja
+        </a>
         <div className="relative z-10 flex flex-1 flex-col">{children}</div>
         <Toaster
           position="bottom-center"

@@ -33,13 +33,13 @@ const formats: FormatItem[] = [
   },
   {
     n: "02",
-    title: "Sajt me disa faqe",
+    title: "Uebsajt me nënfaqe",
     tag: "Klasik",
     text:
-      "Faqe kryesore, për ne, shërbime, kontakt — strukturë e qartë që e ndan përmbajtjen sipas asaj që kërkon vizitori.",
-    best: "Për biznese me shërbime të shumëfishta.",
+      "Kreu, rreth nesh, shërbimet, kontakti — strukturë e qartë që e ndan përmbajtjen sipas asaj që kërkon vizitori.",
+    best: "Për biznese me disa shërbime.",
     bullets: [
-      "Deri në 5–7 faqe të dedikuara",
+      "Deri në 5–7 nënfaqe të dedikuara",
       "SEO më i thellë për çdo shërbim",
       "Më e lehtë për t’u rritur me kohën",
     ],
@@ -75,10 +75,9 @@ const formats: FormatItem[] = [
   },
 ];
 
-function Wireframe({ shape }: { shape: FormatItem["shape"] }) {
-  // Tiny CSS mocks — paper-soft rectangles arranged per format. No images.
-  // All shapes share a "device frame" so the user perceives them as page layouts.
-  const Frame: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+/** Shared "device frame" so every wireframe reads as a page layout. */
+function Frame({ children }: { children: React.ReactNode }) {
+  return (
     <div className="mx-auto flex aspect-[3/4] w-full max-w-[260px] flex-col gap-2 rounded-md border border-rule bg-paper p-3 shadow-[0_2px_10px_-6px_rgba(28,24,19,0.25)] sm:max-w-[300px]">
       <div className="flex items-center gap-1.5">
         <span className="h-1.5 w-1.5 rounded-full bg-rule" />
@@ -88,7 +87,10 @@ function Wireframe({ shape }: { shape: FormatItem["shape"] }) {
       {children}
     </div>
   );
+}
 
+// Tiny CSS mocks — paper-soft rectangles arranged per format. No images.
+function Wireframe({ shape }: { shape: FormatItem["shape"] }) {
   if (shape === "one-pager") {
     return (
       <Frame>
@@ -196,17 +198,16 @@ export function Format() {
           label="Formati"
           title={
             <>
-              Cili format i përshtatet —{" "}
-              <span className="italic">marka jote?</span>
+              Cili format i përshtatet{" "}
+              <span className="italic">markës sate?</span>
             </>
           }
-          lede="Para se të nisim, zgjedhim së bashku formën që i shërben më mirë qëllimit tënd. Zgjidh një opsion poshtë për të parë sesi do të dukej."
+          lede="Para se të nisim, zgjedhim së bashku formën që i shërben më mirë qëllimit tënd. Zgjidh një opsion më poshtë për të parë se si do të dukej."
         />
 
         <div className="mt-10 grid grid-cols-12 gap-x-8 gap-y-8 sm:mt-14 lg:gap-x-12">
           {/* Picker — left column on desktop, full width on mobile */}
           <ol
-            role="tablist"
             aria-label="Formatet e mundshme"
             className="col-span-12 flex flex-col gap-2 lg:col-span-5 lg:gap-3"
           >
@@ -216,8 +217,7 @@ export function Format() {
                 <li key={f.n}>
                   <button
                     type="button"
-                    role="tab"
-                    aria-selected={isActive}
+                    aria-pressed={isActive}
                     aria-controls="formati-preview"
                     onClick={() => setSelected(i)}
                     className={cn(
@@ -266,7 +266,6 @@ export function Format() {
           {/* Preview panel — right column on desktop, below picker on mobile */}
           <div
             id="formati-preview"
-            role="tabpanel"
             aria-live="polite"
             className="col-span-12 flex flex-col gap-6 lg:col-span-7 lg:sticky lg:top-24"
           >

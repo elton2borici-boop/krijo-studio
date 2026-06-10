@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Eyebrow } from "./Eyebrow";
 
 /** One quiet eyebrow label — avoids duplicating navbar “chapter numbers”. */
 export function SectionHeading({
@@ -22,10 +23,7 @@ export function SectionHeading({
         className
       )}
     >
-      <p className="mono inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-accent">
-        <span aria-hidden className="h-px w-6 bg-accent" />
-        {label}
-      </p>
+      <Eyebrow>{label}</Eyebrow>
       <h2 className="serif max-w-4xl text-balance text-[2.3rem] font-semibold leading-[1.04] tracking-[-0.025em] text-ink sm:text-[3.1rem] lg:text-[3.6rem]">
         {title}
       </h2>

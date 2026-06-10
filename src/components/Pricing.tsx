@@ -69,9 +69,9 @@ const plans: Plan[] = [
     description: "Ti ke tashmë faqen. Ne mbajmë gjithçka në rregull.",
     features: [
       "Përditësime të rregullta",
-      "Backup ditor",
+      "Kopje rezervë ditore",
       "Monitorim 24/7",
-      "Korrigjim bug-esh",
+      "Rregullim defektesh",
       "2 ndryshime përmbajtjeje/muaj",
       "Raport mujor",
     ],
@@ -84,11 +84,11 @@ const plans: Plan[] = [
     tagline: "Eksperienca e plotë",
     price: "799",
     unit: "€",
-    note: "+ €39/muaj mirëmbajtje. Pa kufij faqesh.",
+    note: "+ €39/muaj mirëmbajtje. Pa kufizim faqesh.",
     description:
       "Lansim i plotë: faqe, domain, hosting, email, SEO, mirëmbajtje.",
     features: [
-      "Faqe pa kufij",
+      "Numër i pakufizuar faqesh",
       "Domain .al + .com (2 vjet)",
       "Hosting premium me CDN global",
       "5 email-e profesionale",
@@ -211,7 +211,7 @@ export function Pricing() {
 
         <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
           <p className="mono text-[11px] uppercase leading-relaxed text-ink-soft">
-            * Çmimet me TVSH të përfshirë. † IBAN shqiptar, bankë ndërkombëtare ose cash.
+            * Çmimet me TVSH të përfshirë. † IBAN shqiptar, transfertë ndërkombëtare ose para në dorë.
           </p>
           <a
             href="#kontakt"

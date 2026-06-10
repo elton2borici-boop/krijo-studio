@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { Container } from "./ui/Container";
+import { Eyebrow } from "./ui/Eyebrow";
 
 const packages = [
   { id: "vetem-faqja", label: "I — Vetëm Faqja · €299" },
@@ -36,7 +37,6 @@ export function Contact() {
       }
       setSent(true);
       toast.success("Mesazhi u dërgua");
-      (e.target as HTMLFormElement).reset();
     } catch {
       toast.error("Nuk u lidh me serverin.");
     } finally {
@@ -60,9 +60,7 @@ export function Contact() {
         <div className="relative z-10 grid grid-cols-12 gap-x-8 gap-y-14">
           {/* Left: bold statement */}
           <div className="col-span-12 lg:col-span-5">
-            <p className="mono mb-5 text-[11px] uppercase tracking-[0.14em] text-paper/55">
-              Kontakt
-            </p>
+            <Eyebrow className="mb-5 text-paper/55">Kontakt</Eyebrow>
 
             <h2 className="serif text-balance text-[clamp(2.4rem,5.5vw,4.6rem)] font-medium leading-[1] tracking-[-0.02em]">
               Le të <span className="italic text-accent-mute">flasim.</span><br />
@@ -115,7 +113,7 @@ export function Contact() {
                   Mesazhi u dërgua.
                 </h3>
                 <p className="mt-6 max-w-md text-[15px] leading-[1.65] text-paper/70">
-                  Po e shqyrtojmë kërkesën tënde dhe do të kthehemi te ti brenda 24 orësh. Ndërkohë, shijo një kafe.
+                  Po e shqyrtojmë kërkesën tënde dhe do të të përgjigjemi brenda 24 orësh. Ndërkohë, shijo një kafe.
                 </p>
                 <button
                   onClick={() => setSent(false)}
@@ -188,8 +186,9 @@ function Field({
   required?: boolean;
   textarea?: boolean;
 }) {
+  const id = `kontakt-${name}`;
   const inputClasses =
-    "block w-full bg-transparent text-[18px] serif text-paper placeholder:text-paper/30 placeholder:font-sans placeholder:text-[14px] focus:outline-none";
+    "block w-full bg-transparent text-[18px] serif text-paper placeholder:text-paper/30 placeholder:font-sans placeholder:text-[14px] focus:outline-none focus-visible:outline-2 focus-visible:outline-accent-mute/80 focus-visible:outline-offset-4";
   return (
     <div
       className={`grid grid-cols-12 gap-3 border-b border-paper/15 pt-5 pb-3 ${
@@ -197,6 +196,7 @@ function Field({
       }`}
     >
       <label
+        htmlFor={id}
         className={`mono col-span-12 text-[11px] uppercase text-paper/50 sm:col-span-3 ${
           textarea ? "sm:pt-2" : "sm:pb-[2px]"
         }`}
@@ -207,6 +207,7 @@ function Field({
       <div className="col-span-12 sm:col-span-9">
         {textarea ? (
           <textarea
+            id={id}
             name={name}
             rows={4}
             required={required}
@@ -215,6 +216,7 @@ function Field({
           />
         ) : (
           <input
+            id={id}
             name={name}
             type={type}
             required={required}

@@ -7,7 +7,7 @@ export default function AdminPage() {
   const rows = listContacts(500);
 
   return (
-    <main className="mx-auto max-w-[1240px] px-6 py-12 sm:px-10 lg:px-14">
+    <main id="permbajtja" className="mx-auto max-w-[1240px] px-6 py-12 sm:px-10 lg:px-14">
       <header className="flex flex-col gap-2 border-b border-rule pb-6">
         <p className="mono text-[11px] uppercase tracking-[0.14em] text-accent">
           Admin · Krijo Studio
@@ -48,8 +48,11 @@ export default function AdminPage() {
                     {r.email}
                   </a>
                 </div>
-                <time className="mono tnum text-[11px] uppercase tracking-wide text-ink-soft">
-                  {r.created_at}
+                <time
+                  dateTime={r.created_at.replace(" ", "T") + "Z"}
+                  className="mono tnum text-[11px] uppercase tracking-wide text-ink-soft"
+                >
+                  {r.created_at} UTC
                 </time>
               </div>
 

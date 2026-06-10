@@ -24,12 +24,12 @@ export function Footer() {
                 { Icon: InstagramIcon, href: "#", label: "Instagram" },
                 { Icon: FacebookIcon, href: "#", label: "Facebook" },
                 { Icon: LinkedInIcon, href: "#", label: "LinkedIn" },
-              ].map(({ Icon, href, label }, i) => (
+              ].map(({ Icon, href, label }) => (
                 <a
-                  key={i}
+                  key={label}
                   href={href}
                   aria-label={label}
-                  className="inline-flex items-center gap-2 text-ink transition-colors hover:text-paper-soft"
+                  className="inline-flex items-center gap-2 text-ink transition-colors hover:text-accent"
                 >
                   <Icon className="size-4" />
                 </a>
@@ -66,7 +66,7 @@ export function Footer() {
                 { label: "Blog (së shpejti)", href: "#" },
               ],
             },
-          ].map((col, i) => {
+          ].map((col) => {
             // Give the Kontakt column more room (long email + address);
             // squeeze Studio slightly so the row still totals 12 on lg.
             const span =
@@ -86,7 +86,7 @@ export function Footer() {
                     <li key={l.label} className="min-w-0">
                       <a
                         href={l.href}
-                        className="link-underline inline-block max-w-full break-words text-[14px] text-ink transition-colors hover:text-paper-soft"
+                        className="link-underline inline-block max-w-full break-words text-[14px] text-ink transition-colors hover:text-accent"
                       >
                         {l.label}
                       </a>

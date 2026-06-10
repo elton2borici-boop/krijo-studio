@@ -11,7 +11,7 @@ const works = [
     url: "klient-i.gastronomia.al",
     imageSrc:
       "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1400&q=80",
-    imageAlt: "Ambient restoranti me takime dhe dritë e ngrohtë",
+    imageAlt: "Ambient restoranti me tavolina të shtruara dhe dritë të ngrohtë",
     frame: (
       <>
         {/* Hero band — gradient instead of flat grey */}
@@ -49,7 +49,7 @@ const works = [
     imageSrc:
       "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=80",
     imageAlt:
-      "Ndërtesa moderne gjatë qiellit — ndriçim që sugjeron ambient profesional",
+      "Ndërtesë moderne zyrash nën dritën e mbrëmjes — ambient profesional",
     frame: (
       <>
         {/* Header row — logo placeholder + headline */}
@@ -88,7 +88,7 @@ const works = [
     imageSrc:
       "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1400&q=80",
     imageAlt:
-      "Rafte me një përzgjedhje rrobash në një hapësirë pakicash të pastër vizualisht",
+      "Rafte me veshje të përzgjedhura në një dyqan të pastër e të ndriçuar mirë",
     frame: (
       <>
         <div className="grid grid-cols-3 gap-2 sm:gap-3">
@@ -154,7 +154,7 @@ export function Portfolio() {
               <span className="italic">
                 e fundit
               </span>{" "}
-              — pa emra klientësh, sipas strukturës.
+              — pa emra klientësh, vetëm struktura.
             </>
           }
           lede={

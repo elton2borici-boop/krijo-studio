@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Container } from "./ui/Container";
+import { Eyebrow } from "./ui/Eyebrow";
 
 /**
  * Opening story only — navigation lives in Navbar.
@@ -27,15 +28,12 @@ export function Hero() {
 
       <Container>
         <div className="relative max-w-2xl">
-          <p className="mono inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-accent">
-            <span aria-hidden className="h-px w-6 bg-accent" />
-            Studio dixhitale · Tiranë
-          </p>
+          <Eyebrow>Studio dixhitale · Tiranë</Eyebrow>
 
           <h1 className="serif mt-7 text-balance text-[clamp(2.3rem,4.6vw,3.5rem)] font-semibold leading-[1.04] tracking-[-0.025em] text-ink">
             Faqe interneti për bizneset shqiptare — strukturë e qartë,{" "}
-            <span className="italic text-accent">fotografi e kujdesshme</span> dhe komunikim i
-            drejtpërdrejtë.
+            <span className="italic text-accent">fotografi të zgjedhura me kujdes</span> dhe
+            komunikim i drejtpërdrejtë.
           </h1>
 
           <p className="mt-7 max-w-xl text-[17px] leading-relaxed text-ink-soft">

@@ -1,4 +1,5 @@
 import { Container } from "./ui/Container";
+import { Eyebrow } from "./ui/Eyebrow";
 
 const faqs = [
   {
@@ -33,16 +34,13 @@ export function Faq() {
       <Container>
         <div className="grid grid-cols-12 gap-x-8 gap-y-12">
           <div className="col-span-12 lg:col-span-4">
-            <p className="mono mb-5 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-accent">
-              <span aria-hidden className="h-px w-6 bg-accent" />
-              Pyetjet
-            </p>
+            <Eyebrow className="mb-5">Pyetjet</Eyebrow>
             <h2 className="serif text-[2.4rem] font-semibold leading-[1.06] tracking-tight text-ink sm:text-[2.8rem]">
               Pyetjet që na <span className="italic text-accent">bëjnë më shpesh.</span>
             </h2>
             <p className="mt-6 max-w-md text-[15px] leading-relaxed text-ink-soft">
               Nuk e gjete përgjigjen këtu? Na shkruaj me email — zakonisht
-              përgjigjemi brenda 24 orëve, në ditët e punës.
+              përgjigjemi brenda 24 orësh gjatë ditëve të punës.
             </p>
           </div>
 

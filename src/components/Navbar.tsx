@@ -35,7 +35,7 @@ export function Navbar() {
       <div className="mx-auto flex w-full max-w-[1240px] items-center justify-between px-6 py-4 sm:px-10 lg:px-14">
         <Logo />
 
-        <nav className="hidden lg:block" aria-label="Kryefaqja">
+        <nav className="hidden lg:block" aria-label="Navigimi kryesor">
           <ul className="flex items-center gap-8">
             {links.map((l) => (
               <li key={l.href}>
@@ -61,7 +61,7 @@ export function Navbar() {
 
         <button
           type="button"
-          aria-label="Hap menynë"
+          aria-label={open ? "Mbyll menynë" : "Hap menynë"}
           aria-expanded={open}
           onClick={() => setOpen((o) => !o)}
           className="mono inline-flex h-9 items-center border border-ink/20 px-3 text-[11px] uppercase tracking-[0.1em] text-ink lg:hidden"
@@ -72,7 +72,7 @@ export function Navbar() {
 
       {open && (
         <div className="border-t border-rule bg-paper lg:hidden">
-          <nav aria-label="Menu celular">
+          <nav aria-label="Menuja për celular">
             <ul className="mx-auto max-w-[1240px] px-6 py-1 sm:px-10">
               {links.map((l) => (
                 <li key={l.href} className="border-b border-rule last:border-b-0">

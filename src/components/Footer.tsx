@@ -41,11 +41,11 @@ export function Footer() {
             {
               title: "Studio",
               links: [
-                { label: "Shërbimet", href: "#sherbimet" },
                 { label: "Puna jonë", href: "#punet" },
                 { label: "Çmimet", href: "#cmimet" },
-                { label: "Filozofia", href: "#pse-ne" },
+                { label: "Shërbimet", href: "#sherbimet" },
                 { label: "Procesi", href: "#procesi" },
+                { label: "Si punojmë", href: "#pse-ne" },
               ],
             },
             {

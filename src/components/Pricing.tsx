@@ -42,7 +42,7 @@ const plans: Plan[] = [
     id: "faqja-plus-domain",
     n: "II",
     name: "Faqja + Domain",
-    tagline: "Më e zgjedhura",
+    tagline: "Gati për nisje",
     price: "399",
     unit: "€",
     note: "Një pagesë e vetme. Domain & email të përfshira për 1 vit.",
@@ -103,22 +103,21 @@ const plans: Plan[] = [
 
 export function Pricing() {
   return (
-    <section id="cmimet" className="relative border-t border-rule py-16 sm:py-24">
+    <section id="cmimet" className="relative border-t border-rule py-14 sm:py-20">
       <Container>
         <SectionHeading
           label="Çmimet"
+          size="lg"
           title={
             <>
               Katër pako. <span className="italic">Çmime të hapura.</span>
-              <br />
-              Pa surpriza në fund të muajit.
             </>
           }
-          lede="Të gjitha çmimet në Euro, me TVSH të përfshirë. Pa shitje shtesë, pa kosto të fshehura. Nëse të duhet diçka tjetër, na pyet — të bëjmë një ofertë të personalizuar."
+          lede="Në Euro, me TVSH të përfshirë. Pa kosto të fshehura — dhe nëse të duhet diçka tjetër, bëjmë ofertë të personalizuar."
         />
 
         {/* Rate card — static DOM (was Framer-motion whileInView → scroll jank) */}
-        <div className="mt-20 border-t border-b border-ink/70">
+        <div className="mt-10 border-t border-b border-ink/70">
           <div className="hidden grid-cols-4 border-b border-rule lg:grid">
             {plans.map((p) => (
               <div
@@ -140,12 +139,14 @@ export function Pricing() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4">
+          {/* Mobile/tablet: swipeable snap row (cards peek to invite the swipe).
+              Desktop: 4-column rate card. */}
+          <div className="flex snap-x snap-mandatory overflow-x-auto lg:grid lg:grid-cols-4 lg:overflow-visible">
             {plans.map((p) => (
               <div
                 key={p.id}
                 className={cn(
-                  "group flex flex-col border-b border-rule px-6 py-8 transition-colors duration-300 last:border-b-0 lg:border-b-0 lg:border-l lg:first:border-l-0 lg:py-10",
+                  "group flex w-[84vw] shrink-0 snap-center flex-col border-l border-rule px-5 py-6 transition-colors duration-300 first:border-l-0 sm:w-[420px] lg:w-auto lg:py-8 lg:px-6",
                   p.starred
                     ? "bg-paper-soft"
                     : "hover:bg-paper-soft/55"
@@ -164,19 +165,19 @@ export function Pricing() {
                   {p.description}
                 </p>
 
-                <div className="mt-8 flex flex-wrap items-baseline gap-x-2 gap-y-1 border-y border-rule py-5">
-                  <span className="serif tnum text-[clamp(40px,8vw,56px)] font-semibold leading-none tracking-tight text-accent">
+                <div className="mt-5 flex flex-wrap items-baseline gap-x-2 gap-y-1 border-y border-rule py-3.5">
+                  <span className="serif tnum text-[clamp(34px,5vw,44px)] font-semibold leading-none tracking-tight text-accent">
                     {p.price}
                   </span>
-                  <span className="mono text-[13px] uppercase text-ink-soft">
+                  <span className="mono text-[12px] uppercase text-ink-soft">
                     {p.unit}
                   </span>
                 </div>
-                <p className="mono mt-3 text-[10px] uppercase leading-[1.75] text-ink-soft">
+                <p className="mono mt-2.5 text-[10px] uppercase leading-[1.7] text-ink-soft">
                   {p.note}
                 </p>
 
-                <ul className="mt-7 flex flex-col gap-2.5">
+                <ul className="mt-5 flex flex-col gap-2">
                   {p.features.map((f) => (
                     <li
                       key={f}
@@ -190,7 +191,7 @@ export function Pricing() {
                   ))}
                 </ul>
 
-                <div className="mt-auto pt-8">
+                <div className="mt-auto pt-6">
                   <a
                     href="#kontakt"
                     className={cn(
@@ -209,7 +210,7 @@ export function Pricing() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
           <p className="mono text-[11px] uppercase leading-relaxed text-ink-soft">
             * Çmimet me TVSH të përfshirë. † IBAN shqiptar, transfertë ndërkombëtare ose para në dorë.
           </p>

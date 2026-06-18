@@ -10,7 +10,7 @@ The site is intentionally lightweight: no CMS, no animation frameworks, no exter
 
 ## Features
 
-- Single-page editorial layout: Hero, Pricing, Portfolio, Services, Format picker, Philosophy, Process timeline, Testimonials, FAQ, Contact
+- Single-page editorial layout: Hero, Portfolio showcase, Pricing, Services, Format picker, Process strip, Principles, Testimonials, FAQ, Contact
 - Contact form with Zod validation, spam honeypot, and per-IP rate limiting (5 submissions / 10 minutes)
 - Submissions persisted to SQLite via `better-sqlite3` (synchronous, zero-config)
 - Admin dashboard at `/admin` and JSON listing at `/api/contacts`, both behind Basic Auth in production
@@ -36,7 +36,7 @@ The site is intentionally lightweight: no CMS, no animation frameworks, no exter
 Browser
   │
   ├─ GET /              → Server-rendered single page (mostly Server Components;
-  │                       Navbar, Format, Process, Contact are Client Components)
+  │                       Navbar, Format, Contact are Client Components)
   │
   ├─ POST /api/contact  → Route handler: Zod validation → honeypot check
   │                       → per-IP rate limit → INSERT into SQLite
@@ -65,11 +65,10 @@ src/
 │  ├─ page.tsx                # Homepage section composition
 │  └─ globals.css             # Tailwind v4 theme tokens + custom CSS
 ├─ components/
-│  ├─ Hero / Pricing / Portfolio / Services / Format / WhyUs /
-│  │  Process / Testimonials / Faq / Contact / Footer / Navbar
+│  ├─ Hero / Portfolio / Pricing / Services / Format / Process /
+│  │  WhyUs / Testimonials / Faq / Contact / Footer / Navbar
 │  ├─ MotionLayer.tsx         # IntersectionObserver scroll-reveal (progressive)
 │  ├─ icons/Social.tsx        # Inline SVG social icons
-│  ├─ process/                # Step navigation + scroll-spy hook
 │  └─ ui/                     # Container, SectionHeading, Eyebrow
 ├─ lib/
 │  ├─ db.ts                   # SQLite connection, schema, typed queries
@@ -169,7 +168,7 @@ There is a single auth mechanism: **HTTP Basic Auth, enforced by [src/proxy.ts](
 - **SQLite persistence** — the database lives on the filesystem (`DATA_DIR`, default `./data`). Deploy to a host with a persistent disk (VPS, Fly.io volume, Railway volume). Serverless platforms without persistent storage will silently lose submissions between invocations.
 - **Native module** — `better-sqlite3` compiles a native binding; run `npm install` on the same OS/architecture as production, and note it is declared in `serverExternalPackages` in [next.config.ts](next.config.ts).
 - **Fonts** — Google Fonts are downloaded at build time and cached by `next/font`. Build once with network access; subsequent offline builds reuse the cache.
-- **Remote images** — Hero/Portfolio/Process use Unsplash placeholders allowed via `images.remotePatterns`. Replace with client photography in `public/images/` before a real launch and remove the Unsplash pattern.
+- **Remote images** — only the Hero uses an Unsplash placeholder (allowed via `images.remotePatterns`). Replace it with studio photography before a real launch and remove the Unsplash pattern.
 - **Reverse proxies** — the rate limiter reads `x-forwarded-for`; make sure your proxy sets it accurately, otherwise all traffic appears to share one IP.
 
 ## Development
@@ -185,7 +184,7 @@ Where to edit common things:
 - **Design tokens** (colors, fonts): the `@theme` block in [globals.css](src/app/globals.css)
 - **Contact details / socials**: [Contact.tsx](src/components/Contact.tsx) and [Footer.tsx](src/components/Footer.tsx)
 
-Conventions: Server Components by default — `"use client"` only where state or browser APIs are needed (Navbar, Format, Process, Contact, MotionLayer). Shared UI primitives live in `src/components/ui/`. Class names are merged with the `cn()` helper.
+Conventions: Server Components by default — `"use client"` only where state or browser APIs are needed (Navbar, Format, Contact, MotionLayer). Shared UI primitives live in `src/components/ui/`. Class names are merged with the `cn()` helper. The portfolio "site previews" are pure CSS/text mocks in [Portfolio.tsx](src/components/Portfolio.tsx) — edit the copy there to change the showcased examples.
 
 ## Security
 

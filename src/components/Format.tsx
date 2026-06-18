@@ -192,7 +192,7 @@ export function Format() {
   const current = formats[selected];
 
   return (
-    <section id="formati" className="relative border-t border-rule py-16 sm:py-24">
+    <section id="formati" className="relative border-t border-rule py-14 sm:py-20">
       <Container>
         <SectionHeading
           label="Formati"
@@ -205,7 +205,7 @@ export function Format() {
           lede="Para se të nisim, zgjedhim së bashku formën që i shërben më mirë qëllimit tënd. Zgjidh një opsion më poshtë për të parë se si do të dukej."
         />
 
-        <div className="mt-10 grid grid-cols-12 gap-x-8 gap-y-8 sm:mt-14 lg:gap-x-12">
+        <div className="mt-8 grid grid-cols-12 gap-x-8 gap-y-8 sm:mt-10 lg:gap-x-12">
           {/* Picker — left column on desktop, full width on mobile */}
           <ol
             aria-label="Formatet e mundshme"
@@ -267,27 +267,13 @@ export function Format() {
           <div
             id="formati-preview"
             aria-live="polite"
-            className="col-span-12 flex flex-col gap-6 lg:col-span-7 lg:sticky lg:top-24"
+            className="col-span-12 flex flex-col gap-5 lg:col-span-7 lg:sticky lg:top-24"
           >
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="mono text-[10px] uppercase tracking-wide text-ink-soft">
-                  {current.tag}
-                </p>
-                <h3 className="serif mt-1 text-[28px] font-semibold leading-tight tracking-tight text-ink sm:text-[34px]">
-                  {current.title}
-                </h3>
-              </div>
-              <span className="serif tnum text-[44px] font-semibold leading-none tracking-tight text-accent sm:text-[56px]">
-                {current.n}
-              </span>
-            </div>
-
             <p className="text-[15px] leading-relaxed text-ink-soft">
               {current.text}
             </p>
 
-            <div className="grid grid-cols-12 gap-x-6 gap-y-6">
+            <div className="grid grid-cols-12 gap-x-6 gap-y-5">
               <div className="col-span-12 sm:col-span-6">
                 <Wireframe shape={current.shape} />
               </div>

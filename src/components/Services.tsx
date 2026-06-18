@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Container } from "./ui/Container";
 import { SectionHeading } from "./ui/SectionHeading";
 
@@ -72,55 +71,41 @@ export function Services() {
   return (
     <section
       id="sherbimet"
-      className="relative overflow-hidden border-t border-rule py-16 sm:py-24"
+      className="relative border-t border-rule py-14 sm:py-20"
     >
-      {/* Soft paper-texture backdrop — kept, dialed back so the ledger reads first. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
-        <Image
-          src="/images/luxury-atmosphere.png"
-          alt=""
-          fill
-          sizes="100vw"
-          className="photo-soft scale-110 object-cover object-[center_35%] blur-3xl"
-          priority={false}
-        />
-        <div className="absolute inset-0 bg-paper/[0.9]" />
-        <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-paper to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-paper to-transparent" />
-      </div>
-
-      <Container className="relative z-10">
+      <Container>
         <SectionHeading
           label="Shërbimet"
-          title="Gjashtë fusha që i mbulojmë në çdo projekt"
-          lede="Në çdo projekt merremi konkretisht me secilën prej tyre. Nëse diçka del jashtë kësaj liste, e diskutojmë së bashku para se të nisim."
+          title="Gjashtë fusha, të mbuluara në çdo projekt"
+          lede="Nëse diçka del jashtë kësaj liste, e diskutojmë së bashku para se të nisim."
         />
 
         {/* Ledger / register — full-width rows, rule separators, no boxes. */}
-        <ol className="mt-10 border-t border-ink/70 sm:mt-14">
+        <ol className="mt-8 border-t border-ink/70 sm:mt-10">
           {services.map((s, i) => (
             <li
               key={s.title}
-              className="group grid grid-cols-12 gap-x-6 gap-y-4 border-b border-rule px-1 py-6 transition-colors duration-300 sm:px-2 sm:py-8 lg:hover:bg-paper-soft/40"
+              className="group grid grid-cols-12 gap-x-6 gap-y-3 border-b border-rule px-1 py-5 transition-colors duration-300 sm:px-2 sm:py-6 lg:hover:bg-paper-soft/40"
             >
-              <div className="col-span-12 flex items-baseline gap-4 lg:col-span-4">
-                <span className="serif tnum text-[34px] font-semibold leading-none tracking-tight text-accent sm:text-[40px]">
+              <div className="col-span-12 flex items-baseline gap-3 lg:col-span-4">
+                <span className="mono tnum text-[12px] font-medium leading-none text-accent">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="serif text-[22px] font-semibold leading-tight tracking-tight text-ink sm:text-[26px]">
+                <h3 className="serif text-[20px] font-semibold leading-tight tracking-tight text-ink sm:text-[22px]">
                   {s.title}
                 </h3>
               </div>
 
-              <p className="col-span-12 text-[14.5px] leading-relaxed text-ink-soft lg:col-span-5 lg:text-[15px]">
+              <p className="col-span-12 text-[14px] leading-relaxed text-ink-soft lg:col-span-5">
                 {s.text}
               </p>
 
-              <ul className="col-span-12 flex flex-col gap-1.5 lg:col-span-3">
+              {/* Bullets are secondary detail — the row text carries the message on phones. */}
+              <ul className="col-span-12 hidden flex-col gap-1 sm:flex lg:col-span-3">
                 {s.bullets.map((b) => (
                   <li
                     key={b}
-                    className="flex gap-2 text-[13px] leading-relaxed text-ink-soft"
+                    className="flex gap-2 text-[12.5px] leading-relaxed text-ink-soft"
                   >
                     <span aria-hidden className="text-accent">/</span>
                     <span>{b}</span>

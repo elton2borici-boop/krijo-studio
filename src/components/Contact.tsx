@@ -45,7 +45,7 @@ export function Contact() {
   }
 
   return (
-    <section id="kontakt" className="section-accent-hairline relative overflow-hidden border-t border-ink/70 bg-ink py-24 text-paper sm:py-32">
+    <section id="kontakt" className="section-accent-hairline relative overflow-hidden border-t border-ink/70 bg-ink py-16 text-paper sm:py-24">
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <Image
           src="/images/contact-portfolio.png"

@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-06-10 — Page compaction and visual redesign
+
+Buyer-lens redesign pass: the page was 16.4 viewports tall on desktop and 22.3 on mobile, repeated its core claims up to five times, and undermined trust with placeholder-looking visuals. Now **8.6k px desktop (−35%) and 11.8k px mobile (−37%)**.
+
+### Structure
+
+- **Reordered sections**: Portfolio now precedes Pricing — the hero's closing line ("më poshtë gjen disa punë…") promised work next, but pricing came first. New flow: Hero → Punët → Çmimet → Shërbimet → Formati → Procesi → Si punojmë → Zëra → FAQ → Kontakt. Navbar and footer links follow the same order.
+- **Portfolio rebuilt** (2,032px → ~810px): three alternating photo-plus-skeleton blocks replaced by a compact 3-up grid of styled mini-sites with real Albanian micro-copy (restaurant menu with prices, law-office services, artisan shop) in small browser frames; horizontal snap-scroll on mobile. Removed the lede that announced the images were Unsplash placeholders.
+- **Process rebuilt** (1,565px → ~500px): photo zigzag with scroll-spy rail replaced by a compact 4-step strip on a dark ink band — the page's mid-point contrast moment. `components/process/` (StepNav, useActiveStep) deleted; Process is now a Server Component.
+- **WhyUs/Filozofia rebuilt** (1,090px → ~575px): six principles cut to four (the pricing-transparency and post-launch principles were already owned by Pricing and Services); sticky two-column ledger replaced by a 2×2 card grid.
+- **Testimonials tightened** (1,252px → ~470px): removed the 700px English-language "CRAFTED" showcase figure; the three client quotes remain.
+- **Services**: removed the blurred background image — a screenshot of a third-party fragrance site whose URL was legible through the blur; bullets hidden on phones (row text carries the message); rows compressed.
+- **Pricing**: fixed the doubled "Më e zgjedhura" label (tagline now "Gati për nisje"); on mobile the four stacked cards became a swipeable snap row (2,463px → ~1,020px).
+- **Format**: removed the duplicated number/title block from the preview pane (the picker already shows them).
+- **Hero**: added a secondary "Shiko çmimet" link next to the main CTA; tightened padding and lede.
+
+### Styling system
+
+- Standardized section padding to `py-14 sm:py-20` (was a mix up to `py-32`).
+- `SectionHeading` gained a `size` prop; secondary sections use a smaller headline scale so the page no longer shouts six times at 3.6rem.
+- Page rhythm now alternates deliberately: paper → dark Process band → sage principles → paper → dark Contact.
+- Removed images that no longer earn their bytes: `luxury-atmosphere.png`, `services-crafted.png`, `process-meeting.png`, `process-developer.png`. Only the Hero still loads a remote (Unsplash) image.
+
+### Security
+
+- Re-verified the hardening from the audit below after the redesign: Basic Auth via `src/proxy.ts` (fail-closed in production), two API routes only (`POST /api/contact`, `GET /api/contacts`), no `NEXT_PUBLIC_*` variables, database and env files gitignored, generic client error messages. No changes required.
+
 ## 2026-06-10 — Repository audit and cleanup
 
 ### Security

@@ -8,7 +8,7 @@ import { Eyebrow } from "./ui/Eyebrow";
  */
 export function Hero() {
   return (
-    <section className="hero-wash relative overflow-hidden pt-10 pb-20 sm:pt-16 sm:pb-32">
+    <section className="hero-wash relative overflow-hidden pt-10 pb-14 sm:pt-14 sm:pb-20">
       {/* Right-half image, faded into the paper so it reads as a calm backdrop. */}
       <div
         aria-hidden
@@ -36,18 +36,23 @@ export function Hero() {
             komunikim i drejtpërdrejtë.
           </h1>
 
-          <p className="mt-7 max-w-xl text-[17px] leading-relaxed text-ink-soft">
-            Domain, hosting dhe mirëmbajtje — të organizuara mirë dhe pa surpriza. Pakot janë të
-            thjeshta, me çmime të hapura. Nëse nuk di nga t’ia nisësh, më poshtë gjen disa punë
-            që tregojnë stilin tonë.
+          <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-ink-soft sm:text-[17px]">
+            Domain, hosting dhe mirëmbajtje — të organizuara mirë, me pako të thjeshta.
+            Më poshtë gjen disa punë që tregojnë stilin tonë.
           </p>
 
-          <div className="mt-9">
+          <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
             <a
               href="#kontakt"
               className="mono inline-flex h-12 items-center gap-3 bg-accent px-6 text-[11px] uppercase tracking-[0.1em] text-paper shadow-sm shadow-accent/25 transition-opacity hover:opacity-90"
             >
               Nis një projekt <span aria-hidden>→</span>
+            </a>
+            <a
+              href="#cmimet"
+              className="mono link-underline text-[11px] uppercase tracking-[0.12em] text-ink"
+            >
+              Shiko çmimet <span aria-hidden>↓</span>
             </a>
           </div>
         </div>

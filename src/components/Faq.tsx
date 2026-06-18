@@ -30,12 +30,12 @@ const faqs = [
 
 export function Faq() {
   return (
-    <section id="faq" className="relative border-t border-rule py-16 sm:py-24">
+    <section id="faq" className="relative border-t border-rule py-14 sm:py-20">
       <Container>
         <div className="grid grid-cols-12 gap-x-8 gap-y-12">
           <div className="col-span-12 lg:col-span-4">
             <Eyebrow className="mb-5">Pyetjet</Eyebrow>
-            <h2 className="serif text-[2.4rem] font-semibold leading-[1.06] tracking-tight text-ink sm:text-[2.8rem]">
+            <h2 className="serif text-[1.9rem] font-semibold leading-[1.06] tracking-tight text-ink sm:text-[2.3rem]">
               Pyetjet që na <span className="italic text-accent">bëjnë më shpesh.</span>
             </h2>
             <p className="mt-6 max-w-md text-[15px] leading-relaxed text-ink-soft">

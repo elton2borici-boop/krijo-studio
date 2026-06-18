@@ -16,14 +16,16 @@ export default function Home() {
   return (
     <>
       <Navbar />
+      {/* Order: proof (Punët) before the offer (Çmimet) — the hero promises
+          "më poshtë gjen disa punë", so the work must come first. */}
       <main id="permbajtja" className="relative flex-1">
         <Hero />
-        <Pricing />
         <Portfolio />
+        <Pricing />
         <Services />
         <Format />
-        <WhyUs />
         <Process />
+        <WhyUs />
         <Testimonials />
         <Faq />
         <Contact />

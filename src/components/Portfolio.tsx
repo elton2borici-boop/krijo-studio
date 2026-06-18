@@ -24,7 +24,7 @@ function BrowserFrame({
   children: React.ReactNode;
 }) {
   return (
-    <div className="overflow-hidden rounded-lg border border-ink/15 bg-neutral-950 shadow-[0_14px_36px_-18px_rgba(28,24,19,0.45)] transition-transform duration-500 ease-out group-hover:-translate-y-1">
+    <div className="overflow-hidden rounded-lg border border-ink/15 bg-neutral-950 shadow-[0_14px_36px_-18px_rgba(28,24,19,0.45)] transition-[transform,box-shadow] duration-500 ease-out group-hover:-translate-y-1.5 group-hover:shadow-[0_28px_54px_-22px_rgba(28,24,19,0.55)]">
       <div className="flex items-center gap-2 px-3 py-2">
         <span className="flex gap-1.5" aria-hidden>
           <span className="size-2 rounded-full bg-[#ff5f57]" />
@@ -36,7 +36,10 @@ function BrowserFrame({
         </div>
       </div>
       <div className="aspect-[4/3] overflow-hidden border-t border-neutral-900 bg-white">
-        {children}
+        {/* Inner layer zooms slightly while the frame lifts — a subtle parallax. */}
+        <div className="h-full transition-transform duration-500 ease-out group-hover:scale-[1.03]">
+          {children}
+        </div>
       </div>
     </div>
   );

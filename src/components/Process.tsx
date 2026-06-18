@@ -34,7 +34,7 @@ const steps = [
 
 export function Process() {
   return (
-    <section id="procesi" className="relative border-t border-ink/70 bg-ink py-14 text-paper sm:py-20">
+    <section id="procesi" className="section-accent-hairline relative bg-ink py-14 text-paper sm:py-20">
       <Container>
         <div className="flex flex-col gap-4 sm:gap-5">
           <Eyebrow className="text-accent-mute">Procesi</Eyebrow>

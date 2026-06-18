@@ -103,7 +103,10 @@ const plans: Plan[] = [
 
 export function Pricing() {
   return (
-    <section id="cmimet" className="relative border-t border-rule py-14 sm:py-20">
+    <section
+      id="cmimet"
+      className="section-accent-hairline section-sage-tint relative py-14 sm:py-20"
+    >
       <Container>
         <SectionHeading
           label="Çmimet"
@@ -124,7 +127,7 @@ export function Pricing() {
                 key={`h-${p.id}`}
                 className={cn(
                   "relative flex items-start justify-between border-l border-rule px-6 py-4 first:border-l-0",
-                  p.starred && "bg-paper-soft"
+                  p.starred && "bg-paper"
                 )}
               >
                 <span className="mono text-[10px] uppercase text-ink-soft">
@@ -146,12 +149,18 @@ export function Pricing() {
               <div
                 key={p.id}
                 className={cn(
-                  "group flex w-[84vw] shrink-0 snap-center flex-col border-l border-rule px-5 py-6 transition-colors duration-300 first:border-l-0 sm:w-[420px] lg:w-auto lg:py-8 lg:px-6",
+                  "group relative flex w-[84vw] shrink-0 snap-center flex-col border-l border-rule px-5 py-6 transition-[background-color,box-shadow] duration-300 first:border-l-0 sm:w-[420px] lg:w-auto lg:px-6 lg:py-8 lg:hover:z-10 lg:hover:shadow-[0_22px_48px_-26px_rgba(28,24,19,0.45)]",
                   p.starred
-                    ? "bg-paper-soft"
-                    : "hover:bg-paper-soft/55"
+                    ? "bg-paper"
+                    : "lg:hover:bg-paper"
                 )}
               >
+                {/* Accent hairline draws in from the left on hover. */}
+                <span
+                  aria-hidden
+                  className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100"
+                />
+
                 <div className="flex items-baseline gap-3">
                   <span className="serif tnum text-[34px] leading-none text-ink-faint">
                     {p.n}

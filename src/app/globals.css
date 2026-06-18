@@ -156,8 +156,10 @@ body::before {
   );
 }
 
+/* Committed chapter tint — sage was near-invisible at 9%; this reads as a
+   distinct "movement" without raising chroma or competing with terracotta. */
 .section-sage-tint {
-  background-color: color-mix(in srgb, var(--color-sage) 9%, var(--color-paper-soft));
+  background-color: color-mix(in srgb, var(--color-sage) 16%, var(--color-paper-soft));
 }
 
 .section-accent-hairline {

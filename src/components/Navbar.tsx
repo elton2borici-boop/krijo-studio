@@ -15,12 +15,42 @@ const links = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("");
 
+  // Scroll-spy: highlight the nav link for the section crossing a band ~45%
+  // down the viewport (IntersectionObserver). A single passive scroll read
+  // also tracks the sticky background and clears the highlight up in the hero,
+  // where no nav section is in the band yet.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const els = links
+      .map((l) => document.getElementById(l.href.slice(1)))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      // Above the first nav section → no section is "current".
+      if (els[0] && els[0].getBoundingClientRect().top > window.innerHeight * 0.55) {
+        setActive("");
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: [0, 0.25, 0.5, 1] }
+    );
+    els.forEach((el) => observer.observe(el));
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      observer.disconnect();
+    };
   }, []);
 
   return (
@@ -37,16 +67,23 @@ export function Navbar() {
 
         <nav className="hidden lg:block" aria-label="Navigimi kryesor">
           <ul className="flex items-center gap-8">
-            {links.map((l) => (
-              <li key={l.href}>
-                <a
-                  href={l.href}
-                  className="mono text-[11px] uppercase tracking-[0.12em] text-ink-soft transition-colors hover:text-accent"
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
+            {links.map((l) => {
+              const isActive = active === l.href.slice(1);
+              return (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    aria-current={isActive ? "true" : undefined}
+                    className={cn(
+                      "mono text-[11px] uppercase tracking-[0.12em] transition-colors hover:text-accent",
+                      isActive ? "text-accent" : "text-ink-soft"
+                    )}
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 

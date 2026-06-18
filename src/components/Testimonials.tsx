@@ -21,7 +21,7 @@ const quotes = [
 
 export function Testimonials() {
   return (
-    <section className="relative border-t border-rule py-14 sm:py-20">
+    <section className="section-sage-tint relative border-t border-rule py-14 sm:py-20">
       <Container>
         <Eyebrow className="mb-9 sm:mb-11">Zëra klientësh</Eyebrow>
 

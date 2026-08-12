@@ -36,6 +36,18 @@ function createDb() {
     CREATE INDEX IF NOT EXISTS idx_contacts_email ON contacts(email);
   `);
 
+  // Migration: per-browser token used for rate limiting. Added after launch,
+  // so existing databases need the column patched in.
+  const columns = db
+    .prepare("PRAGMA table_info(contacts)")
+    .all() as { name: string }[];
+  if (!columns.some((c) => c.name === "client_token")) {
+    db.exec("ALTER TABLE contacts ADD COLUMN client_token TEXT");
+  }
+  db.exec(
+    "CREATE INDEX IF NOT EXISTS idx_contacts_token ON contacts(client_token)"
+  );
+
   return db;
 }
 
@@ -52,6 +64,7 @@ export type ContactRow = {
   message: string;
   ip: string | null;
   user_agent: string | null;
+  client_token: string | null;
   created_at: string;
 };
 
@@ -64,10 +77,11 @@ export function insertContact(input: {
   message: string;
   ip?: string | null;
   user_agent?: string | null;
+  client_token?: string | null;
 }): ContactRow {
   const stmt = db.prepare(`
-    INSERT INTO contacts (name, email, phone, business, package, message, ip, user_agent)
-    VALUES (@name, @email, @phone, @business, @package, @message, @ip, @user_agent)
+    INSERT INTO contacts (name, email, phone, business, package, message, ip, user_agent, client_token)
+    VALUES (@name, @email, @phone, @business, @package, @message, @ip, @user_agent, @client_token)
     RETURNING *;
   `);
   return stmt.get({
@@ -79,6 +93,7 @@ export function insertContact(input: {
     message: input.message,
     ip: input.ip ?? null,
     user_agent: input.user_agent ?? null,
+    client_token: input.client_token ?? null,
   }) as ContactRow;
 }
 
@@ -95,5 +110,18 @@ export function countContactsSince(seconds: number, ip: string | null): number {
       "SELECT COUNT(*) as c FROM contacts WHERE ip = ? AND created_at >= datetime('now', ?)"
     )
     .get(ip, `-${seconds} seconds`) as { c: number };
+  return row.c;
+}
+
+export function countContactsSinceByToken(
+  seconds: number,
+  token: string | null
+): number {
+  if (!token) return 0;
+  const row = db
+    .prepare(
+      "SELECT COUNT(*) as c FROM contacts WHERE client_token = ? AND created_at >= datetime('now', ?)"
+    )
+    .get(token, `-${seconds} seconds`) as { c: number };
   return row.c;
 }

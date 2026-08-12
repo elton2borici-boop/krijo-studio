@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { DM_Sans, Source_Serif_4, IBM_Plex_Mono } from "next/font/google";
+import { DM_Sans, Sora, IBM_Plex_Mono } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import { site } from "@/lib/site";
+import { localBusinessJsonLd } from "@/lib/structured-data";
 import "./globals.css";
 
-/* Calm, readable pair: no variable optical sliders (those can redraw oddly on scroll). */
+/* Body face — muted white at rest. */
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin", "latin-ext"],
@@ -11,10 +13,11 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-const sourceSerif = Source_Serif_4({
-  variable: "--font-source-serif",
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "600", "700"],
+/* Display face — large, tight Sora for headlines and the wordmark. */
+const sora = Sora({
+  variable: "--font-sora",
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
   display: "swap",
 });
 
@@ -26,6 +29,8 @@ const ibmMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
+  alternates: { canonical: "/" },
   title: "Krijo Studio — Faqe interneti, domain & mirëmbajtje në shqip",
   description:
     "Studio e vogël dixhitale në Tiranë. Ndërtojmë faqe interneti me kujdes, regjistrojmë e konfigurojmë domain-e dhe i mirëmbajmë pa surpriza. Vetëm 4 pako, me çmime të hapura.",
@@ -54,9 +59,16 @@ export default function RootLayout({
   return (
     <html
       lang="sq"
-      className={`${dmSans.variable} ${sourceSerif.variable} ${ibmMono.variable} h-full antialiased`}
+      className={`${dmSans.variable} ${sora.variable} ${ibmMono.variable} h-full antialiased`}
     >
-      <body className="relative min-h-full flex flex-col bg-paper text-ink">
+      <body className="relative min-h-full flex flex-col bg-canvas text-fg">
+        <script
+          type="application/ld+json"
+          // Serialized from a typed object we control, not user input.
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessJsonLd()),
+          }}
+        />
         <a href="#permbajtja" className="skip-link">
           Kalo te përmbajtja
         </a>
@@ -66,26 +78,25 @@ export default function RootLayout({
           toastOptions={{
             duration: 4000,
             style: {
-              background: "var(--color-ink)",
-              color: "var(--color-paper)",
-              border: "none",
-              borderRadius: 0,
-              fontSize: "12px",
-              fontFamily: "var(--font-mono)",
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
+              background: "#ffffff",
+              color: "var(--color-fg)",
+              border: "1px solid var(--color-hairline)",
+              borderRadius: 10,
+              fontSize: "14px",
+              fontWeight: 500,
               padding: "12px 18px",
+              boxShadow: "0 12px 32px -12px rgba(21, 24, 29, 0.22)",
             },
             success: {
               iconTheme: {
                 primary: "var(--color-accent)",
-                secondary: "var(--color-paper)",
+                secondary: "var(--color-canvas)",
               },
             },
             error: {
               iconTheme: {
                 primary: "var(--color-accent)",
-                secondary: "var(--color-paper)",
+                secondary: "var(--color-canvas)",
               },
             },
           }}

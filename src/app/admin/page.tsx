@@ -8,14 +8,14 @@ export default function AdminPage() {
 
   return (
     <main id="permbajtja" className="mx-auto max-w-[1240px] px-6 py-12 sm:px-10 lg:px-14">
-      <header className="flex flex-col gap-2 border-b border-rule pb-6">
+      <header className="flex flex-col gap-2 border-b border-hairline pb-6">
         <p className="mono text-[11px] uppercase tracking-[0.14em] text-accent">
           Admin · Krijo Studio
         </p>
-        <h1 className="serif text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+        <h1 className="serif text-3xl font-semibold tracking-tight text-fg sm:text-4xl">
           Mesazhet e kontaktit
         </h1>
-        <p className="text-[14px] text-ink-soft">
+        <p className="text-[14px] text-fg-muted">
           {rows.length === 0
             ? "Asnjë mesazh deri tani."
             : `${rows.length} mesazh${rows.length === 1 ? "" : "e"} në bazën e të dhënave.`}
@@ -23,7 +23,7 @@ export default function AdminPage() {
       </header>
 
       {rows.length === 0 ? (
-        <div className="mt-12 rounded-lg border border-dashed border-rule p-10 text-center text-ink-soft">
+        <div className="mt-12 rounded-lg border border-dashed border-hairline p-10 text-center text-fg-muted">
           Pasi dikush dërgon formularin e kontaktit, do të shfaqet këtu.
         </div>
       ) : (
@@ -31,14 +31,14 @@ export default function AdminPage() {
           {rows.map((r) => (
             <li
               key={r.id}
-              className="rounded-lg border border-rule bg-paper-soft/55 p-5 shadow-[0_3px_12px_-5px_rgba(28,24,19,0.16)]"
+              className="rounded-lg border border-hairline bg-canvas-raised/55 p-5 shadow-[0_3px_12px_-5px_rgba(28,24,19,0.16)]"
             >
               <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
                 <div className="flex items-baseline gap-3">
-                  <span className="mono tnum text-[11px] text-ink-soft">
+                  <span className="mono tnum text-[11px] text-fg-muted">
                     #{r.id}
                   </span>
-                  <h2 className="serif text-[19px] font-semibold tracking-tight text-ink">
+                  <h2 className="serif text-[19px] font-semibold tracking-tight text-fg">
                     {r.name}
                   </h2>
                   <a
@@ -50,53 +50,53 @@ export default function AdminPage() {
                 </div>
                 <time
                   dateTime={r.created_at.replace(" ", "T") + "Z"}
-                  className="mono tnum text-[11px] uppercase tracking-wide text-ink-soft"
+                  className="mono tnum text-[11px] uppercase tracking-wide text-fg-muted"
                 >
                   {r.created_at} UTC
                 </time>
               </div>
 
-              <dl className="mt-3 grid grid-cols-2 gap-x-6 gap-y-1 text-[13px] text-ink-soft sm:grid-cols-4">
+              <dl className="mt-3 grid grid-cols-2 gap-x-6 gap-y-1 text-[13px] text-fg-muted sm:grid-cols-4">
                 {r.phone && (
                   <div>
-                    <dt className="mono text-[10px] uppercase tracking-wide text-ink-soft/70">
+                    <dt className="mono text-[10px] uppercase tracking-wide text-fg-muted/70">
                       Tel
                     </dt>
-                    <dd className="text-ink">{r.phone}</dd>
+                    <dd className="text-fg">{r.phone}</dd>
                   </div>
                 )}
                 {r.business && (
                   <div>
-                    <dt className="mono text-[10px] uppercase tracking-wide text-ink-soft/70">
+                    <dt className="mono text-[10px] uppercase tracking-wide text-fg-muted/70">
                       Biznesi
                     </dt>
-                    <dd className="text-ink">{r.business}</dd>
+                    <dd className="text-fg">{r.business}</dd>
                   </div>
                 )}
                 {r.package && (
                   <div>
-                    <dt className="mono text-[10px] uppercase tracking-wide text-ink-soft/70">
+                    <dt className="mono text-[10px] uppercase tracking-wide text-fg-muted/70">
                       Pakoja
                     </dt>
-                    <dd className="text-ink">{r.package}</dd>
+                    <dd className="text-fg">{r.package}</dd>
                   </div>
                 )}
                 {r.ip && (
                   <div>
-                    <dt className="mono text-[10px] uppercase tracking-wide text-ink-soft/70">
+                    <dt className="mono text-[10px] uppercase tracking-wide text-fg-muted/70">
                       IP
                     </dt>
-                    <dd className="text-ink">{r.ip}</dd>
+                    <dd className="text-fg">{r.ip}</dd>
                   </div>
                 )}
               </dl>
 
-              <p className="mt-4 whitespace-pre-wrap rounded-md border border-rule bg-paper/85 p-3 text-[14px] leading-relaxed text-ink">
+              <p className="mt-4 whitespace-pre-wrap rounded-md border border-hairline bg-canvas/85 p-3 text-[14px] leading-relaxed text-fg">
                 {r.message}
               </p>
 
               {r.user_agent && (
-                <p className="mono mt-3 truncate text-[10px] text-ink-soft/70">
+                <p className="mono mt-3 truncate text-[10px] text-fg-muted/70">
                   {r.user_agent}
                 </p>
               )}

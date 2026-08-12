@@ -34,33 +34,39 @@ const steps = [
 
 export function Process() {
   return (
-    <section id="procesi" className="section-accent-hairline relative bg-ink py-14 text-paper sm:py-20">
+    <section
+      id="procesi"
+      className="section-glow relative isolate overflow-hidden bg-canvas py-16 sm:py-24"
+    >
       <Container>
         <div className="flex flex-col gap-4 sm:gap-5">
-          <Eyebrow className="text-accent-mute">Procesi</Eyebrow>
-          <h2 className="serif max-w-3xl text-balance text-[1.9rem] font-semibold leading-[1.05] tracking-[-0.025em] sm:text-[2.2rem] lg:text-[2.5rem]">
-            Nga ideja te publikimi — <span className="italic text-accent-mute">katër hapa.</span>
+          <Eyebrow>procesi</Eyebrow>
+          <h2 className="serif max-w-3xl text-balance text-[1.9rem] font-bold leading-[1.05] tracking-[-0.025em] text-fg sm:text-[2.2rem] lg:text-[2.5rem]">
+            Nga ideja te publikimi — <span className="text-gradient">katër hapa.</span>
           </h2>
-          <p className="max-w-2xl text-[15px] leading-relaxed text-paper/65">
+          <p className="max-w-2xl text-[15px] leading-relaxed text-fg-muted">
             Komunikimi mbetet i drejtpërdrejtë: flet pikërisht me njerëzit që bëjnë dizajnin dhe zhvillimin.
           </p>
         </div>
 
-        <ol className="mt-9 grid gap-x-8 gap-y-8 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4">
+        <ol className="mt-9 grid gap-4 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((s) => (
-            <li key={s.n} className="border-t border-paper/20 pt-5">
+            <li
+              key={s.n}
+              className="group card-spot relative overflow-hidden rounded-2xl glass p-5 transition-transform duration-300 lg:hover:-translate-y-1"
+            >
               <div className="flex items-baseline justify-between gap-3">
-                <span className="serif tnum text-[34px] font-semibold leading-none tracking-tight text-accent-mute">
+                <span className="serif tnum text-[34px] font-bold leading-none tracking-tight text-gradient">
                   {s.n}
                 </span>
-                <span className="mono text-[10px] uppercase tracking-[0.14em] text-paper/50">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-fg-muted">
                   {s.days}
                 </span>
               </div>
-              <h3 className="serif mt-3 text-[20px] font-semibold leading-tight tracking-tight">
+              <h3 className="serif mt-3 text-[20px] font-bold leading-tight tracking-tight text-fg">
                 {s.title}
               </h3>
-              <p className="mt-2 text-[13.5px] leading-relaxed text-paper/65">
+              <p className="mt-2 text-[13.5px] leading-relaxed text-fg-muted">
                 {s.text}
               </p>
             </li>

@@ -1,9 +1,46 @@
 import { NextResponse } from "next/server";
+import { randomUUID } from "node:crypto";
 import { z } from "zod";
-import { insertContact, countContactsSince } from "@/lib/db";
+import {
+  insertContact,
+  countContactsSince,
+  countContactsSinceByToken,
+} from "@/lib/db";
+import { notifyNewLead } from "@/lib/notify";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+const RATE_WINDOW_SECONDS = 600;
+
+/**
+ * Primary limit, per browser. Tight, because it tracks one actual person.
+ */
+const MAX_PER_TOKEN = 3;
+
+/**
+ * Backstop limit, per IP. Deliberately loose: Albanian mobile carriers put
+ * large numbers of subscribers behind shared CGNAT gateways, so an IP here can
+ * legitimately be hundreds of different people on the same cell tower. This
+ * only exists to blunt a flood from a single source once the cookie is gone.
+ */
+const MAX_PER_IP = 30;
+
+const TOKEN_COOKIE = "krijo_ct";
+
+/**
+ * Not signed, on purpose. The token exists to rate-limit an honest browser;
+ * anyone willing to forge it can just as easily clear it, which the IP
+ * backstop covers. Signing would imply a trust guarantee it cannot give.
+ */
+function readOrCreateToken(req: Request): { token: string; isNew: boolean } {
+  const header = req.headers.get("cookie") || "";
+  const match = header.match(
+    new RegExp(`(?:^|;\\s*)${TOKEN_COOKIE}=([A-Za-z0-9-]{16,64})(?:;|$)`)
+  );
+  if (match) return { token: match[1], isNew: false };
+  return { token: randomUUID(), isNew: true };
+}
 
 const contactSchema = z.object({
   name: z
@@ -75,27 +112,45 @@ export async function POST(req: Request) {
   }
 
   const data = parsed.data;
+  const { token, isNew } = readOrCreateToken(req);
+
+  /** Every response carries the token forward so the browser keeps its identity. */
+  function withToken(res: NextResponse) {
+    if (isNew) {
+      res.cookies.set(TOKEN_COOKIE, token, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 30,
+      });
+    }
+    return res;
+  }
 
   // Honeypot: bots fill this hidden field, real users won't. Respond exactly
   // like a successful submission so bots can't detect the trap.
   if (data.website && data.website.length > 0) {
-    return NextResponse.json({ ok: true, id: 0 }, { status: 201 });
+    return withToken(NextResponse.json({ ok: true, id: 0 }, { status: 201 }));
   }
 
   const ip = clientIp(req);
 
-  // Naive rate limit: max 5 submissions per IP in 10 minutes.
-  if (ip) {
-    const recent = countContactsSince(600, ip);
-    if (recent >= 5) {
-      return NextResponse.json(
+  const tooManyForBrowser =
+    countContactsSinceByToken(RATE_WINDOW_SECONDS, token) >= MAX_PER_TOKEN;
+  const tooManyForIp =
+    ip !== null && countContactsSince(RATE_WINDOW_SECONDS, ip) >= MAX_PER_IP;
+
+  if (tooManyForBrowser || tooManyForIp) {
+    return withToken(
+      NextResponse.json(
         {
           error:
-            "Ke dërguar shumë mesazhe. Provo përsëri pas disa minutash.",
+            "Ke dërguar shumë mesazhe. Provo përsëri pas disa minutash ose na shkruaj me email.",
         },
         { status: 429 }
-      );
-    }
+      )
+    );
   }
 
   try {
@@ -108,17 +163,21 @@ export async function POST(req: Request) {
       message: data.message,
       ip,
       user_agent: req.headers.get("user-agent"),
+      client_token: token,
     });
 
-    return NextResponse.json(
-      { ok: true, id: row.id },
-      { status: 201 }
-    );
+    // Best-effort: the lead is already stored, so a failed notification is
+    // logged but never surfaced to the visitor as an error.
+    await notifyNewLead(row);
+
+    return withToken(NextResponse.json({ ok: true, id: row.id }, { status: 201 }));
   } catch (err) {
     console.error("[contact] insert failed:", err);
-    return NextResponse.json(
-      { error: "Diçka shkoi keq në server. Provo përsëri." },
-      { status: 500 }
+    return withToken(
+      NextResponse.json(
+        { error: "Diçka shkoi keq në server. Provo përsëri." },
+        { status: 500 }
+      )
     );
   }
 }

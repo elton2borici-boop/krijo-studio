@@ -1,20 +1,49 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Link from "next/link";
 import toast from "react-hot-toast";
 import { Container } from "./ui/Container";
 import { Eyebrow } from "./ui/Eyebrow";
+import { site, addressLine, telHref, whatsappHref } from "@/lib/site";
 
 const packages = [
-  { id: "vetem-faqja", label: "I — Vetëm Faqja · €299" },
-  { id: "faqja-plus-domain", label: "II — Faqja + Domain · €399" },
-  { id: "mirembajtje", label: "III — Mirëmbajtje · €29/muaj" },
-  { id: "premium", label: "IV — Gjithçka · €799" },
+  { id: "vetem-faqja", label: "Vetëm Faqja · €299" },
+  { id: "faqja-plus-domain", label: "Faqja + Domain · €399" },
+  { id: "mirembajtje", label: "Mirëmbajtje · €29/muaj" },
+  { id: "premium", label: "Gjithçka · €799" },
   { id: "tjeter", label: "Diçka tjetër / pyetje" },
 ];
 
+/** Only the channels that are actually reachable — see src/lib/site.ts. */
+function contactDetails() {
+  const tel = telHref();
+  const whatsapp = whatsappHref();
+  const address = addressLine();
+
+  return [
+    { term: "Email", value: site.email, href: `mailto:${site.email}` },
+    tel && site.phoneDisplay
+      ? { term: "Telefon", value: site.phoneDisplay, href: tel }
+      : null,
+    whatsapp && site.phoneDisplay
+      ? { term: "WhatsApp", value: site.phoneDisplay, href: whatsapp }
+      : null,
+    // Only claim a visitable studio once there is a street to visit — "Tiranë
+    // — me takim" alone promises a place without saying where.
+    site.street && address
+      ? { term: "Studio", value: `${address} — me takim`, href: null }
+      : null,
+    site.openingHours
+      ? { term: "Orari", value: site.openingHours, href: null }
+      : null,
+  ].filter(
+    (d): d is { term: string; value: string; href: string | null } => Boolean(d)
+  );
+}
+
 export function Contact() {
+  const details = contactDetails();
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -45,102 +74,117 @@ export function Contact() {
   }
 
   return (
-    <section id="kontakt" className="section-accent-hairline relative overflow-hidden bg-ink py-16 text-paper sm:py-24">
-      <div aria-hidden className="pointer-events-none absolute inset-0">
-        <Image
-          src="/images/contact-portfolio.png"
-          alt=""
-          fill
-          sizes="100vw"
-          className="ambient-drift photo-soft object-cover opacity-25"
+    <section
+      id="kontakt"
+      className="relative isolate overflow-hidden bg-canvas py-20 sm:py-28"
+    >
+      {/* Mesh glow instead of a photo */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div
+          className="mesh-blob mesh-a absolute -left-[10%] top-[10%] h-[55vh] w-[55vh] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(31,95,191,0.09), transparent 64%)" }}
         />
-        <div className="absolute inset-0 bg-ink/85" />
+        <div
+          className="mesh-blob mesh-b absolute -bottom-[20%] right-[-8%] h-[50vh] w-[50vh] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(91,63,212,0.07), transparent 66%)" }}
+        />
       </div>
+
       <Container>
-        <div className="relative z-10 grid grid-cols-12 gap-x-8 gap-y-14">
+        <div className="grid grid-cols-12 gap-x-8 gap-y-14">
           {/* Left: bold statement */}
           <div className="col-span-12 lg:col-span-5">
-            <Eyebrow className="mb-5 text-paper/55">Kontakt</Eyebrow>
+            <Eyebrow className="mb-5">kontakt</Eyebrow>
 
-            <h2 className="serif text-balance text-[clamp(2.4rem,5.5vw,4.6rem)] font-medium leading-[1] tracking-[-0.02em]">
-              Le të <span className="italic text-accent-mute">flasim.</span><br />
+            <h2 className="serif text-balance text-[clamp(2.4rem,5.5vw,4.2rem)] font-extrabold leading-[1] tracking-[-0.03em] text-fg">
+              Le të <span className="text-gradient">flasim.</span><br />
               Një kafe ose<br />
               një email.
             </h2>
 
-            <p className="mt-7 max-w-md text-[16px] leading-[1.6] text-paper/70">
+            <p className="mt-7 max-w-md text-[16px] leading-[1.6] text-fg-muted">
               Plotëso formularin këtu ose na shkruaj drejtpërdrejt &mdash; përgjigjemi brenda 24 orësh, me një propozim falas e pa asnjë angazhim.
             </p>
 
-            <dl className="mono mt-12 flex flex-col gap-5 text-[12px] uppercase">
-              <div className="grid grid-cols-[80px_1fr] gap-3 border-t border-paper/15 pt-4">
-                <dt className="text-paper/50">Email</dt>
-                <dd>
-                  <a href="mailto:pershendetje@krijo.studio" className="link-underline text-paper">
-                    pershendetje@krijo.studio
-                  </a>
-                </dd>
-              </div>
-              <div className="grid grid-cols-[80px_1fr] gap-3 border-t border-paper/15 pt-4">
-                <dt className="text-paper/50">Telefon</dt>
-                <dd>
-                  <a href="tel:+355695550123" className="link-underline text-paper">+355 69 555 0123</a>
-                </dd>
-              </div>
-              <div className="grid grid-cols-[80px_1fr] gap-3 border-t border-paper/15 pt-4">
-                <dt className="text-paper/50">WhatsApp</dt>
-                <dd>
-                  <a href="https://wa.me/355695550123" className="link-underline text-paper">+355 69 555 0123</a>
-                </dd>
-              </div>
-              <div className="grid grid-cols-[80px_1fr] gap-3 border-t border-paper/15 pt-4">
-                <dt className="text-paper/50">Studio</dt>
-                <dd className="text-paper">Rr. Myslym Shyri, Tiranë &mdash; me takim</dd>
-              </div>
-              <div className="grid grid-cols-[80px_1fr] gap-3 border-t border-paper/15 pt-4">
-                <dt className="text-paper/50">Orari</dt>
-                <dd className="text-paper">E hënë &mdash; E premte · 09:00 &mdash; 19:00</dd>
-              </div>
+            <dl className="mt-12 flex flex-col gap-5 text-[14px]">
+              {details.map((d) => (
+                <div
+                  key={d.term}
+                  className="grid grid-cols-[80px_1fr] gap-3 border-t border-hairline pt-4"
+                >
+                  <dt className="text-[11px] font-semibold uppercase tracking-[0.08em] text-fg-muted">
+                    {d.term}
+                  </dt>
+                  <dd className="text-fg">
+                    {d.href ? (
+                      <a href={d.href} className="link-underline text-fg">
+                        {d.value}
+                      </a>
+                    ) : (
+                      d.value
+                    )}
+                  </dd>
+                </div>
+              ))}
             </dl>
           </div>
 
-          {/* Right: paper-style form */}
+          {/* Right: glass form */}
           <div className="col-span-12 lg:col-span-6 lg:col-start-7">
             {sent ? (
-              <div className="flex h-full min-h-[480px] flex-col items-start justify-center border border-paper/15 p-10">
-                <span className="mono text-[11px] uppercase text-paper/55">Faleminderit ✓</span>
-                <h3 className="serif mt-5 text-[44px] leading-none">
+              <div className="flex h-full min-h-[480px] flex-col items-start justify-center rounded-2xl glass p-10">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">faleminderit ✓</span>
+                <h3 className="serif mt-5 text-[40px] font-extrabold leading-none text-fg">
                   Mesazhi u dërgua.
                 </h3>
-                <p className="mt-6 max-w-md text-[15px] leading-[1.65] text-paper/70">
+                <p className="mt-6 max-w-md text-[15px] leading-[1.65] text-fg-muted">
                   Po e shqyrtojmë kërkesën tënde dhe do të të përgjigjemi brenda 24 orësh. Ndërkohë, shijo një kafe.
                 </p>
                 <button
                   onClick={() => setSent(false)}
-                  className="mono link-underline mt-10 text-[12px] uppercase text-paper"
+                  className="link-underline mt-10 text-[14px] font-medium text-fg"
                 >
                   Dërgo një mesazh tjetër →
                 </button>
               </div>
             ) : (
-              <form onSubmit={onSubmit} className="border border-paper/15 p-7 sm:p-10">
+              <form onSubmit={onSubmit} className="rounded-2xl glass p-7 sm:p-9">
                 <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
                 <Field label="Emri" name="name" placeholder="Arben Hoxha" required />
                 <Field label="Email" name="email" type="email" placeholder="emri@biznesi.al" required />
-                <div className="grid gap-0 sm:grid-cols-2">
+                <div className="grid gap-0 sm:grid-cols-2 sm:gap-x-5">
                   <Field label="Telefon" name="phone" type="tel" placeholder="+355 69 ..." />
                   <Field label="Biznesi" name="business" placeholder="Aroma Café" />
                 </div>
 
-                <fieldset className="border-b border-paper/15 py-5">
-                  <legend className="mono text-[11px] uppercase text-paper/50">Më intereson</legend>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                {/* Margin, not padding: a <legend> sits in the fieldset's
+                    border box and ignores its padding-top, so pt-* left the
+                    label jammed against the field above. */}
+                <fieldset className="mt-5">
+                  <legend className="mb-2 text-[13px] font-medium text-fg">
+                    Më intereson
+                  </legend>
+                  <div className="grid gap-2 sm:grid-cols-2">
                     {packages.map((p, i) => (
                       <label
                         key={p.id}
-                        className="mono cursor-pointer border border-paper/20 px-3 py-2 text-[11px] uppercase text-paper/80 transition-colors has-[:checked]:border-paper has-[:checked]:bg-paper has-[:checked]:text-ink hover:border-paper/50"
+                        className="group flex cursor-pointer items-center gap-3 rounded-[10px] border border-hairline-strong bg-white px-4 py-3 text-[14px] text-fg-muted transition-colors hover:border-fg-muted has-[:checked]:border-accent has-[:checked]:bg-accent-soft has-[:checked]:text-fg has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent has-[:focus-visible]:outline-offset-2"
                       >
-                        <input type="radio" name="package" value={p.id} defaultChecked={i === 1} className="sr-only" />
+                        <input
+                          type="radio"
+                          name="package"
+                          value={p.id}
+                          defaultChecked={i === 1}
+                          className="sr-only"
+                        />
+                        {/* Radio mark, drawn so the selected state is visible
+                            without relying on colour alone. */}
+                        <span
+                          aria-hidden
+                          className="grid size-[18px] shrink-0 place-items-center rounded-full border border-hairline-strong transition-colors group-has-[:checked]:border-accent"
+                        >
+                          <span className="size-2 scale-0 rounded-full bg-accent transition-transform group-has-[:checked]:scale-100" />
+                        </span>
                         {p.label}
                       </label>
                     ))}
@@ -150,16 +194,21 @@ export function Contact() {
                 <Field label="Trego pak për projektin" name="message" textarea placeholder="Kam një restorant në Tiranë dhe dua një faqe me menu, rezervime online..." required />
 
                 <div className="mt-7 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="mono text-[10px] uppercase text-paper/40">
-                    Duke dërguar, pranon politikën e privatësisë.
+                  <p className="max-w-xs text-[12px] leading-relaxed text-fg-muted">
+                    Duke dërguar këtë formular, pranon përpunimin e të dhënave
+                    për qëllim kontakti. Lexo{" "}
+                    <Link href="/privatesia" className="link-underline text-fg">
+                      politikën e privatësisë
+                    </Link>
+                    .
                   </p>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="mono inline-flex h-12 items-center justify-center gap-3 bg-paper px-7 text-[12px] uppercase tracking-wider text-ink transition-colors hover:bg-ink hover:text-paper disabled:opacity-50"
+                    className="inline-flex h-12 shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-[10px] bg-accent-deep px-7 text-[14px] font-semibold text-white shadow-[0_6px_18px_-8px_rgba(31,95,191,0.6)] transition-transform hover:-translate-y-0.5 disabled:opacity-50"
                   >
                     {loading ? "Duke dërguar..." : "Dërgo mesazhin"}
-                    <span>→</span>
+                    <span aria-hidden>→</span>
                   </button>
                 </div>
               </form>
@@ -187,44 +236,43 @@ function Field({
   textarea?: boolean;
 }) {
   const id = `kontakt-${name}`;
+  // Bounded box, not a hairline underline. `hairline-strong` is 3.51:1, which clears the
+  // non-text contrast floor (WCAG 1.4.11) that the old 12% rule failed at
+  // 1.30:1 — and a visible box is what non-technical users read as "type here".
   const inputClasses =
-    "block w-full bg-transparent text-[18px] serif text-paper placeholder:text-paper/30 placeholder:font-sans placeholder:text-[14px] focus:outline-none focus-visible:outline-2 focus-visible:outline-accent-mute/80 focus-visible:outline-offset-4";
+    "block w-full rounded-[10px] border border-hairline-strong bg-white px-4 py-3 text-[16px] text-fg transition-colors placeholder:text-fg-placeholder placeholder:text-[14px] hover:border-fg-muted focus:border-accent focus:ring-2 focus:ring-accent-soft focus:outline-none focus-visible:outline-2 focus-visible:outline-accent/80 focus-visible:outline-offset-2";
   return (
-    <div
-      className={`grid grid-cols-12 gap-3 border-b border-paper/15 pt-5 pb-3 ${
-        textarea ? "items-start" : "items-end"
-      }`}
-    >
+    <div className="pt-5">
       <label
         htmlFor={id}
-        className={`mono col-span-12 text-[11px] uppercase text-paper/50 sm:col-span-3 ${
-          textarea ? "sm:pt-2" : "sm:pb-[2px]"
-        }`}
+        className="mb-2 block text-[13px] font-medium text-fg"
       >
         {label}{" "}
-        {required && <span className="text-paper/45">*</span>}
-      </label>
-      <div className="col-span-12 sm:col-span-9">
-        {textarea ? (
-          <textarea
-            id={id}
-            name={name}
-            rows={4}
-            required={required}
-            placeholder={placeholder}
-            className={`${inputClasses} resize-none leading-relaxed`}
-          />
-        ) : (
-          <input
-            id={id}
-            name={name}
-            type={type}
-            required={required}
-            placeholder={placeholder}
-            className={`${inputClasses} pb-1`}
-          />
+        {required && (
+          <span className="text-accent" aria-hidden>
+            *
+          </span>
         )}
-      </div>
+      </label>
+      {textarea ? (
+        <textarea
+          id={id}
+          name={name}
+          rows={4}
+          required={required}
+          placeholder={placeholder}
+          className={`${inputClasses} resize-none leading-relaxed`}
+        />
+      ) : (
+        <input
+          id={id}
+          name={name}
+          type={type}
+          required={required}
+          placeholder={placeholder}
+          className={inputClasses}
+        />
+      )}
     </div>
   );
 }

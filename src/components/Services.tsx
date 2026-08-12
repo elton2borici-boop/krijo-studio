@@ -71,32 +71,32 @@ export function Services() {
   return (
     <section
       id="sherbimet"
-      className="relative border-t border-rule py-14 sm:py-20"
+      className="relative bg-canvas py-16 sm:py-24"
     >
       <Container>
         <SectionHeading
-          label="Shërbimet"
+          label="shërbimet"
           title="Gjashtë fusha, të mbuluara në çdo projekt"
           lede="Nëse diçka del jashtë kësaj liste, e diskutojmë së bashku para se të nisim."
         />
 
         {/* Ledger / register — full-width rows, rule separators, no boxes. */}
-        <ol className="mt-8 border-t border-ink/70 sm:mt-10">
+        <ol className="mt-8 border-t border-hairline-strong sm:mt-10">
           {services.map((s, i) => (
             <li
               key={s.title}
-              className="group grid grid-cols-12 gap-x-6 gap-y-3 border-b border-rule px-1 py-5 transition-colors duration-300 sm:px-2 sm:py-6 lg:hover:bg-paper-soft/40"
+              className="group grid grid-cols-12 gap-x-6 gap-y-3 border-b border-hairline px-1 py-5 transition-colors duration-300 sm:px-2 sm:py-6 lg:hover:bg-canvas-raised/40"
             >
               <div className="col-span-12 flex items-baseline gap-3 lg:col-span-4">
                 <span className="mono tnum text-[12px] font-medium leading-none text-accent">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="serif text-[20px] font-semibold leading-tight tracking-tight text-ink sm:text-[22px]">
+                <h3 className="serif text-[20px] font-semibold leading-tight tracking-tight text-fg sm:text-[22px]">
                   {s.title}
                 </h3>
               </div>
 
-              <p className="col-span-12 text-[14px] leading-relaxed text-ink-soft lg:col-span-5">
+              <p className="col-span-12 text-[14px] leading-relaxed text-fg-muted lg:col-span-5">
                 {s.text}
               </p>
 
@@ -105,9 +105,9 @@ export function Services() {
                 {s.bullets.map((b) => (
                   <li
                     key={b}
-                    className="flex gap-2 text-[12.5px] leading-relaxed text-ink-soft"
+                    className="flex gap-2 text-[12.5px] leading-relaxed text-fg-muted"
                   >
-                    <span aria-hidden className="text-accent">/</span>
+                    <span aria-hidden className="text-accent">✓</span>
                     <span>{b}</span>
                   </li>
                 ))}

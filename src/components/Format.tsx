@@ -78,11 +78,11 @@ const formats: FormatItem[] = [
 /** Shared "device frame" so every wireframe reads as a page layout. */
 function Frame({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mx-auto flex aspect-[3/4] w-full max-w-[260px] flex-col gap-2 rounded-md border border-rule bg-paper p-3 shadow-[0_2px_10px_-6px_rgba(28,24,19,0.25)] sm:max-w-[300px]">
+    <div className="mx-auto flex aspect-[3/4] w-full max-w-[260px] flex-col gap-2 rounded-xl glass p-3 sm:max-w-[300px]">
       <div className="flex items-center gap-1.5">
-        <span className="h-1.5 w-1.5 rounded-full bg-rule" />
-        <span className="h-1.5 w-1.5 rounded-full bg-rule" />
-        <span className="h-1.5 w-1.5 rounded-full bg-rule" />
+        <span className="h-1.5 w-1.5 rounded-full bg-hairline-strong" />
+        <span className="h-1.5 w-1.5 rounded-full bg-hairline-strong" />
+        <span className="h-1.5 w-1.5 rounded-full bg-hairline-strong" />
       </div>
       {children}
     </div>
@@ -95,15 +95,15 @@ function Wireframe({ shape }: { shape: FormatItem["shape"] }) {
     return (
       <Frame>
         <div className="h-9 rounded-sm bg-accent/30" />
-        <div className="h-2 w-2/3 rounded-sm bg-ink/15" />
-        <div className="h-2 w-1/2 rounded-sm bg-ink/10" />
-        <div className="mt-1 h-12 rounded-sm bg-paper-soft" />
+        <div className="h-2 w-2/3 rounded-sm bg-fg/15" />
+        <div className="h-2 w-1/2 rounded-sm bg-fg/10" />
+        <div className="mt-1 h-12 rounded-sm bg-fg/[0.07]" />
         <div className="grid grid-cols-3 gap-1.5">
-          <div className="h-7 rounded-sm bg-paper-soft" />
-          <div className="h-7 rounded-sm bg-paper-soft" />
-          <div className="h-7 rounded-sm bg-paper-soft" />
+          <div className="h-7 rounded-sm bg-fg/[0.07]" />
+          <div className="h-7 rounded-sm bg-fg/[0.07]" />
+          <div className="h-7 rounded-sm bg-fg/[0.07]" />
         </div>
-        <div className="mt-auto h-5 rounded-sm bg-ink/70" />
+        <div className="mt-auto h-5 rounded-sm bg-accent/70" />
       </Frame>
     );
   }
@@ -112,23 +112,23 @@ function Wireframe({ shape }: { shape: FormatItem["shape"] }) {
     return (
       <Frame>
         <div className="flex gap-1">
-          <div className="h-2 w-8 rounded-sm bg-ink/30" />
+          <div className="h-2 w-8 rounded-sm bg-fg/30" />
           <div className="ml-auto flex gap-1">
-            <div className="h-2 w-5 rounded-sm bg-ink/15" />
-            <div className="h-2 w-5 rounded-sm bg-ink/15" />
+            <div className="h-2 w-5 rounded-sm bg-fg/15" />
+            <div className="h-2 w-5 rounded-sm bg-fg/15" />
             <div className="h-2 w-5 rounded-sm bg-accent/40" />
           </div>
         </div>
-        <div className="mt-1 h-10 rounded-sm bg-paper-soft" />
-        <div className="h-2 w-3/5 rounded-sm bg-ink/15" />
+        <div className="mt-1 h-10 rounded-sm bg-fg/[0.07]" />
+        <div className="h-2 w-3/5 rounded-sm bg-fg/15" />
         <div className="grid grid-cols-2 gap-1.5">
-          <div className="h-10 rounded-sm bg-paper-soft" />
-          <div className="h-10 rounded-sm bg-paper-soft" />
+          <div className="h-10 rounded-sm bg-fg/[0.07]" />
+          <div className="h-10 rounded-sm bg-fg/[0.07]" />
         </div>
         <div className="mt-auto flex justify-between text-[7px]">
-          <span className="h-1.5 w-6 rounded-sm bg-ink/15" />
-          <span className="h-1.5 w-6 rounded-sm bg-ink/15" />
-          <span className="h-1.5 w-6 rounded-sm bg-ink/15" />
+          <span className="h-1.5 w-6 rounded-sm bg-fg/15" />
+          <span className="h-1.5 w-6 rounded-sm bg-fg/15" />
+          <span className="h-1.5 w-6 rounded-sm bg-fg/15" />
         </div>
       </Frame>
     );
@@ -137,16 +137,16 @@ function Wireframe({ shape }: { shape: FormatItem["shape"] }) {
   if (shape === "portfolio") {
     return (
       <Frame>
-        <div className="h-2 w-1/3 rounded-sm bg-ink/30" />
+        <div className="h-2 w-1/3 rounded-sm bg-fg/30" />
         <div className="grid grid-cols-3 gap-1.5">
-          <div className="aspect-square rounded-sm bg-paper-soft" />
+          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
           <div className="aspect-square rounded-sm bg-accent/25" />
-          <div className="aspect-square rounded-sm bg-paper-soft" />
-          <div className="aspect-square rounded-sm bg-paper-soft" />
-          <div className="aspect-square rounded-sm bg-paper-soft" />
-          <div className="aspect-square rounded-sm bg-paper-soft" />
+          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
+          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
+          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
+          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
         </div>
-        <div className="mt-auto h-2 w-1/2 rounded-sm bg-ink/15" />
+        <div className="mt-auto h-2 w-1/2 rounded-sm bg-fg/15" />
       </Frame>
     );
   }
@@ -155,34 +155,34 @@ function Wireframe({ shape }: { shape: FormatItem["shape"] }) {
   return (
     <Frame>
       <div className="flex items-center justify-between">
-        <div className="h-2 w-10 rounded-sm bg-ink/30" />
-        <div className="flex h-4 w-4 items-center justify-center rounded-full bg-accent/40 text-[8px] font-semibold text-paper">
+        <div className="h-2 w-10 rounded-sm bg-fg/30" />
+        <div className="flex h-4 w-4 items-center justify-center rounded-full bg-accent/40 text-[8px] font-semibold text-white">
           ●
         </div>
       </div>
       <div className="grid grid-cols-2 gap-1.5">
         <div className="flex flex-col gap-1">
-          <div className="aspect-square rounded-sm bg-paper-soft" />
-          <div className="h-1.5 w-3/4 rounded-sm bg-ink/15" />
+          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
+          <div className="h-1.5 w-3/4 rounded-sm bg-fg/15" />
           <div className="h-1.5 w-1/3 rounded-sm bg-accent/50" />
         </div>
         <div className="flex flex-col gap-1">
-          <div className="aspect-square rounded-sm bg-paper-soft" />
-          <div className="h-1.5 w-2/3 rounded-sm bg-ink/15" />
+          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
+          <div className="h-1.5 w-2/3 rounded-sm bg-fg/15" />
           <div className="h-1.5 w-1/3 rounded-sm bg-accent/50" />
         </div>
         <div className="flex flex-col gap-1">
-          <div className="aspect-square rounded-sm bg-paper-soft" />
-          <div className="h-1.5 w-3/5 rounded-sm bg-ink/15" />
+          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
+          <div className="h-1.5 w-3/5 rounded-sm bg-fg/15" />
           <div className="h-1.5 w-1/3 rounded-sm bg-accent/50" />
         </div>
         <div className="flex flex-col gap-1">
-          <div className="aspect-square rounded-sm bg-paper-soft" />
-          <div className="h-1.5 w-3/4 rounded-sm bg-ink/15" />
+          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
+          <div className="h-1.5 w-3/4 rounded-sm bg-fg/15" />
           <div className="h-1.5 w-1/3 rounded-sm bg-accent/50" />
         </div>
       </div>
-      <div className="mt-auto h-4 rounded-sm bg-ink/70" />
+      <div className="mt-auto h-4 rounded-sm bg-accent/70" />
     </Frame>
   );
 }
@@ -192,14 +192,14 @@ export function Format() {
   const current = formats[selected];
 
   return (
-    <section id="formati" className="relative border-t border-rule py-14 sm:py-20">
+    <section id="formati" className="relative bg-canvas-raised py-16 sm:py-24">
       <Container>
         <SectionHeading
-          label="Formati"
+          label="formati"
           title={
             <>
               Cili format i përshtatet{" "}
-              <span className="italic">markës sate?</span>
+              <span className="text-gradient">markës sate?</span>
             </>
           }
           lede="Para se të nisim, zgjedhim së bashku formën që i shërben më mirë qëllimit tënd. Zgjidh një opsion më poshtë për të parë se si do të dukej."
@@ -221,30 +221,25 @@ export function Format() {
                     aria-controls="formati-preview"
                     onClick={() => setSelected(i)}
                     className={cn(
-                      "group flex w-full items-center gap-4 border px-5 py-4 text-left transition-colors duration-300 min-h-[64px]",
+                      "group flex w-full items-center gap-4 rounded-xl px-5 py-4 text-left transition-all duration-300 min-h-[64px]",
                       isActive
-                        ? "border-ink bg-ink text-paper"
-                        : "border-rule bg-paper-soft/55 text-ink hover:border-ink/40 active:bg-paper-soft"
+                        ? "glass-strong text-fg ring-1 ring-accent/40"
+                        : "glass text-fg-muted hover:text-fg"
                     )}
                   >
                     <span
                       className={cn(
-                        "serif tnum text-[28px] font-semibold leading-none tracking-tight",
-                        isActive ? "text-accent-mute" : "text-accent"
+                        "serif tnum text-[28px] font-bold leading-none tracking-tight",
+                        isActive ? "text-gradient" : "text-fg-faint"
                       )}
                     >
                       {f.n}
                     </span>
                     <span className="flex flex-1 flex-col gap-0.5">
-                      <span
-                        className={cn(
-                          "mono text-[10px] uppercase tracking-wide",
-                          isActive ? "text-paper/70" : "text-ink-soft"
-                        )}
-                      >
+                      <span className="text-[11.5px] font-medium text-fg-muted">
                         {f.tag}
                       </span>
-                      <span className="serif text-[18px] font-semibold leading-tight tracking-tight">
+                      <span className="serif text-[18px] font-bold leading-tight tracking-tight text-fg">
                         {f.title}
                       </span>
                     </span>
@@ -252,7 +247,7 @@ export function Format() {
                       aria-hidden
                       className={cn(
                         "transition-transform duration-300",
-                        isActive ? "translate-x-0 text-paper" : "-translate-x-1 text-ink-soft group-hover:translate-x-0"
+                        isActive ? "translate-x-0 text-accent" : "-translate-x-1 text-fg-muted group-hover:translate-x-0"
                       )}
                     >
                       →
@@ -269,7 +264,7 @@ export function Format() {
             aria-live="polite"
             className="col-span-12 flex flex-col gap-5 lg:col-span-7 lg:sticky lg:top-24"
           >
-            <p className="text-[15px] leading-relaxed text-ink-soft">
+            <p className="text-[15px] leading-relaxed text-fg-muted">
               {current.text}
             </p>
 
@@ -282,17 +277,17 @@ export function Format() {
                 {current.bullets.map((b) => (
                   <li
                     key={b}
-                    className="flex gap-2 text-[14px] leading-relaxed text-ink"
+                    className="flex gap-2 text-[14px] leading-relaxed text-fg"
                   >
-                    <span aria-hidden className="text-accent">/</span>
+                    <span aria-hidden className="text-accent">✓</span>
                     <span>{b}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <p className="text-[13px] leading-relaxed text-ink">
-              <span className="mono mr-2 text-[10px] uppercase tracking-wide text-ink-soft/80">
+            <p className="text-[13px] leading-relaxed text-fg">
+              <span className="mr-2 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-fg-muted">
                 Më i përshtatshëm
               </span>
               {current.best}
@@ -300,7 +295,7 @@ export function Format() {
 
             <a
               href="#kontakt"
-              className="mono inline-flex h-12 w-fit items-center gap-2 border border-ink bg-ink px-5 text-[11px] uppercase tracking-wider text-paper transition-opacity duration-300 hover:opacity-90"
+              className="inline-flex h-12 w-fit items-center gap-2 rounded-[10px] bg-accent-deep px-5 text-[14px] font-semibold text-white shadow-[0_6px_18px_-8px_rgba(31,95,191,0.6)] transition-transform duration-300 hover:-translate-y-0.5"
             >
               Ky format më përshtatet
               <span aria-hidden>→</span>

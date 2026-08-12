@@ -30,36 +30,36 @@ const faqs = [
 
 export function Faq() {
   return (
-    <section id="faq" className="relative border-t border-rule bg-paper-deep py-14 sm:py-20">
+    <section id="faq" className="relative bg-canvas-raised py-16 sm:py-24">
       <Container>
         <div className="grid grid-cols-12 gap-x-8 gap-y-12">
           <div className="col-span-12 lg:col-span-4">
-            <Eyebrow className="mb-5">Pyetjet</Eyebrow>
-            <h2 className="serif text-[1.9rem] font-semibold leading-[1.06] tracking-tight text-ink sm:text-[2.3rem]">
-              Pyetjet që na <span className="italic text-accent">bëjnë më shpesh.</span>
+            <Eyebrow className="mb-5">pyetjet</Eyebrow>
+            <h2 className="serif text-[1.9rem] font-bold leading-[1.06] tracking-tight text-fg sm:text-[2.3rem]">
+              Pyetjet që na <span className="text-gradient">bëjnë më shpesh.</span>
             </h2>
-            <p className="mt-6 max-w-md text-[15px] leading-relaxed text-ink-soft">
+            <p className="mt-6 max-w-md text-[15px] leading-relaxed text-fg-muted">
               Nuk e gjete përgjigjen këtu? Na shkruaj me email — zakonisht
               përgjigjemi brenda 24 orësh gjatë ditëve të punës.
             </p>
           </div>
 
-          <ul className="col-span-12 lg:col-span-8">
+          <ul className="col-span-12 flex flex-col gap-3 lg:col-span-8">
             {faqs.map((f, i) => (
-              <li key={f.q} className="border-b border-rule first:border-t">
+              <li key={f.q} className="overflow-hidden rounded-xl glass">
                 <details className="group">
-                  <summary className="grid w-full cursor-pointer list-none grid-cols-[32px_1fr_28px] items-start gap-x-3 py-6 text-left outline-none marker:content-none [&::-webkit-details-marker]:hidden">
-                    <span className="mono tnum pt-1 text-[11px] uppercase text-ink-soft">
+                  <summary className="grid w-full cursor-pointer list-none grid-cols-[32px_1fr_28px] items-start gap-x-3 px-5 py-5 text-left outline-none marker:content-none [&::-webkit-details-marker]:hidden">
+                    <span className="mono tnum pt-1 text-[11px] text-accent">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="serif text-[20px] leading-snug text-ink sm:text-[22px] lg:group-hover:opacity-80">
+                    <span className="serif text-[18px] font-semibold leading-snug text-fg sm:text-[20px] lg:group-hover:text-accent">
                       {f.q}
                     </span>
-                    <span className="mono pt-0.5 text-right text-[17px] text-ink-soft transition-transform duration-150 group-open:rotate-45 group-open:text-ink">
+                    <span className="mono pt-0.5 text-right text-[17px] text-fg-muted transition-transform duration-150 group-open:rotate-45 group-open:text-accent">
                       +
                     </span>
                   </summary>
-                  <p className="pb-6 pl-[44px] pr-6 text-[15px] leading-relaxed text-ink-soft sm:pr-10 lg:pr-14">
+                  <p className="px-5 pb-5 pl-[52px] text-[15px] leading-relaxed text-fg-muted">
                     {f.a}
                   </p>
                 </details>

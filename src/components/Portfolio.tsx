@@ -24,18 +24,18 @@ function BrowserFrame({
   children: React.ReactNode;
 }) {
   return (
-    <div className="overflow-hidden rounded-lg border border-ink/15 bg-neutral-950 shadow-[0_14px_36px_-18px_rgba(28,24,19,0.45)] transition-[transform,box-shadow] duration-500 ease-out group-hover:-translate-y-1.5 group-hover:shadow-[0_28px_54px_-22px_rgba(28,24,19,0.55)]">
+    <div className="overflow-hidden rounded-xl border border-hairline bg-canvas-raised shadow-[0_10px_30px_-14px_rgba(21,24,29,0.18)] transition-[transform,box-shadow,border-color] duration-500 ease-out group-hover:-translate-y-1.5 group-hover:border-accent/40 group-hover:shadow-[0_22px_50px_-20px_rgba(31,95,191,0.28)]">
       <div className="flex items-center gap-2 px-3 py-2">
         <span className="flex gap-1.5" aria-hidden>
           <span className="size-2 rounded-full bg-[#ff5f57]" />
           <span className="size-2 rounded-full bg-[#febc2e]" />
           <span className="size-2 rounded-full bg-[#28c840]" />
         </span>
-        <div className="min-w-0 flex-1 truncate rounded bg-neutral-900/95 px-2.5 py-1 mono text-[9px] tracking-wide text-neutral-400">
+        <div className="min-w-0 flex-1 truncate rounded border border-hairline bg-white px-2.5 py-1 mono text-[9px] tracking-wide text-fg-muted">
           https://{domain}
         </div>
       </div>
-      <div className="aspect-[4/3] overflow-hidden border-t border-neutral-900 bg-white">
+      <div className="aspect-[4/3] overflow-hidden border-t border-hairline bg-white">
         {/* Inner layer zooms slightly while the frame lifts — a subtle parallax. */}
         <div className="h-full transition-transform duration-500 ease-out group-hover:scale-[1.03]">
           {children}
@@ -194,14 +194,14 @@ const works: Work[] = [
 
 export function Portfolio() {
   return (
-    <section id="punet" className="relative border-t border-rule py-14 sm:py-20">
+    <section id="punet" className="relative border-t border-hairline py-16 sm:py-24">
       <Container>
         <SectionHeading
-          label="Punë të përzgjedhura"
+          label="punë të përzgjedhura"
           title={
             <>
               Tri struktura, tri qëllime{" "}
-              <span className="italic">të ndryshme.</span>
+              <span className="text-gradient">të ndryshme.</span>
             </>
           }
           lede="Pamje ilustrative që tregojnë si e ndërtojmë strukturën sipas qëllimit të biznesit. Portofolin e plotë, me faqe reale klientësh, e ndajmë me kërkesë."
@@ -216,24 +216,32 @@ export function Portfolio() {
             >
               <BrowserFrame domain={w.domain}>{w.preview}</BrowserFrame>
               <div className="mt-4 flex items-baseline justify-between gap-3">
-                <h3 className="serif text-[18px] font-semibold tracking-tight text-ink">
+                <h3 className="serif text-[18px] font-semibold tracking-tight text-fg">
                   {w.title}
                 </h3>
-                <span className="mono shrink-0 text-[9px] uppercase tracking-[0.14em] text-accent">
+                <span className="shrink-0 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-accent">
                   {w.tag}
                 </span>
               </div>
-              <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-soft">
+              <p className="mt-1.5 text-[13.5px] leading-relaxed text-fg-muted">
                 {w.caption}
               </p>
             </article>
           ))}
         </div>
 
+        {/* Swipe affordance — see the matching hint in Pricing. */}
+        <p
+          aria-hidden
+          className="mt-3 flex items-center justify-center gap-2 text-[12px] font-medium text-fg-muted lg:hidden"
+        >
+          <span>←</span> rrëshqit për të tre shembujt <span>→</span>
+        </p>
+
         <div className="mt-8 flex justify-end">
           <a
             href="#kontakt"
-            className="mono link-underline text-[11px] uppercase tracking-[0.12em] text-ink"
+            className="link-underline text-[13.5px] font-medium text-fg"
           >
             Bisedoni për një ide të ngjashme →
           </a>

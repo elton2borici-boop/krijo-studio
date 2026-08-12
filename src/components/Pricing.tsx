@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 
 type Plan = {
   id: string;
-  n: string;
   name: string;
   tagline: string;
   price: string;
@@ -21,7 +20,6 @@ type Plan = {
 const plans: Plan[] = [
   {
     id: "vetem-faqja",
-    n: "I",
     name: "Vetëm Faqja",
     tagline: "Fillimi yt",
     price: "299",
@@ -36,11 +34,10 @@ const plans: Plan[] = [
       "SEO bazë",
       "Dorëzim brenda 7 ditësh",
     ],
-    cta: "Zgjidh I",
+    cta: "Zgjidh këtë pako",
   },
   {
     id: "faqja-plus-domain",
-    n: "II",
     name: "Faqja + Domain",
     tagline: "Gati për nisje",
     price: "399",
@@ -48,19 +45,18 @@ const plans: Plan[] = [
     note: "Një pagesë e vetme. Domain & email të përfshira për 1 vit.",
     description: "Gjithçka për të nisur. Asgjë tjetër për të blerë.",
     features: [
-      "Gjithçka nga Pakoja I",
+      "Gjithçka nga pakoja Vetëm Faqja",
       "Domain falas vitin e parë (.al/.com)",
       "Email profesional @biznesi-yt",
       "DNS i konfiguruar plotësisht",
       "Integrim me Instagram & Facebook",
       "Dorëzim brenda 5 ditësh",
     ],
-    cta: "Zgjidh II",
+    cta: "Nis me këtë pako",
     starred: true,
   },
   {
     id: "mirembajtje",
-    n: "III",
     name: "Mirëmbajtje",
     tagline: "Për faqet ekzistuese",
     price: "29",
@@ -75,11 +71,10 @@ const plans: Plan[] = [
       "2 ndryshime përmbajtjeje/muaj",
       "Raport mujor",
     ],
-    cta: "Aktivizo III",
+    cta: "Aktivizo mirëmbajtjen",
   },
   {
     id: "premium",
-    n: "IV",
     name: "Gjithçka",
     tagline: "Eksperienca e plotë",
     price: "799",
@@ -97,7 +92,7 @@ const plans: Plan[] = [
       "Blog / Lajme / Newsletter",
       "Linjë WhatsApp e dedikuar",
     ],
-    cta: "Zgjidh IV",
+    cta: "Zgjidh këtë pako",
   },
 ];
 
@@ -105,129 +100,123 @@ export function Pricing() {
   return (
     <section
       id="cmimet"
-      className="section-accent-hairline section-sage-tint relative py-14 sm:py-20"
+      className="relative bg-canvas-raised py-16 sm:py-24"
     >
       <Container>
         <SectionHeading
-          label="Çmimet"
+          label="çmimet"
           size="lg"
           title={
             <>
-              Katër pako. <span className="italic">Çmime të hapura.</span>
+              Katër pako. <span className="text-gradient">Çmime të hapura.</span>
             </>
           }
           lede="Në Euro, me TVSH të përfshirë. Pa kosto të fshehura — dhe nëse të duhet diçka tjetër, bëjmë ofertë të personalizuar."
         />
 
-        {/* Rate card — static DOM (was Framer-motion whileInView → scroll jank) */}
-        <div className="mt-10 border-t border-b border-ink/70">
-          <div className="hidden grid-cols-4 border-b border-rule lg:grid">
-            {plans.map((p) => (
-              <div
-                key={`h-${p.id}`}
-                className={cn(
-                  "relative flex items-start justify-between border-l border-rule px-6 py-4 first:border-l-0",
-                  p.starred && "bg-paper"
-                )}
-              >
-                <span className="mono text-[10px] uppercase text-ink-soft">
+        {/* Cards. Mobile: swipeable snap row (cards peek). Desktop: 4-up.
+            The recommended plan is scaled up and lifted out of the row; the
+            other three sit on a lower surface so the eye has one target. */}
+        <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 lg:mt-16 lg:grid lg:grid-cols-4 lg:overflow-visible lg:pb-0">
+          {plans.map((p) => (
+            <div
+              key={p.id}
+              className={cn(
+                "group card-spot relative flex w-[84vw] shrink-0 snap-center flex-col rounded-2xl p-6 transition-transform duration-300 sm:w-[400px] lg:w-auto lg:hover:-translate-y-1.5",
+                p.starred
+                  ? "glass-strong border-accent shadow-[0_20px_48px_-18px_rgba(31,95,191,0.35)] lg:-mt-6 lg:scale-[1.06] lg:p-7"
+                  : "glass card-quiet"
+              )}
+            >
+              {/* Accent hairline draws in on hover. Clipped to the rounded top
+                  corners without an overflow-hidden that would cut the badge. */}
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[2px] origin-left scale-x-0 rounded-t-2xl bg-gradient-to-r from-accent to-violet transition-transform duration-300 ease-out group-hover:scale-x-100"
+              />
+
+              {p.starred && (
+                <span className="absolute -top-3 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full bg-accent-deep px-3 py-1 text-[10px] font-semibold tracking-[0.02em] text-white shadow-[0_4px_12px_-2px_rgba(31,95,191,0.45)]">
+                  Rekomanduar për biznese të reja
+                </span>
+              )}
+
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-fg-muted">
                   {p.tagline}
                 </span>
-                {p.starred && (
-                  <span className="mono inline-flex items-center gap-1 text-[10px] uppercase text-ink">
-                    ★ Më e zgjedhura
-                  </span>
-                )}
               </div>
-            ))}
-          </div>
 
-          {/* Mobile/tablet: swipeable snap row (cards peek to invite the swipe).
-              Desktop: 4-column rate card. */}
-          <div className="flex snap-x snap-mandatory overflow-x-auto lg:grid lg:grid-cols-4 lg:overflow-visible">
-            {plans.map((p) => (
-              <div
-                key={p.id}
-                className={cn(
-                  "group relative flex w-[84vw] shrink-0 snap-center flex-col border-l border-rule px-5 py-6 transition-[background-color,box-shadow] duration-300 first:border-l-0 sm:w-[420px] lg:w-auto lg:px-6 lg:py-8 lg:hover:z-10 lg:hover:shadow-[0_22px_48px_-26px_rgba(28,24,19,0.45)]",
-                  p.starred
-                    ? "bg-paper"
-                    : "lg:hover:bg-paper"
-                )}
-              >
-                {/* Accent hairline draws in from the left on hover. */}
-                <span
-                  aria-hidden
-                  className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100"
-                />
+              <div className="mt-4 flex items-baseline gap-2.5">
+                <h3 className="serif text-[21px] font-bold tracking-tight text-fg">
+                  {p.name}
+                </h3>
+              </div>
 
-                <div className="flex items-baseline gap-3">
-                  <span className="serif tnum text-[34px] leading-none text-ink-faint">
-                    {p.n}
-                  </span>
-                  <h3 className="serif text-[21px] font-semibold tracking-tight text-ink">
-                    {p.name}
-                  </h3>
-                </div>
+              <p className="mt-3 text-[13px] leading-relaxed text-fg-muted">
+                {p.description}
+              </p>
 
-                <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
-                  {p.description}
-                </p>
+              <div className="mt-5 flex flex-wrap items-baseline gap-x-2 gap-y-1 border-y border-hairline py-3.5">
+                <span className="serif tnum text-[clamp(34px,5vw,44px)] font-bold leading-none tracking-tight text-gradient">
+                  {p.price}
+                </span>
+                <span className="text-[13px] font-medium text-fg-muted">
+                  {p.unit}
+                </span>
+              </div>
+              <p className="mt-2.5 text-[12px] leading-[1.6] text-fg-muted">
+                {p.note}
+              </p>
 
-                <div className="mt-5 flex flex-wrap items-baseline gap-x-2 gap-y-1 border-y border-rule py-3.5">
-                  <span className="serif tnum text-[clamp(34px,5vw,44px)] font-semibold leading-none tracking-tight text-accent">
-                    {p.price}
-                  </span>
-                  <span className="mono text-[12px] uppercase text-ink-soft">
-                    {p.unit}
-                  </span>
-                </div>
-                <p className="mono mt-2.5 text-[10px] uppercase leading-[1.7] text-ink-soft">
-                  {p.note}
-                </p>
-
-                <ul className="mt-5 flex flex-col gap-2">
-                  {p.features.map((f) => (
-                    <li
-                      key={f}
-                      className="flex gap-2 text-[13.5px] leading-snug text-ink"
-                    >
-                      <span aria-hidden className="font-serif text-ink-faint">
-                        +
-                      </span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-auto pt-6">
-                  <a
-                    href="#kontakt"
-                    className={cn(
-                      "mono inline-flex h-11 w-full items-center justify-between border px-4 text-[11px] uppercase tracking-wider outline-offset-2 transition-all duration-300 lg:hover:scale-[1.02] lg:hover:shadow-md lg:hover:shadow-ink/10",
-                      p.starred
-                        ? "border-ink bg-ink text-paper active:opacity-90 lg:hover:opacity-90"
-                        : "border-ink/40 text-ink active:bg-ink active:text-paper lg:hover:bg-ink lg:hover:text-paper"
-                    )}
+              <ul className="mt-5 flex flex-col gap-2">
+                {p.features.map((f) => (
+                  <li
+                    key={f}
+                    className="flex gap-2 text-[13.5px] leading-snug text-fg-muted"
                   >
-                    <span>{p.cta}</span>
-                    <span aria-hidden>→</span>
-                  </a>
-                </div>
+                    <span aria-hidden className="text-accent">✓</span>
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-auto pt-6">
+                <a
+                  href="#kontakt"
+                  className={cn(
+                    "inline-flex h-11 w-full items-center justify-between rounded-[10px] px-4 text-[13px] font-semibold transition-transform duration-300 lg:hover:-translate-y-0.5",
+                    p.starred
+                      ? "bg-accent-deep text-white shadow-[0_0_28px_-8px_var(--color-accent)]"
+                      : "border border-hairline-strong bg-white text-fg hover:border-accent hover:text-accent"
+                  )}
+                >
+                  <span>{p.cta}</span>
+                  <span aria-hidden>→</span>
+                </a>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
 
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
-          <p className="mono text-[11px] uppercase leading-relaxed text-ink-soft">
-            * Çmimet me TVSH të përfshirë. † IBAN shqiptar, transfertë ndërkombëtare ose para në dorë.
+        {/* Swipe affordance: the peeking card alone doesn't tell people the row
+            scrolls, and there is no hover state on touch to hint at it. */}
+        <p
+          aria-hidden
+          className="mt-3 flex items-center justify-center gap-2 text-[12px] font-medium text-fg-muted lg:hidden"
+        >
+          <span>←</span> rrëshqit për të gjitha katër pakot <span>→</span>
+        </p>
+
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
+          <p className="text-[12.5px] leading-relaxed text-fg-muted">
+            * çmimet me TVSH të përfshirë. † IBAN shqiptar, transfertë ndërkombëtare ose para në dorë.
           </p>
           <a
             href="#kontakt"
-            className="mono link-underline text-[12px] uppercase text-ink"
+            className="link-underline text-[13.5px] font-medium text-fg"
           >
-            Nuk je i sigurt? Bisedo me ne →
+            nuk je i sigurt? bisedo me ne →
           </a>
         </div>
       </Container>

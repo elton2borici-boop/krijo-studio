@@ -123,10 +123,16 @@ export function Pricing() {
             <div
               key={p.id}
               className={cn(
-                "group card-spot relative flex w-[84vw] shrink-0 snap-center flex-col rounded-2xl p-6 transition-transform duration-300 sm:w-[400px] lg:w-auto lg:hover:-translate-y-1.5",
+                // No hover-lift here on purpose. A lift reads as "this whole
+                // thing is clickable", and a pricing card is not — its button
+                // is. The lift now appears only on things that actually
+                // respond to a click, which stops it being a page-wide tic and
+                // makes it mean something where it survives. These cards get a
+                // border shift instead: present, but not a promise.
+                "group card-spot relative flex w-[84vw] shrink-0 snap-center flex-col rounded-2xl p-6 transition-colors duration-300 sm:w-[400px] lg:w-auto",
                 p.starred
                   ? "glass-strong border-accent shadow-[0_20px_48px_-18px_rgba(31,95,191,0.35)] lg:-mt-6 lg:scale-[1.06] lg:p-7"
-                  : "glass card-quiet"
+                  : "glass card-quiet hover:border-hairline-strong"
               )}
             >
               {/* Accent hairline draws in on hover. Clipped to the rounded top

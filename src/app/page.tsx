@@ -3,9 +3,7 @@ import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { Format } from "@/components/Format";
 import { Pricing } from "@/components/Pricing";
-import { WhyUs } from "@/components/WhyUs";
 import { Process } from "@/components/Process";
-import { Portfolio } from "@/components/Portfolio";
 import { Testimonials } from "@/components/Testimonials";
 import { Faq } from "@/components/Faq";
 import { Contact } from "@/components/Contact";
@@ -16,16 +14,19 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      {/* Order: proof (Punët) before the offer (Çmimet) — the hero promises
-          "më poshtë gjen disa punë", so the work must come first. */}
+      {/* Punët and Formati were one question asked twice — "what shape of site
+          do I need?" — so they are now a single section (Format.tsx, #punet)
+          where picking a structure shows a worked example of it.
+
+          It stays ahead of Çmimet: the hero promises work to look at, and
+          proof has to land before the offer does. Deleting the old Punët
+          section silently reversed that, which is worth guarding here. */}
       <main id="permbajtja" className="relative flex-1">
         <Hero />
-        <Portfolio />
+        <Format />
         <Pricing />
         <Services />
-        <Format />
         <Process />
-        <WhyUs />
         <Testimonials />
         <Faq />
         <Contact />

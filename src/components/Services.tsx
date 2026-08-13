@@ -80,32 +80,34 @@ export function Services() {
           lede="Nëse diçka del jashtë kësaj liste, e diskutojmë së bashku para se të nisim."
         />
 
-        {/* Ledger / register — full-width rows, rule separators, no boxes. */}
-        <ol className="mt-8 border-t border-hairline-strong sm:mt-10">
+        {/* Two columns of compact cards rather than six full-width rows.
+            The ledger layout meant six vertical stops to learn six things,
+            which is what made this section feel like an endless scroll —
+            the content was never the problem, the shape was. */}
+        <ul className="mt-8 grid gap-3 sm:mt-10 sm:grid-cols-2 lg:gap-4">
           {services.map((s, i) => (
             <li
               key={s.title}
-              className="group grid grid-cols-12 gap-x-6 gap-y-3 border-b border-hairline px-1 py-5 transition-colors duration-300 sm:px-2 sm:py-6 lg:hover:bg-canvas-raised/40"
+              className="flex flex-col rounded-2xl border border-hairline bg-white p-5 sm:p-6"
             >
-              <div className="col-span-12 flex items-baseline gap-3 lg:col-span-4">
+              <div className="flex items-baseline gap-3">
                 <span className="mono tnum text-[12px] font-medium leading-none text-accent">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="serif text-[20px] font-semibold leading-tight tracking-tight text-fg sm:text-[22px]">
+                <h3 className="serif text-[19px] font-semibold leading-tight tracking-tight text-fg sm:text-[20px]">
                   {s.title}
                 </h3>
               </div>
 
-              <p className="col-span-12 text-[14px] leading-relaxed text-fg-muted lg:col-span-5">
+              <p className="mt-2.5 text-[14px] leading-relaxed text-fg-muted">
                 {s.text}
               </p>
 
-              {/* Bullets are secondary detail — the row text carries the message on phones. */}
-              <ul className="col-span-12 hidden flex-col gap-1 sm:flex lg:col-span-3">
+              <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 border-t border-hairline pt-3.5">
                 {s.bullets.map((b) => (
                   <li
                     key={b}
-                    className="flex gap-2 text-[12.5px] leading-relaxed text-fg-muted"
+                    className="flex gap-1.5 text-[12.5px] leading-relaxed text-fg-muted"
                   >
                     <span aria-hidden className="text-accent">✓</span>
                     <span>{b}</span>
@@ -114,7 +116,8 @@ export function Services() {
               </ul>
             </li>
           ))}
-        </ol>
+        </ul>
+
       </Container>
     </section>
   );

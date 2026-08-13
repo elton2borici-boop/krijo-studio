@@ -63,7 +63,7 @@ function Tile({
 
 function Landing() {
   return (
-    <Tile h="h-[168px]">
+    <Tile h="h-[226px]">
       <div className={`h-9 shrink-0 rounded-[3px] ${ACCENT}`} />
       <Bar w="w-2/3" h="h-2" />
       <Bar w="w-1/2" tone={NEUTRAL_SOFT} />
@@ -79,7 +79,7 @@ function Landing() {
 
 function Shop() {
   return (
-    <Tile h="h-[190px]">
+    <Tile h="h-[256px]">
       <div className="flex shrink-0 items-center justify-between">
         <Bar w="w-8" />
         <Bar w="w-5" tone={NEUTRAL_SOFT} />
@@ -99,7 +99,7 @@ function Shop() {
 
 function Article() {
   return (
-    <Tile h="h-[210px]">
+    <Tile h="h-[282px]">
       <Bar w="w-4/5" h="h-2.5" />
       <Bar w="w-1/3" h="h-1.5" tone={NEUTRAL_SOFT} />
       <div className={`h-14 shrink-0 rounded-[3px] ${NEUTRAL_SOFT}`} />
@@ -115,7 +115,7 @@ function Article() {
 
 function Portfolio() {
   return (
-    <Tile h="h-[152px]">
+    <Tile h="h-[205px]">
       <div className="flex shrink-0 items-center justify-between">
         <Bar w="w-7" />
         <div className="flex gap-1">
@@ -135,7 +135,7 @@ function Portfolio() {
 
 function Booking() {
   return (
-    <Tile h="h-[176px]">
+    <Tile h="h-[237px]">
       <Bar w="w-1/2" h="h-2" />
       <div className="flex flex-col gap-1.5">
         {[0, 1, 2].map((i) => (
@@ -156,7 +156,7 @@ function Booking() {
 
 function Menu() {
   return (
-    <Tile h="h-[160px]">
+    <Tile h="h-[216px]">
       <div className={`h-8 shrink-0 rounded-[3px] ${NEUTRAL}`} />
       <Bar w="w-2/5" h="h-1.5" tone={ACCENT} />
       <div className="flex flex-col gap-1.5">

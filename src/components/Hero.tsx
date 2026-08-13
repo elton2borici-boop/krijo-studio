@@ -83,7 +83,7 @@ export function Hero() {
             Studio krijuese · Tiranë
           </p>
 
-          <h1 className="serif mt-7 text-balance text-[clamp(2.5rem,6vw,4rem)] font-extrabold leading-[0.98] tracking-[-0.03em] text-fg">
+          <h1 className="serif mt-7 text-balance text-[clamp(2.5rem,6vw,4rem)] font-extrabold leading-[0.98] tracking-[-0.012em] text-fg">
             Krijojmë faqe që{" "}
             <span className="text-gradient">punojnë.</span>
           </h1>

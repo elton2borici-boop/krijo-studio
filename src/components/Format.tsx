@@ -3,6 +3,13 @@
 import { useState } from "react";
 import { Container } from "./ui/Container";
 import { SectionHeading } from "./ui/SectionHeading";
+import { WorkCard } from "./WorkCard";
+import {
+  GastroPreview,
+  LawPreview,
+  ShopPreview,
+  StudioPreview,
+} from "./SiteMocks";
 import { cn } from "@/lib/utils";
 
 type FormatItem = {
@@ -12,8 +19,15 @@ type FormatItem = {
   text: string;
   best: string;
   bullets: string[];
-  /** Visual wireframe key — determines which CSS mock renders in the preview. */
-  shape: "one-pager" | "klasik" | "portfolio" | "ecommerce";
+  /** Worked example of this structure — replaces the old abstract wireframe.
+      Merged in from the former "Punët" section, which asked the same question
+      ("what shape of site do I need?") with different pictures. */
+  example: {
+    domain: string;
+    label: string;
+    caption: string;
+    preview: React.ReactNode;
+  };
 };
 
 const formats: FormatItem[] = [
@@ -29,7 +43,12 @@ const formats: FormatItem[] = [
       "Përshtatje e shkëlqyer për telefonin",
       "Lansim më i shpejtë",
     ],
-    shape: "one-pager",
+    example: {
+      domain: "buke-vere.al",
+      label: "Restorant në Tiranë",
+      caption: "Menu e lexueshme në telefon dhe rezervim i dukshëm kudo.",
+      preview: <GastroPreview />,
+    },
   },
   {
     n: "02",
@@ -43,7 +62,13 @@ const formats: FormatItem[] = [
       "SEO më i thellë për çdo shërbim",
       "Më e lehtë për t’u rritur me kohën",
     ],
-    shape: "klasik",
+    example: {
+      domain: "avokatura-arta.al",
+      label: "Studio ligjore",
+      caption:
+        "Tipografi e qetë dhe shërbime të ndara qartë — besim që në lexim të parë.",
+      preview: <LawPreview />,
+    },
   },
   {
     n: "03",
@@ -57,7 +82,12 @@ const formats: FormatItem[] = [
       "Tipografi e zgjedhur me kujdes",
       "Kategori dhe filtra sipas nevojës",
     ],
-    shape: "portfolio",
+    example: {
+      domain: "elira-nushi.al",
+      label: "Portfolio fotografie",
+      caption: "Galeria mban faqen; teksti rri mënjanë dhe nuk e pengon.",
+      preview: <StudioPreview />,
+    },
   },
   {
     n: "04",
@@ -71,138 +101,32 @@ const formats: FormatItem[] = [
       "Stoku & porositë në një vend",
       "I integrueshëm me Instagram",
     ],
-    shape: "ecommerce",
+    example: {
+      domain: "atelier12.al",
+      label: "Dyqan artizanal online",
+      caption:
+        "Produkte, çmime dhe blerje e shpejtë — e menduar së pari për telefonin.",
+      preview: <ShopPreview />,
+    },
   },
 ];
-
-/** Shared "device frame" so every wireframe reads as a page layout. */
-function Frame({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="mx-auto flex aspect-[3/4] w-full max-w-[260px] flex-col gap-2 rounded-xl glass p-3 sm:max-w-[300px]">
-      <div className="flex items-center gap-1.5">
-        <span className="h-1.5 w-1.5 rounded-full bg-hairline-strong" />
-        <span className="h-1.5 w-1.5 rounded-full bg-hairline-strong" />
-        <span className="h-1.5 w-1.5 rounded-full bg-hairline-strong" />
-      </div>
-      {children}
-    </div>
-  );
-}
-
-// Tiny CSS mocks — paper-soft rectangles arranged per format. No images.
-function Wireframe({ shape }: { shape: FormatItem["shape"] }) {
-  if (shape === "one-pager") {
-    return (
-      <Frame>
-        <div className="h-9 rounded-sm bg-accent/30" />
-        <div className="h-2 w-2/3 rounded-sm bg-fg/15" />
-        <div className="h-2 w-1/2 rounded-sm bg-fg/10" />
-        <div className="mt-1 h-12 rounded-sm bg-fg/[0.07]" />
-        <div className="grid grid-cols-3 gap-1.5">
-          <div className="h-7 rounded-sm bg-fg/[0.07]" />
-          <div className="h-7 rounded-sm bg-fg/[0.07]" />
-          <div className="h-7 rounded-sm bg-fg/[0.07]" />
-        </div>
-        <div className="mt-auto h-5 rounded-sm bg-accent/70" />
-      </Frame>
-    );
-  }
-
-  if (shape === "klasik") {
-    return (
-      <Frame>
-        <div className="flex gap-1">
-          <div className="h-2 w-8 rounded-sm bg-fg/30" />
-          <div className="ml-auto flex gap-1">
-            <div className="h-2 w-5 rounded-sm bg-fg/15" />
-            <div className="h-2 w-5 rounded-sm bg-fg/15" />
-            <div className="h-2 w-5 rounded-sm bg-accent/40" />
-          </div>
-        </div>
-        <div className="mt-1 h-10 rounded-sm bg-fg/[0.07]" />
-        <div className="h-2 w-3/5 rounded-sm bg-fg/15" />
-        <div className="grid grid-cols-2 gap-1.5">
-          <div className="h-10 rounded-sm bg-fg/[0.07]" />
-          <div className="h-10 rounded-sm bg-fg/[0.07]" />
-        </div>
-        <div className="mt-auto flex justify-between text-[7px]">
-          <span className="h-1.5 w-6 rounded-sm bg-fg/15" />
-          <span className="h-1.5 w-6 rounded-sm bg-fg/15" />
-          <span className="h-1.5 w-6 rounded-sm bg-fg/15" />
-        </div>
-      </Frame>
-    );
-  }
-
-  if (shape === "portfolio") {
-    return (
-      <Frame>
-        <div className="h-2 w-1/3 rounded-sm bg-fg/30" />
-        <div className="grid grid-cols-3 gap-1.5">
-          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
-          <div className="aspect-square rounded-sm bg-accent/25" />
-          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
-          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
-          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
-          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
-        </div>
-        <div className="mt-auto h-2 w-1/2 rounded-sm bg-fg/15" />
-      </Frame>
-    );
-  }
-
-  // ecommerce
-  return (
-    <Frame>
-      <div className="flex items-center justify-between">
-        <div className="h-2 w-10 rounded-sm bg-fg/30" />
-        <div className="flex h-4 w-4 items-center justify-center rounded-full bg-accent/40 text-[8px] font-semibold text-white">
-          ●
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-1.5">
-        <div className="flex flex-col gap-1">
-          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
-          <div className="h-1.5 w-3/4 rounded-sm bg-fg/15" />
-          <div className="h-1.5 w-1/3 rounded-sm bg-accent/50" />
-        </div>
-        <div className="flex flex-col gap-1">
-          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
-          <div className="h-1.5 w-2/3 rounded-sm bg-fg/15" />
-          <div className="h-1.5 w-1/3 rounded-sm bg-accent/50" />
-        </div>
-        <div className="flex flex-col gap-1">
-          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
-          <div className="h-1.5 w-3/5 rounded-sm bg-fg/15" />
-          <div className="h-1.5 w-1/3 rounded-sm bg-accent/50" />
-        </div>
-        <div className="flex flex-col gap-1">
-          <div className="aspect-square rounded-sm bg-fg/[0.07]" />
-          <div className="h-1.5 w-3/4 rounded-sm bg-fg/15" />
-          <div className="h-1.5 w-1/3 rounded-sm bg-accent/50" />
-        </div>
-      </div>
-      <div className="mt-auto h-4 rounded-sm bg-accent/70" />
-    </Frame>
-  );
-}
 
 export function Format() {
   const [selected, setSelected] = useState(0);
   const current = formats[selected];
 
   return (
-    <section id="formati" className="relative bg-canvas-raised py-16 sm:py-24">
+    <section id="punet" className="relative bg-canvas-raised py-16 sm:py-24">
       <Container>
         <SectionHeading
-          label="formati"
+          label="puna & formati"
           title={
             <>
               Cili format i përshtatet{" "}
               <span className="text-gradient">markës sate?</span>
             </>
           }
-          lede="Para se të nisim, zgjedhim së bashku formën që i shërben më mirë qëllimit tënd. Zgjidh një opsion më poshtë për të parë se si do të dukej."
+          lede="Zgjidh një strukturë më poshtë për të parë një shembull të plotë të saj. Pamjet janë ilustruese — portofolin me faqe reale klientësh e ndajmë me kërkesë."
         />
 
         <div className="mt-8 grid grid-cols-12 gap-x-8 gap-y-8 sm:mt-10 lg:gap-x-12">
@@ -218,7 +142,7 @@ export function Format() {
                   <button
                     type="button"
                     aria-pressed={isActive}
-                    aria-controls="formati-preview"
+                    aria-controls="punet-preview"
                     onClick={() => setSelected(i)}
                     className={cn(
                       "group flex w-full items-center gap-4 rounded-xl px-5 py-4 text-left transition-all duration-300 min-h-[64px]",
@@ -260,7 +184,7 @@ export function Format() {
 
           {/* Preview panel — right column on desktop, below picker on mobile */}
           <div
-            id="formati-preview"
+            id="punet-preview"
             aria-live="polite"
             className="col-span-12 flex flex-col gap-5 lg:col-span-7 lg:sticky lg:top-24"
           >
@@ -270,7 +194,17 @@ export function Format() {
 
             <div className="grid grid-cols-12 gap-x-6 gap-y-5">
               <div className="col-span-12 sm:col-span-6">
-                <Wireframe shape={current.shape} />
+                {/* key: forces a fresh WorkCard per format so its <dialog>
+                    never holds the previous example's markup. */}
+                <WorkCard
+                  key={current.example.domain}
+                  domain={current.example.domain}
+                  tag={current.tag}
+                  title={current.example.label}
+                  caption={current.example.caption}
+                >
+                  {current.example.preview}
+                </WorkCard>
               </div>
 
               <ul className="col-span-12 flex flex-col gap-2 sm:col-span-6 sm:self-center">

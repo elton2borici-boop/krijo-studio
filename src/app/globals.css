@@ -305,7 +305,9 @@ body {
 
 .hero-wall-inner {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  /* Four rather than five: wider columns mean bigger, more legible page
+     mockups, which is the point of the wall. */
+  grid-template-columns: repeat(4, 1fr);
   /* Each column must size to its OWN content. Grid items stretch by default,
      which made every column adopt the tallest one's height — and since
      translateY(-50%) resolves against the element's own height, that put the
@@ -363,7 +365,7 @@ body {
 .hero-wall-col-2 { --drift: 33s; animation-direction: reverse; }
 .hero-wall-col-3 { --drift: 28s; }
 .hero-wall-col-4 { --drift: 38s; animation-direction: reverse; }
-.hero-wall-col-5 { --drift: 30s; }
+.hero-wall-col-5 { display: none; }
 
 /* Phones and tablets: keep the wall, drop to three columns. The animation is
    transform-only so it composites on mobile GPUs too, but fewer columns means

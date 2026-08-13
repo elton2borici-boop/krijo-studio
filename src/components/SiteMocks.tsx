@@ -1,30 +1,17 @@
-import { Container } from "./ui/Container";
-import { SectionHeading } from "./ui/SectionHeading";
-import { WorkCard } from "./WorkCard";
-
 /**
- * Compact showcase: three illustrative mini-sites rendered as styled mocks
- * (real micro-copy, not grey skeletons) inside small browser frames.
- * Pure CSS/text — no images. Horizontal snap-scroll on mobile; each card
- * opens to ~2x in a native dialog (see WorkCard) because the micro-copy is
- * illegible at card size.
+ * Illustrative mini-sites, drawn in CSS at ~360px with 6-13px type.
+ *
+ * These live apart from any one section because the format picker shows them
+ * as worked examples of each structure. They are inventions, not client work,
+ * and the copy around them says so.
  */
-
-type Work = {
-  id: string;
-  domain: string;
-  tag: string;
-  title: string;
-  caption: string;
-  preview: React.ReactNode;
-};
 
 /* Mock 1 — gastronomi: foto-first, menu e lexueshme, rezervim i dukshëm.
    The old version leaned on a dark chocolate gradient panel that read as mud
    against the light page and dated the whole section. Same restaurant, same
    structure — now a single clay accent on warm paper, with the hero band
    carrying an actual dish rather than a brown rectangle. */
-function GastroPreview() {
+export function GastroPreview() {
   return (
     <div className="flex h-full flex-col bg-[#fdfaf5] text-[#2a2118]">
       <div className="flex items-center justify-between border-b border-[#2a2118]/10 px-4 py-2.5">
@@ -77,7 +64,7 @@ function GastroPreview() {
 }
 
 /* Mock 2 — profesion serioz: tipografi e qetë, shërbime të qarta, takim i lehtë. */
-function LawPreview() {
+export function LawPreview() {
   return (
     <div className="flex h-full flex-col bg-[#f4f4f1] text-[#1a2420]">
       <div className="flex items-center justify-between border-b border-[#1a2420]/12 px-4 py-2.5">
@@ -116,7 +103,7 @@ function LawPreview() {
 }
 
 /* Mock 3 — dyqan online: blerje e shpejtë nga telefoni, çmime të dukshme. */
-function ShopPreview() {
+export function ShopPreview() {
   return (
     <div className="flex h-full flex-col bg-white text-[#221c18]">
       <div className="flex items-center justify-between px-4 py-2.5">
@@ -154,83 +141,31 @@ function ShopPreview() {
   );
 }
 
-const works: Work[] = [
-  {
-    id: "gastro",
-    domain: "buke-vere.al",
-    tag: "Gastronomi",
-    title: "Restorant në Tiranë",
-    caption: "Menu e lexueshme në telefon dhe rezervim i dukshëm kudo.",
-    preview: <GastroPreview />,
-  },
-  {
-    id: "ligj",
-    domain: "avokatura-arta.al",
-    tag: "Profesion i lirë",
-    title: "Studio ligjore",
-    caption: "Tipografi e qetë dhe shërbime të ndara qartë — besim që në lexim të parë.",
-    preview: <LawPreview />,
-  },
-  {
-    id: "dyqan",
-    domain: "atelier12.al",
-    tag: "E-commerce",
-    title: "Dyqan artizanal online",
-    caption: "Produkte, çmime dhe blerje e shpejtë — e menduar së pari për telefonin.",
-    preview: <ShopPreview />,
-  },
-];
-
-export function Portfolio() {
-  // No border-t on this section: the hero's wall fades out exactly here, and a
-  // 1px rule across that dissolve reinstated the hard edge the fade exists to
-  // remove. The change of background colour is the section break.
+/* Mock 4 — portfolio vizual: fotografia mban faqen, teksti hapet mënjanë. */
+export function StudioPreview() {
   return (
-    <section id="punet" className="relative py-16 sm:py-24">
-      <Container>
-        <SectionHeading
-          label="punë të përzgjedhura"
-          title={
-            <>
-              Tri struktura, tri qëllime{" "}
-              <span className="text-gradient">të ndryshme.</span>
-            </>
-          }
-          lede="Pamje ilustrative që tregojnë si e ndërtojmë strukturën sipas qëllimit të biznesit. Portofolin e plotë, me faqe reale klientësh, e ndajmë me kërkesë."
-        />
-
-        {/* Desktop: 3-up grid. Mobile: horizontal snap-scroll, one card ~85vw. */}
-        <div className="-mx-6 mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-2 sm:mx-0 sm:px-0 lg:grid lg:grid-cols-3 lg:gap-8 lg:overflow-visible lg:pb-0">
-          {works.map((w) => (
-            <WorkCard
-              key={w.id}
-              domain={w.domain}
-              tag={w.tag}
-              title={w.title}
-              caption={w.caption}
-            >
-              {w.preview}
-            </WorkCard>
-          ))}
-        </div>
-
-        {/* Swipe affordance — see the matching hint in Pricing. */}
-        <p
-          aria-hidden
-          className="mt-3 flex items-center justify-center gap-2 text-[12px] font-medium text-fg-muted lg:hidden"
-        >
-          <span>←</span> rrëshqit · prek një shembull për ta zmadhuar <span>→</span>
-        </p>
-
-        <div className="mt-8 flex justify-end">
-          <a
-            href="#kontakt"
-            className="link-underline text-[13.5px] font-medium text-fg"
-          >
-            Bisedoni për një ide të ngjashme →
-          </a>
-        </div>
-      </Container>
-    </section>
+    <div className="flex h-full flex-col bg-[#f7f6f4] text-[#1d1c1a]">
+      <div className="flex items-center justify-between px-4 py-2.5">
+        <span className="serif text-[10.5px] font-semibold tracking-tight">
+          Elira Nushi
+        </span>
+        <span className="flex items-center gap-2.5 text-[6.5px] uppercase tracking-[0.12em] text-[#1d1c1a]/55">
+          <span>Punët</span>
+          <span>Rreth meje</span>
+          <span className="border-b border-[#1d1c1a]/40">Kontakt</span>
+        </span>
+      </div>
+      <div className="px-4 pb-1.5">
+        <span className="text-[6px] uppercase tracking-[0.2em] text-[#1d1c1a]/50">
+          Fotografe · Tiranë
+        </span>
+      </div>
+      {/* Uneven grid: a portfolio should look composed, not tabulated. */}
+      <div className="grid flex-1 grid-cols-3 grid-rows-2 gap-1.5 px-4 pb-3">
+        <div className="col-span-2 row-span-2 rounded-sm bg-[#8f8778]" />
+        <div className="rounded-sm bg-[#bdb4a6]" />
+        <div className="rounded-sm bg-[#6f6a62]" />
+      </div>
+    </div>
   );
 }

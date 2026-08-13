@@ -71,7 +71,6 @@ export function Footer() {
                 { label: "Çmimet", href: "#cmimet" },
                 { label: "Shërbimet", href: "#sherbimet" },
                 { label: "Procesi", href: "#procesi" },
-                { label: "Si punojmë", href: "#pse-ne" },
               ],
             },
             {

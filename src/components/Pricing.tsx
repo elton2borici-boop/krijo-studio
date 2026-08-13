@@ -123,16 +123,14 @@ export function Pricing() {
             <div
               key={p.id}
               className={cn(
-                // No hover-lift here on purpose. A lift reads as "this whole
-                // thing is clickable", and a pricing card is not — its button
-                // is. The lift now appears only on things that actually
-                // respond to a click, which stops it being a page-wide tic and
-                // makes it mean something where it survives. These cards get a
-                // border shift instead: present, but not a promise.
-                "group card-spot relative flex w-[84vw] shrink-0 snap-center flex-col rounded-2xl p-6 transition-colors duration-300 sm:w-[400px] lg:w-auto",
+                // The hover-lift lives here and nowhere else. It was on four
+                // different kinds of card, which made it read as decoration;
+                // confined to the one section where you are actively comparing
+                // and choosing, it reads as "pick me" again.
+                "group card-spot relative flex w-[84vw] shrink-0 snap-center flex-col rounded-2xl p-6 transition-transform duration-300 sm:w-[400px] lg:w-auto lg:hover:-translate-y-1.5",
                 p.starred
-                  ? "glass-strong border-accent shadow-[0_20px_48px_-18px_rgba(31,95,191,0.35)] lg:-mt-6 lg:scale-[1.06] lg:p-7"
-                  : "glass card-quiet hover:border-hairline-strong"
+                  ? "glass-strong border-accent shadow-[0_20px_48px_-18px_rgba(31,95,191,0.35)] lg:-mt-3 lg:scale-[1.03] lg:p-7"
+                  : "glass card-quiet"
               )}
             >
               {/* Accent hairline draws in on hover. Clipped to the rounded top
@@ -167,7 +165,7 @@ export function Pricing() {
               <div className="mt-5 flex flex-wrap items-baseline gap-x-2 gap-y-1 border-y border-hairline py-3.5">
                 <CountUp
                   value={Number(p.price)}
-                  className="serif tnum text-[clamp(34px,5vw,44px)] font-bold leading-none tracking-tight text-gradient"
+                  className="serif tnum text-[clamp(28px,3.8vw,36px)] font-bold leading-none tracking-tight text-gradient"
                 />
                 <span className="text-[13px] font-medium text-fg-muted">
                   {p.unit}

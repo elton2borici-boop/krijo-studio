@@ -55,7 +55,6 @@ const steps = [
 
 export function Process() {
   const [active, setActive] = useState(0);
-  const current = steps[active];
 
   function onKeyDown(e: React.KeyboardEvent) {
     const delta =
@@ -98,7 +97,7 @@ export function Process() {
       <Container>
         <div className="flex flex-col gap-4 sm:gap-5">
           <Eyebrow>procesi</Eyebrow>
-          <h2 className="serif max-w-3xl text-balance text-[1.9rem] font-bold leading-[1.05] tracking-[-0.015em] text-fg sm:text-[2.2rem] lg:text-[2.5rem]">
+          <h2 className="serif max-w-3xl text-balance text-[1.9rem] font-bold leading-[1.05] tracking-[0.012em] text-fg sm:text-[2.2rem] lg:text-[2.5rem]">
             Nga ideja te publikimi — <span className="text-gradient">katër hapa.</span>
           </h2>
           <p className="max-w-2xl text-[15px] leading-relaxed text-fg-muted">
@@ -171,16 +170,36 @@ export function Process() {
           </ol>
         </div>
 
+        {/* Every step is rendered, stacked into one grid cell, with only the
+            active one visible. The grid sizes to the TALLEST step, so the
+            panel — and therefore the section — keeps one height no matter
+            which step is selected.
+
+            Without this, each step's detail is a different length, the section
+            grows and shrinks as you click, and the `fill` background image
+            re-covers to the new box: the photo appears to zoom on every step
+            change. Stable height is what stops that. */}
         <div
           id="hap-detajet"
           role="tabpanel"
           aria-live="polite"
-          className="mt-8 max-w-2xl rounded-2xl glass p-6 sm:mt-10 sm:p-8"
+          className="mt-8 grid max-w-2xl rounded-2xl glass p-6 sm:mt-10 sm:p-8"
         >
-          <p className="text-[16px] leading-relaxed text-fg">{current.text}</p>
-          <p className="mt-3 text-[14.5px] leading-relaxed text-fg-muted">
-            {current.detail}
-          </p>
+          {steps.map((s, i) => (
+            <div
+              key={s.n}
+              aria-hidden={i !== active}
+              className={cn(
+                "[grid-area:1/1] transition-opacity duration-300",
+                i === active ? "opacity-100" : "invisible opacity-0"
+              )}
+            >
+              <p className="text-[16px] leading-relaxed text-fg">{s.text}</p>
+              <p className="mt-3 text-[14.5px] leading-relaxed text-fg-muted">
+                {s.detail}
+              </p>
+            </div>
+          ))}
         </div>
       </Container>
     </section>

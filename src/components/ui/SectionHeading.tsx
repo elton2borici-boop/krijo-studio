@@ -32,7 +32,7 @@ export function SectionHeading({
       <Eyebrow>{label}</Eyebrow>
       <h2
         className={cn(
-          "serif max-w-4xl text-balance font-bold leading-[1.04] tracking-[-0.015em] text-fg",
+          "serif max-w-4xl text-balance font-bold leading-[1.04] tracking-[0.012em] text-fg",
           size === "lg"
             ? "text-[2.3rem] sm:text-[3rem] lg:text-[3.7rem]"
             : "text-[1.8rem] sm:text-[2.05rem] lg:text-[2.3rem]"

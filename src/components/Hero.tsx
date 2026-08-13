@@ -43,9 +43,9 @@ export function Hero() {
   return (
     <section
       ref={sectionRef}
-      /* Shorter than the dark version: empty space on a near-white ground reads
-         as unfinished, where on true black it read as atmosphere. */
-      className="relative isolate flex min-h-[74vh] items-center overflow-hidden bg-canvas pt-28 pb-16"
+      /* Taller again now that the wall fills the space — empty ground read as
+         unfinished, a drifting wall does not. */
+      className="relative isolate flex min-h-[88vh] items-center overflow-hidden bg-canvas pt-28 pb-24"
     >
       {/* Wall of drifting page layouts, behind everything. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-30">
@@ -77,13 +77,22 @@ export function Hero() {
           so touch devices never paint it at all. */}
       <div ref={spotRef} aria-hidden className="spotlight -z-10" />
 
+      {/* Colour hand-off. The hero sits on `canvas` and the section below on
+          `canvas-raised`; butting them together drew a visible horizontal
+          seam across the full width. This ramps one into the other so the
+          boundary is a transition rather than a line. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-canvas-raised"
+      />
+
       <Container>
         <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
           <p className="inline-flex items-center gap-2 rounded-md border border-hairline bg-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-fg-muted">
             Studio krijuese · Tiranë
           </p>
 
-          <h1 className="serif mt-7 text-balance text-[clamp(2.5rem,6vw,4rem)] font-extrabold leading-[0.98] tracking-[-0.012em] text-fg">
+          <h1 className="serif mt-7 text-balance text-[clamp(2.5rem,6vw,4rem)] font-extrabold leading-[0.98] tracking-[0.015em] text-fg">
             Krijojmë faqe që{" "}
             <span className="text-gradient">punojnë.</span>
           </h1>

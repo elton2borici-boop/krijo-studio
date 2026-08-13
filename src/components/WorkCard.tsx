@@ -117,7 +117,10 @@ function BrowserFrame({
       className={cn(
         "overflow-hidden rounded-xl border border-hairline bg-canvas-raised shadow-[0_10px_30px_-14px_rgba(21,24,29,0.18)]",
         interactive &&
-          "transition-[transform,box-shadow,border-color] duration-500 ease-out group-hover:-translate-y-1.5 group-hover:border-accent/40 group-hover:shadow-[0_22px_50px_-20px_rgba(31,95,191,0.28)]"
+          // No lift: that gesture now belongs to the pricing cards alone.
+          // The border and shadow still respond, so the frame still reads as
+          // something you can click.
+          "transition-[box-shadow,border-color] duration-500 ease-out group-hover:border-accent/50 group-hover:shadow-[0_18px_44px_-20px_rgba(31,95,191,0.3)]"
       )}
     >
       <div className="flex items-center gap-2 px-3 py-2">

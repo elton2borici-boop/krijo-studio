@@ -97,7 +97,7 @@ export function Contact() {
           <div className="col-span-12 lg:col-span-5">
             <Eyebrow className="mb-5">kontakt</Eyebrow>
 
-            <h2 className="serif text-balance text-[clamp(2.4rem,5.5vw,4.2rem)] font-extrabold leading-[1] tracking-[-0.015em] text-fg">
+            <h2 className="serif text-balance text-[clamp(2.4rem,5.5vw,4.2rem)] font-extrabold leading-[1] tracking-[0.012em] text-fg">
               Le të <span className="text-gradient">flasim.</span><br />
               Një kafe ose<br />
               një email.

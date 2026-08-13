@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { Container } from "./ui/Container";
+import { HeroWall } from "./HeroWall";
 
 /**
  * Liquid Spotlight hero — type-forward on a true-black field.
@@ -26,8 +27,9 @@ export function Hero() {
       const y = e.clientY - r.top;
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
-        spot.style.setProperty("--mx", `${x}px`);
-        spot.style.setProperty("--my", `${y}px`);
+        // Transform only — never touch the gradient's position, which would
+        // repaint the whole hero on every frame.
+        spot.style.transform = `translate3d(${x}px, ${y}px, 0)`;
       });
     };
 
@@ -45,9 +47,15 @@ export function Hero() {
          as unfinished, where on true black it read as atmosphere. */
       className="relative isolate flex min-h-[74vh] items-center overflow-hidden bg-canvas pt-28 pb-16"
     >
+      {/* Wall of drifting page layouts, behind everything. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-30">
+        <HeroWall />
+      </div>
+
       {/* Drifting gradient-mesh blobs. On a light ground these are washes, not
           glows — at the old 0.45–0.55 alpha they turned the page into a blue
-          gradient and buried the headline. */}
+          gradient and buried the headline. They sit over the wall so the whole
+          composition picks up the same tint. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-20">
         <div
           className="mesh-blob mesh-a absolute -left-[12%] -top-[20%] h-[72vh] w-[72vh] rounded-full"
@@ -65,19 +73,9 @@ export function Hero() {
         />
       </div>
 
-      {/* Dot grid, radial-masked at the edges */}
-      <div aria-hidden className="dot-grid pointer-events-none absolute inset-0 -z-10" />
-
-      {/* Cursor-tracking spotlight */}
-      <div
-        ref={spotRef}
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(440px circle at var(--mx, 50%) var(--my, 35%), rgba(31,95,191,0.07), transparent 60%)",
-        }}
-      />
+      {/* Cursor-tracking spotlight — parked off-screen until the pointer moves,
+          so touch devices never paint it at all. */}
+      <div ref={spotRef} aria-hidden className="spotlight -z-10" />
 
       <Container>
         <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">

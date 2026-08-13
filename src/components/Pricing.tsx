@@ -2,6 +2,7 @@
 
 import { Container } from "./ui/Container";
 import { SectionHeading } from "./ui/SectionHeading";
+import { CountUp } from "./ui/CountUp";
 import { cn } from "@/lib/utils";
 
 type Plan = {
@@ -158,9 +159,10 @@ export function Pricing() {
               </p>
 
               <div className="mt-5 flex flex-wrap items-baseline gap-x-2 gap-y-1 border-y border-hairline py-3.5">
-                <span className="serif tnum text-[clamp(34px,5vw,44px)] font-bold leading-none tracking-tight text-gradient">
-                  {p.price}
-                </span>
+                <CountUp
+                  value={Number(p.price)}
+                  className="serif tnum text-[clamp(34px,5vw,44px)] font-bold leading-none tracking-tight text-gradient"
+                />
                 <span className="text-[13px] font-medium text-fg-muted">
                   {p.unit}
                 </span>

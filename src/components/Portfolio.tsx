@@ -1,10 +1,13 @@
 import { Container } from "./ui/Container";
 import { SectionHeading } from "./ui/SectionHeading";
+import { WorkCard } from "./WorkCard";
 
 /**
  * Compact showcase: three illustrative mini-sites rendered as styled mocks
  * (real micro-copy, not grey skeletons) inside small browser frames.
- * Pure CSS/text — no images, no client JS. Horizontal snap-scroll on mobile.
+ * Pure CSS/text — no images. Horizontal snap-scroll on mobile; each card
+ * opens to ~2x in a native dialog (see WorkCard) because the micro-copy is
+ * illegible at card size.
  */
 
 type Work = {
@@ -16,61 +19,47 @@ type Work = {
   preview: React.ReactNode;
 };
 
-function BrowserFrame({
-  domain,
-  children,
-}: {
-  domain: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="overflow-hidden rounded-xl border border-hairline bg-canvas-raised shadow-[0_10px_30px_-14px_rgba(21,24,29,0.18)] transition-[transform,box-shadow,border-color] duration-500 ease-out group-hover:-translate-y-1.5 group-hover:border-accent/40 group-hover:shadow-[0_22px_50px_-20px_rgba(31,95,191,0.28)]">
-      <div className="flex items-center gap-2 px-3 py-2">
-        <span className="flex gap-1.5" aria-hidden>
-          <span className="size-2 rounded-full bg-[#ff5f57]" />
-          <span className="size-2 rounded-full bg-[#febc2e]" />
-          <span className="size-2 rounded-full bg-[#28c840]" />
-        </span>
-        <div className="min-w-0 flex-1 truncate rounded border border-hairline bg-white px-2.5 py-1 mono text-[9px] tracking-wide text-fg-muted">
-          https://{domain}
-        </div>
-      </div>
-      <div className="aspect-[4/3] overflow-hidden border-t border-hairline bg-white">
-        {/* Inner layer zooms slightly while the frame lifts — a subtle parallax. */}
-        <div className="h-full transition-transform duration-500 ease-out group-hover:scale-[1.03]">
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* Mock 1 — gastronomi: foto-first, menu e lexueshme, rezervim i dukshëm. */
+/* Mock 1 — gastronomi: foto-first, menu e lexueshme, rezervim i dukshëm.
+   The old version leaned on a dark chocolate gradient panel that read as mud
+   against the light page and dated the whole section. Same restaurant, same
+   structure — now a single clay accent on warm paper, with the hero band
+   carrying an actual dish rather than a brown rectangle. */
 function GastroPreview() {
   return (
-    <div className="flex h-full flex-col bg-[#faf6ef] text-[#241d15]">
-      <div className="flex items-center justify-between px-4 py-2.5">
+    <div className="flex h-full flex-col bg-[#fdfaf5] text-[#2a2118]">
+      <div className="flex items-center justify-between border-b border-[#2a2118]/10 px-4 py-2.5">
         <span className="serif text-[11px] font-semibold tracking-tight">Bukë &amp; Verë</span>
-        <span className="flex items-center gap-2.5 text-[6.5px] uppercase tracking-[0.12em] text-[#241d15]/60">
+        <span className="flex items-center gap-2.5 text-[6.5px] uppercase tracking-[0.12em] text-[#2a2118]/55">
           <span>Menuja</span>
           <span>Historia</span>
-          <span className="rounded-sm bg-[#8c3a22] px-1.5 py-0.5 text-white">Rezervo</span>
+          <span className="rounded-[3px] bg-[#a8451f] px-1.5 py-0.5 text-white">Rezervo</span>
         </span>
       </div>
-      <div className="relative mx-3 flex h-20 shrink-0 flex-col items-center justify-center overflow-hidden rounded-sm bg-gradient-to-br from-[#3d2c1e] via-[#5a3f28] to-[#2b1f15] text-center">
-        <span className="serif text-[13px] font-semibold leading-tight text-[#f3e9da]">
-          Kuzhinë shqiptare,
-          <br />
-          me zjarr të ngadaltë.
-        </span>
-        <span className="mt-1 text-[6px] uppercase tracking-[0.2em] text-[#f3e9da]/70">
-          Tiranë · që nga 2012
-        </span>
+
+      <div className="relative mx-3 mt-2.5 flex h-[70px] shrink-0 items-center gap-2.5 overflow-hidden rounded-[3px] bg-[#f3e7d6] px-3">
+        <div className="min-w-0 flex-1">
+          <span className="serif block text-[11.5px] font-semibold leading-tight text-[#2a2118]">
+            Kuzhinë shqiptare,
+            <br />
+            me zjarr të ngadaltë.
+          </span>
+          <span className="mt-1 block text-[6px] uppercase tracking-[0.2em] text-[#a8451f]">
+            Tiranë · që nga 2012
+          </span>
+        </div>
+        {/* Stand-in for the dish photograph that would sit here on a real build. */}
+        <div className="grid shrink-0 grid-cols-2 gap-1" aria-hidden>
+          <span className="size-[19px] rounded-[2px] bg-[#c9a882]" />
+          <span className="size-[19px] rounded-[2px] bg-[#a8451f]/75" />
+          <span className="size-[19px] rounded-[2px] bg-[#8a9a6b]" />
+          <span className="size-[19px] rounded-[2px] bg-[#d9c4a3]" />
+        </div>
       </div>
-      <div className="flex-1 px-4 pt-2.5">
-        <div className="flex items-baseline justify-between border-b border-[#241d15]/15 pb-1">
+
+      <div className="flex-1 px-4 pt-3">
+        <div className="flex items-baseline justify-between border-b border-[#2a2118]/12 pb-1">
           <span className="text-[7.5px] font-semibold uppercase tracking-[0.14em]">Menuja e ditës</span>
-          <span className="text-[6.5px] text-[#8c3a22]">Shiko të plotën →</span>
+          <span className="text-[6.5px] text-[#a8451f]">Shiko të plotën →</span>
         </div>
         {[
           ["Tavë kosi me mish qengji", "9.50 €"],
@@ -79,7 +68,7 @@ function GastroPreview() {
         ].map(([dish, price]) => (
           <div key={dish} className="flex items-baseline justify-between py-[3px] text-[7px]">
             <span>{dish}</span>
-            <span className="tnum font-semibold text-[#8c3a22]">{price}</span>
+            <span className="tnum font-semibold text-[#a8451f]">{price}</span>
           </div>
         ))}
       </div>
@@ -193,8 +182,11 @@ const works: Work[] = [
 ];
 
 export function Portfolio() {
+  // No border-t on this section: the hero's wall fades out exactly here, and a
+  // 1px rule across that dissolve reinstated the hard edge the fade exists to
+  // remove. The change of background colour is the section break.
   return (
-    <section id="punet" className="relative border-t border-hairline py-16 sm:py-24">
+    <section id="punet" className="relative py-16 sm:py-24">
       <Container>
         <SectionHeading
           label="punë të përzgjedhura"
@@ -210,23 +202,15 @@ export function Portfolio() {
         {/* Desktop: 3-up grid. Mobile: horizontal snap-scroll, one card ~85vw. */}
         <div className="-mx-6 mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-2 sm:mx-0 sm:px-0 lg:grid lg:grid-cols-3 lg:gap-8 lg:overflow-visible lg:pb-0">
           {works.map((w) => (
-            <article
+            <WorkCard
               key={w.id}
-              className="group w-[82vw] max-w-[360px] shrink-0 snap-start lg:w-auto lg:max-w-none"
+              domain={w.domain}
+              tag={w.tag}
+              title={w.title}
+              caption={w.caption}
             >
-              <BrowserFrame domain={w.domain}>{w.preview}</BrowserFrame>
-              <div className="mt-4 flex items-baseline justify-between gap-3">
-                <h3 className="serif text-[18px] font-semibold tracking-tight text-fg">
-                  {w.title}
-                </h3>
-                <span className="shrink-0 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-accent">
-                  {w.tag}
-                </span>
-              </div>
-              <p className="mt-1.5 text-[13.5px] leading-relaxed text-fg-muted">
-                {w.caption}
-              </p>
-            </article>
+              {w.preview}
+            </WorkCard>
           ))}
         </div>
 
@@ -235,7 +219,7 @@ export function Portfolio() {
           aria-hidden
           className="mt-3 flex items-center justify-center gap-2 text-[12px] font-medium text-fg-muted lg:hidden"
         >
-          <span>←</span> rrëshqit për të tre shembujt <span>→</span>
+          <span>←</span> rrëshqit · prek një shembull për ta zmadhuar <span>→</span>
         </p>
 
         <div className="mt-8 flex justify-end">

@@ -5,6 +5,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { Container } from "./ui/Container";
 import { Eyebrow } from "./ui/Eyebrow";
+import { Photo } from "./ui/Photo";
 import { site, addressLine, telHref, whatsappHref } from "@/lib/site";
 
 const packages = [
@@ -105,6 +106,16 @@ export function Contact() {
             <p className="mt-7 max-w-md text-[16px] leading-[1.6] text-fg-muted">
               Plotëso formularin këtu ose na shkruaj drejtpërdrejt &mdash; përgjigjemi brenda 24 orësh, me një propozim falas e pa asnjë angazhim.
             </p>
+
+            {/* The headline offers a coffee; this is that coffee. */}
+            <Photo
+              src="/images/kafe.webp"
+              alt="Një espresso dhe një bloknot mbi tavolinën e një kafenaje në Tiranë."
+              width={1408}
+              height={690}
+              sizes="(min-width: 1024px) 460px, 100vw"
+              className="mt-9 rounded-2xl border border-hairline shadow-[0_10px_30px_-14px_rgba(21,24,29,0.18)]"
+            />
 
             <dl className="mt-12 flex flex-col gap-5 text-[14px]">
               {details.map((d) => (

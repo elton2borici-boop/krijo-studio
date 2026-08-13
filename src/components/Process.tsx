@@ -1,5 +1,6 @@
 import { Container } from "./ui/Container";
 import { Eyebrow } from "./ui/Eyebrow";
+import { Photo } from "./ui/Photo";
 
 /**
  * Four short steps on a dark band — the page's mid-point contrast moment.
@@ -49,7 +50,19 @@ export function Process() {
           </p>
         </div>
 
-        <ol className="mt-9 grid gap-4 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Wide band between the promise and the four steps: the annotated
+            layout sheet is the visual proof that "ndërtim" means drafting and
+            revising, not installing a template. */}
+        <Photo
+          src="/images/puna.webp"
+          alt="Pamje nga lart e tavolinës së punës: laptop, telefon me versionin mobil, dhe një skicë e faqes e shënuar me dorë."
+          width={1408}
+          height={388}
+          sizes="(min-width: 1240px) 1180px, 100vw"
+          className="mt-9 rounded-2xl border border-hairline shadow-[0_10px_30px_-14px_rgba(21,24,29,0.18)] sm:mt-12"
+        />
+
+        <ol className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((s) => (
             <li
               key={s.n}

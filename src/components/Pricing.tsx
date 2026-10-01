@@ -3,6 +3,7 @@
 import { Container } from "./ui/Container";
 import { SectionHeading } from "./ui/SectionHeading";
 import { CountUp } from "./ui/CountUp";
+import { contactHref, type PackageId } from "@/lib/offers";
 import { cn } from "@/lib/utils";
 
 type Plan = {
@@ -101,7 +102,7 @@ export function Pricing() {
   return (
     <section
       id="cmimet"
-      className="relative bg-canvas-raised py-16 sm:py-24"
+      className="relative scroll-mt-28 bg-canvas-raised py-16 sm:py-24"
     >
       <Container>
         <SectionHeading
@@ -189,7 +190,7 @@ export function Pricing() {
 
               <div className="mt-auto pt-6">
                 <a
-                  href="#kontakt"
+                  href={contactHref({ pako: p.id as PackageId })}
                   className={cn(
                     "inline-flex h-11 w-full items-center justify-between rounded-[10px] px-4 text-[13px] font-semibold transition-transform duration-300 lg:hover:-translate-y-0.5",
                     p.starred

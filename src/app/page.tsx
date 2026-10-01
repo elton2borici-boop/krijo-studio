@@ -4,7 +4,7 @@ import { Services } from "@/components/Services";
 import { Format } from "@/components/Format";
 import { Pricing } from "@/components/Pricing";
 import { Process } from "@/components/Process";
-import { Testimonials } from "@/components/Testimonials";
+import { Commitments } from "@/components/Commitments";
 import { Faq } from "@/components/Faq";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
@@ -14,20 +14,16 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      {/* Punët and Formati were one question asked twice — "what shape of site
-          do I need?" — so they are now a single section (Format.tsx, #punet)
-          where picking a structure shows a worked example of it.
-
-          It stays ahead of Çmimet: the hero promises work to look at, and
-          proof has to land before the offer does. Deleting the old Punët
-          section silently reversed that, which is worth guarding here. */}
+      {/* Formatet stays ahead of Çmimet: the hero promises a page in 5–7
+          days, and the visitor has to see which kind of page that is before
+          the price. The pictures are models of structure, not a portfolio. */}
       <main id="permbajtja" className="relative flex-1">
         <Hero />
         <Format />
         <Pricing />
         <Services />
         <Process />
-        <Testimonials />
+        <Commitments />
         <Faq />
         <Contact />
       </main>

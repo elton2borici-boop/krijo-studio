@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   title: "Krijo Studio — Faqe interneti, domain & mirëmbajtje në shqip",
   description:
-    "Studio e vogël dixhitale në Tiranë. Ndërtojmë faqe interneti me kujdes, regjistrojmë e konfigurojmë domain-e dhe i mirëmbajmë pa surpriza. Vetëm 4 pako, me çmime të hapura.",
+    "Faqe interneti për biznese të vogla në Shqipëri. Nga €299 me TVSH, e publikuar në 5–7 ditë pune. Domain, email dhe mirëmbajtje — katër pako, pa kosto të fshehura.",
   keywords: [
     "faqe interneti shqip",
     "krijim website Shqipëri",
@@ -43,9 +43,9 @@ export const metadata: Metadata = {
     "Krijo Studio",
   ],
   openGraph: {
-    title: "Krijo Studio — Faqe interneti për biznesin tënd",
+    title: "Krijo Studio — faqe e publikuar në 5–7 ditë",
     description:
-      "Studio e vogël dixhitale shqiptare. Faqe, domain, hosting, mirëmbajtje.",
+      "Nga €299 me TVSH. Faqe, domain dhe email për kafene, klinika, studio dhe dyqane në Shqipëri.",
     type: "website",
     locale: "sq_AL",
   },

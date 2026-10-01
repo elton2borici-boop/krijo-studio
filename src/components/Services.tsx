@@ -4,33 +4,33 @@ import { SectionHeading } from "./ui/SectionHeading";
 const services = [
   {
     title: "Krijim faqesh",
-    text:
-      "Faqe të ndërtuara nga zero: të menduara së pari për telefonin, të strukturuara që fotografitë të kenë vendin kryesor dhe me një bazë teknike të pastër për motorët e kërkimit.",
+    text: "Faqe e ndërtuar për telefonin: oferta ose menu, foto, dhe një mënyrë për të të telefonuar, rezervuar ose porositur.",
+    where: "Te Vetëm Faqja, Faqja + Domain dhe Gjithçka. Mirëmbajtja është për faqe që ekziston tashmë.",
   },
   {
-    title: "Domain & DNS",
-    text:
-      "Një adresë që i shkon markës tënde — e regjistrojmë, e lidhim dhe e konfigurojmë DNS-in, që email-i dhe faqja jote të punojnë së bashku.",
+    title: "Domain & email",
+    text: "Regjistrim .al ose .com për një vit, DNS i lidhur, dhe një adresë email me emrin e biznesit.",
+    where: "Te Faqja + Domain dhe te Gjithçka. Te Vetëm Faqja, domain-in dhe email-in i sjell ti.",
   },
   {
     title: "Hosting",
-    text:
-      "Hapësirë në Evropën Qendrore, afër audiencës sate, me SSL automatik dhe kopje rezervë të menaxhuara — që asnjë ndryshim i rëndësishëm të mos humbasë.",
+    text: "Server në Evropën Qendrore, certifikatë SSL dhe kopje rezervë, që faqja të hapet dhe ndryshimet të mos humbasin.",
+    where: "I përfshirë te Gjithçka. Te pakot e tjera, ose e ke tashmë, ose shtohet me mirëmbajtjen €29/muaj.",
   },
   {
     title: "Mirëmbajtje",
-    text:
-      "Pas lansimit: tekste të reja, foto, formularë — dhe kur diçka prishet, e rregullojmë para se ta vërejnë vizitorët.",
+    text: "Kopje rezervë çdo ditë, përditësime, rregullim defektesh dhe 2 ndryshime teksti ose fotoje në muaj.",
+    where: "€29/muaj, pa kontratë vjetore. Te Gjithçka është e përfshirë, pastaj €39/muaj.",
   },
   {
-    title: "Identitet vizual bazë",
-    text:
-      "Kur lidhet drejtpërdrejt me një faqe të re: paletë, tipografi, logo kryesore dhe një udhëzues i shkurtër përdorimi që e mban markën konsistente në çdo kanal.",
+    title: "Logo dhe ngjyra",
+    text: "Paletë, tipografi dhe një logo kryesore, vetëm kur biznesi nuk ka ende një.",
+    where: "Nuk hyn në pakot standarde. E çmojmë veç, para se të nisim faqen.",
   },
   {
     title: "SEO & analitika",
-    text:
-      "Të dhëna të strukturuara mirë dhe një arkitekturë e qartë faqesh që e ndihmon kërkimin — bashkë me një raport bazë mbi metrikat kryesore.",
+    text: "Çdo faqe e re ka titull, përshkrim dhe strukturë që Google e lexon. Raporti i vizitave tregon sa njerëz erdhën dhe nga ku.",
+    where: "SEO bazë është në çdo faqe të re. SEO i avancuar, Google Ads dhe blog janë vetëm te Gjithçka.",
   },
 ];
 
@@ -38,19 +38,15 @@ export function Services() {
   return (
     <section
       id="sherbimet"
-      className="relative bg-canvas py-16 sm:py-24"
+      className="relative scroll-mt-28 bg-canvas py-16 sm:py-24"
     >
       <Container>
         <SectionHeading
           label="shërbimet"
-          title="Gjashtë fusha, të mbuluara në çdo projekt"
-          lede="Nëse diçka del jashtë kësaj liste, e diskutojmë së bashku para se të nisim."
+          title="Çfarë hyn në punë — dhe ku jo"
+          lede="Jo të gjashta janë në çdo pako. Te secila është shkruar se ku fillon."
         />
 
-        {/* Two columns of compact cards rather than six full-width rows.
-            The ledger layout meant six vertical stops to learn six things,
-            which is what made this section feel like an endless scroll —
-            the content was never the problem, the shape was. */}
         <ul className="mt-8 grid gap-3 sm:mt-10 sm:grid-cols-2 lg:gap-4">
           {services.map((s, i) => (
             <li
@@ -70,10 +66,15 @@ export function Services() {
                 {s.text}
               </p>
 
+              <p className="mt-4 border-t border-hairline pt-3 text-[13px] leading-relaxed text-fg">
+                <span className="mr-1.5 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-fg-muted">
+                  Ku hyn
+                </span>
+                {s.where}
+              </p>
             </li>
           ))}
         </ul>
-
       </Container>
     </section>
   );

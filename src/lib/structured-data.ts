@@ -18,7 +18,7 @@ export function localBusinessJsonLd() {
     url: site.url,
     email: site.email,
     description:
-      "Studio e vogël dixhitale në Tiranë. Faqe interneti, domain, hosting dhe mirëmbajtje, me çmime të hapura.",
+      "Faqe interneti për biznese të vogla në Shqipëri. Nga €299 me TVSH, e publikuar në 5–7 ditë pune. Domain, email dhe mirëmbajtje.",
     inLanguage: "sq",
     areaServed: { "@type": "Country", name: "Shqipëri" },
     priceRange: "€29–€799",

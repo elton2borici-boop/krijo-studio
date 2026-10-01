@@ -77,8 +77,8 @@ export default function PrivacyPage() {
               ← kthehu në faqen kryesore
             </Link>
 
-            <h1 className="serif mt-8 text-balance text-[clamp(2.2rem,5vw,3.2rem)] font-extrabold leading-[1.05] tracking-[0.012em] text-fg">
-              Politika e <span className="text-gradient">privatësisë.</span>
+            <h1 className="serif mt-8 text-balance text-[clamp(2.2rem,5vw,3.2rem)] font-semibold leading-[1.02] tracking-[-0.02em] text-fg">
+              Politika e <span className="italic text-gradient">privatësisë.</span>
             </h1>
 
             <p className="mt-6 text-[16px] leading-[1.7] text-fg-muted">

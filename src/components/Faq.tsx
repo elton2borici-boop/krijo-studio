@@ -30,13 +30,13 @@ const faqs = [
 
 export function Faq() {
   return (
-    <section id="faq" className="relative bg-canvas-raised py-16 sm:py-24">
+    <section id="faq" className="chapter-warm relative py-16 sm:py-24">
       <Container>
         <div className="grid grid-cols-12 gap-x-8 gap-y-12">
           <div className="col-span-12 lg:col-span-4">
             <Eyebrow className="mb-5">pyetjet</Eyebrow>
-            <h2 className="serif text-[1.9rem] font-bold leading-[1.06] tracking-tight text-fg sm:text-[2.3rem]">
-              Pyetjet që na <span className="text-gradient">bëjnë më shpesh.</span>
+            <h2 className="serif text-[1.9rem] font-semibold leading-[1.04] tracking-[-0.02em] text-fg sm:text-[2.3rem]">
+              Pyetjet që na <span className="italic text-gradient">bëjnë më shpesh.</span>
             </h2>
             <p className="mt-6 max-w-md text-[15px] leading-relaxed text-fg-muted">
               Nuk e gjete përgjigjen këtu? Na shkruaj me email — zakonisht
@@ -46,22 +46,26 @@ export function Faq() {
 
           <ul className="col-span-12 flex flex-col gap-3 lg:col-span-8">
             {faqs.map((f, i) => (
-              <li key={f.q} className="overflow-hidden rounded-xl glass">
+              <li key={f.q} className="overflow-hidden rounded-2xl glass">
                 <details className="group">
                   <summary className="grid w-full cursor-pointer list-none grid-cols-[32px_1fr_28px] items-start gap-x-3 px-5 py-5 text-left outline-none marker:content-none [&::-webkit-details-marker]:hidden">
                     <span className="mono tnum pt-1 text-[11px] text-accent">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="serif text-[18px] font-semibold leading-snug text-fg sm:text-[20px] lg:group-hover:text-accent">
+                    <span className="serif text-[18px] font-semibold leading-snug text-fg transition-colors duration-300 sm:text-[20px] lg:group-hover:text-accent">
                       {f.q}
                     </span>
-                    <span className="mono pt-0.5 text-right text-[17px] text-fg-muted transition-transform duration-150 group-open:rotate-45 group-open:text-accent">
+                    <span className="mono pt-0.5 text-right text-[17px] text-fg-muted transition-transform duration-300 ease-soft group-open:rotate-45 group-open:text-accent">
                       +
                     </span>
                   </summary>
-                  <p className="px-5 pb-5 pl-[52px] text-[15px] leading-relaxed text-fg-muted">
-                    {f.a}
-                  </p>
+                  <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-soft group-open:grid-rows-[1fr]">
+                    <div className="overflow-hidden">
+                      <p className="px-5 pb-5 pl-[52px] text-[15px] leading-relaxed text-fg-muted">
+                        {f.a}
+                      </p>
+                    </div>
+                  </div>
                 </details>
               </li>
             ))}

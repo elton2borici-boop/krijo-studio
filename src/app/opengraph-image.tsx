@@ -8,7 +8,7 @@ export const contentType = "image/png";
 /**
  * Generated at build/request time rather than shipped as a static PNG, so the
  * card stays in sync with the wordmark and the palette. Plain system type —
- * next/og would need the font binaries fetched to use Sora here.
+ * next/og would need the font binaries fetched to use Source Serif here.
  */
 export default async function Image() {
   return new ImageResponse(
@@ -20,7 +20,7 @@ export default async function Image() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#fbfaf7",
+          background: "#f6f2ea",
           padding: "72px 80px",
           position: "relative",
         }}
@@ -47,7 +47,7 @@ export default async function Image() {
             height: 580,
             borderRadius: "50%",
             background:
-              "radial-gradient(circle, rgba(91,63,212,0.13), rgba(251,250,247,0) 64%)",
+              "radial-gradient(circle, rgba(196,132,74,0.2), rgba(246,242,234,0) 64%)",
           }}
         />
 

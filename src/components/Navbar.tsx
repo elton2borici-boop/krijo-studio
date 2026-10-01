@@ -57,8 +57,10 @@ export function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-3 sm:px-6 sm:pt-4">
       <div
         className={cn(
-          "mx-auto flex w-full max-w-[1180px] items-center justify-between rounded-[14px] px-4 py-2.5 transition-all duration-300 sm:px-5",
-          scrolled ? "glass-nav" : "border border-transparent"
+          "mx-auto flex w-full max-w-[1180px] items-center justify-between rounded-full px-4 py-2.5 transition-all duration-500 ease-soft sm:px-5",
+          scrolled
+            ? "glass-nav"
+            : "border border-white/60 bg-white/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]"
         )}
       >
         <Logo />
@@ -73,7 +75,7 @@ export function Navbar() {
                     href={l.href}
                     aria-current={isActive ? "true" : undefined}
                     className={cn(
-                      "text-[14px] font-medium transition-colors hover:text-fg",
+                      "link-underline text-[14px] font-medium transition-colors duration-300 hover:text-fg",
                       isActive ? "text-accent" : "text-fg-muted"
                     )}
                   >
@@ -88,7 +90,7 @@ export function Navbar() {
         <div className="hidden lg:block">
           <a
             href="#kontakt"
-            className="inline-flex h-9 items-center rounded-[10px] bg-accent-deep px-4 text-[13.5px] font-semibold text-white shadow-[0_4px_14px_-6px_rgba(31,95,191,0.7)] transition-transform hover:-translate-y-0.5"
+            className="btn btn-primary btn-sm"
           >
             Kontakt
           </a>
@@ -99,7 +101,7 @@ export function Navbar() {
           aria-label={open ? "Mbyll menynë" : "Hap menynë"}
           aria-expanded={open}
           onClick={() => setOpen((o) => !o)}
-          className="inline-flex h-9 items-center rounded-[10px] border border-hairline-strong px-4 text-[13.5px] font-semibold text-fg lg:hidden"
+          className="inline-flex h-9 items-center rounded-full border border-hairline-strong bg-white/70 px-4 text-[13.5px] font-semibold text-fg lg:hidden"
         >
           {open ? "Mbyll" : "Menu"}
         </button>
@@ -108,7 +110,7 @@ export function Navbar() {
       {/* Opaque, not glass: this panel floats over the hero headline, and a 5%
           white fill leaves 60px display type legible straight through it. */}
       {open && (
-        <div className="mx-auto mt-2 max-w-[1180px] rounded-[14px] border border-hairline bg-white px-2 shadow-[0_20px_50px_-18px_rgba(21,24,29,0.25)] lg:hidden">
+        <div className="mx-auto mt-2 max-w-[1180px] rounded-3xl border border-hairline bg-white/95 px-2 shadow-[0_24px_60px_-24px_rgba(28,24,20,0.35)] backdrop-blur-md lg:hidden">
           <nav aria-label="Menuja për celular">
             <ul className="px-3 py-1">
               {links.map((l) => (
@@ -127,7 +129,7 @@ export function Navbar() {
                 <a
                   href="#kontakt"
                   onClick={() => setOpen(false)}
-                  className="flex h-11 w-full items-center justify-center rounded-[10px] bg-accent-deep text-[14px] font-semibold text-white"
+                  className="btn btn-primary w-full"
                 >
                   Kontakt
                 </a>

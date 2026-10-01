@@ -77,17 +77,17 @@ export function Contact() {
   return (
     <section
       id="kontakt"
-      className="relative isolate overflow-hidden bg-canvas py-20 sm:py-28"
+      className="relative isolate overflow-hidden py-20 sm:py-28"
     >
       {/* Mesh glow instead of a photo */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div
           className="mesh-blob mesh-a absolute -left-[10%] top-[10%] h-[55vh] w-[55vh] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(31,95,191,0.09), transparent 64%)" }}
+          style={{ background: "radial-gradient(circle, rgba(31,95,191,0.14), transparent 64%)" }}
         />
         <div
           className="mesh-blob mesh-b absolute -bottom-[20%] right-[-8%] h-[50vh] w-[50vh] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(91,63,212,0.07), transparent 66%)" }}
+          style={{ background: "radial-gradient(circle, rgba(196,132,74,0.14), transparent 66%)" }}
         />
       </div>
 
@@ -97,8 +97,8 @@ export function Contact() {
           <div className="col-span-12 lg:col-span-5">
             <Eyebrow className="mb-5">kontakt</Eyebrow>
 
-            <h2 className="serif text-balance text-[clamp(2.4rem,5.5vw,4.2rem)] font-extrabold leading-[1] tracking-[0.012em] text-fg">
-              Le të <span className="text-gradient">flasim.</span><br />
+            <h2 className="serif text-balance text-[clamp(2.6rem,5.6vw,4.6rem)] font-semibold leading-[0.98] tracking-[-0.02em] text-fg">
+              Le të <span className="italic text-gradient">flasim.</span><br />
               Një kafe ose<br />
               një email.
             </h2>
@@ -161,7 +161,7 @@ export function Contact() {
             {sent ? (
               <div className="flex h-full min-h-[480px] flex-col items-start justify-center rounded-2xl glass p-10">
                 <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">faleminderit ✓</span>
-                <h3 className="serif mt-5 text-[40px] font-extrabold leading-none text-fg">
+                <h3 className="serif mt-5 text-[40px] font-semibold leading-none tracking-[-0.02em] text-fg">
                   Mesazhi u dërgua.
                 </h3>
                 <p className="mt-6 max-w-md text-[15px] leading-[1.65] text-fg-muted">
@@ -232,7 +232,7 @@ export function Contact() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="inline-flex h-12 shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-[10px] bg-accent-deep px-7 text-[14px] font-semibold text-white shadow-[0_6px_18px_-8px_rgba(31,95,191,0.6)] transition-transform hover:-translate-y-0.5 disabled:opacity-50"
+                    className="btn btn-primary shrink-0"
                   >
                     {loading ? "Duke dërguar..." : "Dërgo mesazhin"}
                     <span aria-hidden>→</span>
@@ -267,7 +267,7 @@ function Field({
   // non-text contrast floor (WCAG 1.4.11) that the old 12% rule failed at
   // 1.30:1 — and a visible box is what non-technical users read as "type here".
   const inputClasses =
-    "block w-full rounded-[10px] border border-hairline-strong bg-white px-4 py-3 text-[16px] text-fg transition-colors placeholder:text-fg-placeholder placeholder:text-[14px] hover:border-fg-muted focus:border-accent focus:ring-2 focus:ring-accent-soft focus:outline-none focus-visible:outline-2 focus-visible:outline-accent/80 focus-visible:outline-offset-2";
+    "block w-full rounded-xl border border-hairline-strong bg-white/90 px-4 py-3 text-[16px] text-fg transition-[border-color,box-shadow] duration-300 ease-soft placeholder:text-fg-placeholder placeholder:text-[14px] hover:border-fg-muted focus:border-accent focus:ring-4 focus:ring-accent-soft focus:outline-none focus-visible:outline-2 focus-visible:outline-accent/80 focus-visible:outline-offset-2";
   return (
     <div className="pt-5">
       <label

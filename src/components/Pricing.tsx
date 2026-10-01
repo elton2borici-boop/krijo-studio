@@ -101,7 +101,7 @@ export function Pricing() {
   return (
     <section
       id="cmimet"
-      className="relative bg-canvas-raised py-16 sm:py-24"
+      className="relative py-16 sm:py-24"
     >
       <Container>
         <SectionHeading
@@ -109,7 +109,7 @@ export function Pricing() {
           size="lg"
           title={
             <>
-              Katër pako. <span className="text-gradient">Çmime të hapura.</span>
+              Katër pako. <span className="italic text-gradient">Çmime të hapura.</span>
             </>
           }
           lede="Në Euro, me TVSH të përfshirë. Pa kosto të fshehura — dhe nëse të duhet diçka tjetër, bëjmë ofertë të personalizuar."
@@ -127,9 +127,9 @@ export function Pricing() {
                 // different kinds of card, which made it read as decoration;
                 // confined to the one section where you are actively comparing
                 // and choosing, it reads as "pick me" again.
-                "group card-spot relative flex w-[84vw] shrink-0 snap-center flex-col rounded-2xl p-6 transition-transform duration-300 sm:w-[400px] lg:w-auto lg:hover:-translate-y-1.5",
+                "plan group card-spot relative flex w-[84vw] shrink-0 snap-center flex-col rounded-2xl p-6 sm:w-[400px] lg:w-auto",
                 p.starred
-                  ? "glass-strong border-accent shadow-[0_20px_48px_-18px_rgba(31,95,191,0.35)] lg:-mt-3 lg:scale-[1.03] lg:p-7"
+                  ? "plan-star glass-strong border-accent lg:p-7"
                   : "glass card-quiet"
               )}
             >
@@ -191,10 +191,8 @@ export function Pricing() {
                 <a
                   href="#kontakt"
                   className={cn(
-                    "inline-flex h-11 w-full items-center justify-between rounded-[10px] px-4 text-[13px] font-semibold transition-transform duration-300 lg:hover:-translate-y-0.5",
-                    p.starred
-                      ? "bg-accent-deep text-white shadow-[0_0_28px_-8px_var(--color-accent)]"
-                      : "border border-hairline-strong bg-white text-fg hover:border-accent hover:text-accent"
+                    "btn h-11 w-full justify-between px-4 text-[13px]",
+                    p.starred ? "btn-primary" : "btn-secondary"
                   )}
                 >
                   <span>{p.cta}</span>

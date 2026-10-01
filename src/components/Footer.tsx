@@ -30,23 +30,27 @@ export function Footer() {
   ].filter((l): l is { label: string; href: string } => Boolean(l));
 
   return (
-    <footer className="border-t border-hairline bg-canvas-deep py-16 sm:py-20">
-      <Container>
+    <footer className="relative overflow-hidden bg-ink py-16 text-on-ink sm:py-20">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-canvas to-transparent"
+      />
+      <Container className="relative">
         {/* Big wordmark */}
-        <div className="serif flex items-baseline border-b border-hairline pb-8 text-[clamp(4rem,18vw,18rem)] font-extrabold leading-[0.85] tracking-[-0.05em] text-fg">
-          krijo<span className="text-gradient">.</span>
+        <div className="serif flex items-baseline border-b border-white/10 pb-8 text-[clamp(4rem,18vw,18rem)] font-semibold leading-[0.82] tracking-[-0.035em] text-on-ink">
+          krijo<span className="-ml-[0.14em] text-gradient-ink">.</span>
         </div>
 
         <div className="mt-12 grid grid-cols-12 gap-x-10 gap-y-10 lg:gap-x-12">
           <div className="col-span-12 min-w-0 lg:col-span-4">
-            <p className="serif max-w-sm text-[20px] leading-[1.35] text-fg">
+            <p className="serif max-w-sm text-[20px] leading-[1.35] text-on-ink">
               Studio e vogël dixhitale.<br />
               {site.city}, {site.country} &mdash;{" "}
               <span className="italic">që nga {site.foundingYear}.</span>
             </p>
 
             {socials.length > 0 && (
-              <div className="mt-7 flex items-center gap-4 text-fg-muted">
+              <div className="mt-7 flex items-center gap-4 text-on-ink-muted">
                 {socials.map(({ Icon, href, label }) => (
                   <a
                     key={label}
@@ -54,7 +58,7 @@ export function Footer() {
                     aria-label={label}
                     rel="noopener noreferrer"
                     target="_blank"
-                    className="inline-flex items-center gap-2 text-fg transition-colors hover:text-accent"
+                    className="inline-flex items-center gap-2 text-on-ink transition-colors duration-300 hover:text-accent-on-ink"
                   >
                     <Icon className="size-4" />
                   </a>
@@ -98,13 +102,13 @@ export function Footer() {
                 key={col.title}
                 className={`col-span-12 min-w-0 ${span} lg:col-start-auto`}
               >
-                <div className="mb-4 text-[11px] font-semibold uppercase tracking-[0.08em] text-accent">{col.title}</div>
+                <div className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-on-ink">{col.title}</div>
                 <ul className="flex flex-col gap-2">
                   {col.links.map((l) => (
                     <li key={l.label} className="min-w-0">
                       <a
                         href={l.href}
-                        className="link-underline inline-block max-w-full break-words text-[14px] text-fg transition-colors hover:text-accent"
+                        className="link-underline inline-block max-w-full break-words text-[14px] text-on-ink transition-colors duration-300 hover:text-accent-on-ink"
                       >
                         {l.label}
                       </a>
@@ -116,7 +120,7 @@ export function Footer() {
           })}
         </div>
 
-        <div className="mt-14 flex flex-col items-start justify-between gap-2 border-t border-hairline pt-6 text-[12.5px] text-fg-muted sm:flex-row sm:items-baseline">
+        <div className="mt-14 flex flex-col items-start justify-between gap-2 border-t border-white/10 pt-6 text-[12.5px] text-on-ink-muted sm:flex-row sm:items-baseline">
           <span>
             © {year} {site.name}
             {site.nipt && ` · NIPT ${site.nipt}`}

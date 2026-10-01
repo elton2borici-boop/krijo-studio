@@ -1,39 +1,47 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Light, warm neutral. Warmth comes from the neutral's hue bias, not from a
-     second accent — the blue is the only chromatic voice, deepened so it holds
-     AA on a light ground. Every ratio below is measured against --color-canvas.
+  /* Warm paper. The blue stays the functional accent (links, buttons) because
+     it already clears AA; warmth comes from the ground, the serif, and one
+     espresso band. Ratios below are measured against --color-canvas (#f6f2ea)
+     unless noted.
 
-     `canvas` is a surface, `fg` is text on it, `hairline` is a border. The
-     names describe the role, not the theme. */
-  --color-canvas: #fbfaf7; /* barely-warm off-white — page background */
-  --color-canvas-raised: #f0eee8; /* elevated surface — alt chapters */
-  --color-canvas-deep: #e8e5dd; /* deeper surface — footer */
+     `canvas` is a surface, `fg` is text on it, `hairline` is a border. */
+  --color-canvas: #f6f2ea; /* warm paper — page background */
+  --color-canvas-raised: #efe8dc; /* elevated chapter wash */
+  --color-canvas-deep: #e4d9c8; /* deeper paper */
 
-  --color-fg: #15181d; /* 17.05:1 — primary text */
-  --color-fg-muted: #4e535c; /* 7.41:1 — body copy, passes AAA */
-  --color-fg-faint: #7c8290; /* DECORATIVE ONLY — 3.69:1, below the 4.5:1 AA floor */
-  --color-fg-placeholder: #6e747f; /* 4.50:1 — form placeholders */
+  --color-fg: #1a1614; /* 16.09:1 — primary text */
+  --color-fg-muted: #4e4942; /* 7.98:1 — body copy, passes AAA */
+  --color-fg-faint: #8a8174; /* DECORATIVE ONLY — 3.44:1, below the 4.5:1 AA floor */
+  --color-fg-placeholder: #6a635a; /* 5.31:1 on canvas, 5.92:1 on white — placeholders */
 
   /* Dividers only: a hairline carries no state, so it sits below the 3:1 UI
      floor on purpose. Anything that bounds an interactive control — an input,
      a selectable card — uses hairline-strong instead. */
-  --color-hairline: #ddd9d0; /* 1.35:1 — section rules, card edges */
-  --color-hairline-strong: #8b8579; /* 3.51:1 — input borders, meets 1.4.11 */
+  --color-hairline: #d9d0c2; /* ~1.37:1 — section rules, card edges */
+  --color-hairline-strong: #8a8174; /* 3.84:1 on white — input borders, meets 1.4.11 */
 
-  --color-accent: #1b56ad; /* 6.75:1 — links, eyebrows, icons */
+  --color-accent: #1b56ad; /* 6.31:1 — links, eyebrows, icons */
   --color-accent-deep: #1f5fbf; /* 6.09:1 white-on-fill — buttons */
   --color-accent-soft: rgba(31, 95, 191, 0.1); /* wash / tint */
-  --color-accent-mute: #4a7fd0; /* 3.84:1 — large display emphasis only */
+  --color-accent-mute: #4a7fd0; /* large display emphasis only */
 
-  --color-violet: #5b3fd4; /* 6.48:1 — secondary accent (sparing) */
-  --color-violet-bright: #6d4fe0; /* 5.23:1 */
+  --color-violet: #5b3fd4; /* 6.05:1 — secondary accent (sparing) */
+  --color-violet-bright: #6d4fe0; /* large display only */
   --color-violet-soft: rgba(91, 63, 212, 0.1);
 
+  /* Espresso band (testimonials, footer). Type on it is paper, not fg. */
+  --color-ink: #1c1814;
+  --color-on-ink: #f3ece3; /* 15.06:1 */
+  --color-on-ink-muted: #d9cfc2; /* 11.47:1 */
+  --color-accent-on-ink: #e7c9a4; /* 11.17:1 — labels on espresso */
+
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-sora), var(--font-dm-sans), ui-sans-serif, sans-serif;
+  --font-display: var(--font-source-serif), Georgia, "Times New Roman", serif;
   --font-mono: var(--font-ibm-mono), ui-monospace, monospace;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 * {
@@ -48,10 +56,46 @@ html {
 
 html,
 body {
-  background: var(--color-canvas);
+  background-color: var(--color-canvas);
   color: var(--color-fg);
   font-family: var(--font-sans);
   overflow-x: hidden;
+}
+
+/* One continuous ground. Section fills fade into this instead of butting
+   hard edges against each other. Fixed only on fine pointers — mobile
+   browsers repaint a fixed background on every scroll frame. */
+body {
+  background-image:
+    radial-gradient(ellipse 78% 48% at -8% -12%, rgba(31, 95, 191, 0.1), transparent 54%),
+    radial-gradient(ellipse 58% 42% at 108% -4%, rgba(196, 132, 74, 0.14), transparent 50%),
+    radial-gradient(ellipse 48% 36% at 72% 108%, rgba(91, 63, 212, 0.07), transparent 52%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body {
+    background-attachment: fixed;
+  }
+}
+
+/* Paper tooth. A tiled SVG, rasterized once — not a filter on the viewport.
+   Sits under the z-10 page shell, so type and cards stay crisp and the open
+   paper picks up the grain. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.055;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.12  0 0 0 0 0.09  0 0 0 0 0.06  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+@media (pointer: coarse), (max-width: 1023px) {
+  body::before {
+    display: none;
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -109,9 +153,12 @@ body {
   background: color-mix(in srgb, var(--color-accent) 60%, var(--color-canvas-deep));
 }
 
-/* Display face is now Sora; the class name is kept so components don't churn. */
+/* Source Serif 4. Don't tighten display tracking past -0.02em — "ri" in
+   Krijojmë / krijo starts to touch, which is why the old geometric face
+   had to be opened up. */
 .serif {
   font-family: var(--font-display);
+  font-optical-sizing: none;
 }
 
 .mono {
@@ -148,23 +195,32 @@ body {
 }
 
 /* ---- Card surfaces --------------------------------------------------------
-   On a light ground, translucent-white "glass" has nothing to lift off — the
-   fill disappears and only the border reads. Cards are solid white with a real
-   shadow instead. Class names are kept so components don't churn. */
+   Solid warm-white, a hair of inner light, and a shadow soft enough to read
+   as paper lifted off paper. Class names are kept so components don't churn. */
 .glass {
-  background: #ffffff;
-  border: 1px solid var(--color-hairline);
+  background: linear-gradient(180deg, #fffcf8 0%, #fffaf4 100%);
+  border: 1px solid color-mix(in srgb, var(--color-hairline) 85%, white);
   box-shadow:
-    0 1px 2px rgba(21, 24, 29, 0.04),
-    0 10px 26px -14px rgba(21, 24, 29, 0.12);
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 2px rgba(28, 24, 20, 0.04),
+    0 18px 40px -28px rgba(28, 24, 20, 0.28);
+  transition:
+    border-color 0.5s var(--ease-soft),
+    box-shadow 0.5s var(--ease-soft),
+    transform 0.5s var(--ease-soft);
 }
 
 .glass-strong {
-  background: #ffffff;
-  border: 1px solid var(--color-hairline);
+  background: linear-gradient(180deg, #ffffff 0%, #fffaf4 100%);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 28%, var(--color-hairline));
   box-shadow:
-    0 2px 4px rgba(21, 24, 29, 0.05),
-    0 18px 44px -18px rgba(21, 24, 29, 0.18);
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 2px 4px rgba(28, 24, 20, 0.04),
+    0 22px 48px -24px rgba(31, 95, 191, 0.28);
+  transition:
+    border-color 0.5s var(--ease-soft),
+    box-shadow 0.5s var(--ease-soft),
+    transform 0.5s var(--ease-soft);
 }
 
 /* A quieter card, for the options you are not steering people toward. Defined
@@ -179,14 +235,15 @@ body {
    sits over scrolling content. Falls back to an opaque surface where
    backdrop-filter is unsupported, so the bar never turns into a smear. */
 .glass-nav {
-  background: rgba(255, 255, 255, 0.78);
-  border: 1px solid var(--color-hairline);
+  background: rgba(246, 242, 234, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.7);
   /* Blur radius drives the cost of this filter, and it re-runs on every scroll
-     frame because the bar is fixed. 10px is indistinguishable from 16px behind
-     a 78% white fill; saturate() bought nothing on a near-neutral page. */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 1px 2px rgba(21, 24, 29, 0.05);
+     frame because the bar is fixed. 12px behind a 78% paper fill is enough. */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    0 10px 30px -18px rgba(28, 24, 20, 0.28);
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -199,11 +256,19 @@ body {
    the light ground; the lightest is 5.23:1. */
 .text-gradient {
   background: linear-gradient(
-    110deg,
-    var(--color-accent-deep) 0%,
-    var(--color-violet-bright) 55%,
-    var(--color-violet) 100%
+    108deg,
+    #1b56ad 0%,
+    #3d3a8f 42%,
+    #8a3d48 100%
   );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Same trick, light stops, for type sitting on the espresso band. */
+.text-gradient-ink {
+  background: linear-gradient(108deg, #f3ece3 0%, #e7c9a4 58%, #f0d7b8 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -218,19 +283,43 @@ body {
   mask-image: radial-gradient(ellipse 75% 65% at 50% 38%, #000 25%, transparent 78%);
 }
 
-/* Static gradient washes.
-   These used to drift on 24s/28s loops with `will-change: transform`, which
-   kept two ~70vh layers permanently promoted and repainting for the whole life
-   of the page — on the old black ground that bought visible atmosphere. At the
-   light theme's 0.08–0.10 alpha the movement is imperceptible, so it was
-   costing every frame and returning nothing. They are plain painted
-   backgrounds now: no animation, no layer promotion. */
+/* Soft washes. Transform-only drift, and only where a fine pointer can
+   actually see it. The global reduced-motion rule collapses the duration. */
+@keyframes mesh-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2.5%, -2%, 0) scale(1.06);
+  }
+}
+
 .mesh-blob {
   transform: translateZ(0);
 }
 
-.mesh-b {
-  transform: translateZ(0) scale(1.1);
+@media (hover: hover) and (pointer: fine) {
+  .mesh-blob {
+    animation: mesh-drift 26s var(--ease-soft) infinite;
+    will-change: transform;
+  }
+
+  .mesh-b {
+    animation-duration: 32s;
+    animation-direction: reverse;
+  }
+}
+
+/* Chapter wash that dissolves at both edges, so sections don't meet as stripes. */
+.chapter-warm {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--color-canvas-raised) 92%, transparent) 9%,
+    color-mix(in srgb, var(--color-canvas-raised) 92%, transparent) 91%,
+    transparent 100%
+  );
 }
 
 /* Faint blue radial glow behind a section, for emphasis. */
@@ -264,7 +353,7 @@ body {
      The tiles' own ink is dialled up to compensate — see HeroWall.tsx.
      Verified: even the darkest pixel this can produce leaves the headline
      above 13:1, so there is room to push it further if wanted. */
-  opacity: 0.2;
+  opacity: 0.26;
   /* Two mask layers, intersected, so there is no hard line on ANY edge:
        1. vertical — reaches full transparency at 88%, i.e. a clear band
           before the section boundary rather than exactly on it.
@@ -423,6 +512,13 @@ body {
   /* Pulls the warm saturation back a touch so the tint reads as a grade
      rather than a colour cast fighting the original. */
   filter: saturate(0.92);
+  transition: transform 0.7s var(--ease-soft);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .photo:hover img {
+    transform: scale(1.045);
+  }
 }
 
 .photo::after {
@@ -498,7 +594,7 @@ body {
   margin: -440px 0 0 -440px;
   pointer-events: none;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(31, 95, 191, 0.07), transparent 60%);
+  background: radial-gradient(circle, rgba(31, 95, 191, 0.11), transparent 62%);
   will-change: transform;
   transform: translate3d(-9999px, -9999px, 0);
 }
@@ -528,10 +624,69 @@ body {
    stays visible for no-JS users. IntersectionObserver-driven, not scroll-bound. */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(16px);
   transition:
-    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.9s var(--ease-soft),
+    transform 0.9s var(--ease-soft);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-copy > * {
+  animation: rise-in 0.9s var(--ease-soft) both;
+}
+
+.hero-copy > *:nth-child(1) { animation-delay: 0.04s; }
+.hero-copy > *:nth-child(2) { animation-delay: 0.12s; }
+.hero-copy > *:nth-child(3) { animation-delay: 0.2s; }
+.hero-copy > *:nth-child(4) { animation-delay: 0.28s; }
+.hero-copy > *:nth-child(5) { animation-delay: 0.36s; }
+
+@keyframes preview-swap {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.preview-swap {
+  animation: preview-swap 0.45s var(--ease-soft);
+}
+
+/* Pricing cards. The starred plan keeps its scale inside the hover transform,
+   otherwise a translate-only hover drops the scale and the card jumps. */
+@media (min-width: 1024px) {
+  .plan-star {
+    margin-top: -0.75rem;
+    transform: scale(1.03);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 1024px) {
+  .plan {
+    transition: transform 0.55s var(--ease-soft), box-shadow 0.55s var(--ease-soft);
+  }
+
+  .plan:hover {
+    transform: translateY(-8px);
+  }
+
+  .plan-star:hover {
+    transform: translateY(-10px) scale(1.03);
+  }
 }
 
 .reveal.is-visible {
@@ -549,6 +704,76 @@ body {
 
   .group:hover .tilt {
     transform: perspective(1100px) translateY(-6px) rotateX(3deg) rotateY(-3deg);
+  }
+}
+
+/* ---- Buttons -------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  height: 3rem;
+  padding-inline: 1.45rem;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    transform 0.45s var(--ease-soft),
+    box-shadow 0.45s var(--ease-soft),
+    background-color 0.45s var(--ease-soft),
+    border-color 0.45s var(--ease-soft),
+    color 0.45s var(--ease-soft);
+}
+
+.btn-sm {
+  height: 2.25rem;
+  padding-inline: 1rem;
+  font-size: 13.5px;
+}
+
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(180deg, #2b6ed6 0%, #1f5fbf 58%, #1a56ad 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 10px 24px -12px rgba(31, 95, 191, 0.75);
+}
+
+.btn-secondary {
+  color: var(--color-fg);
+  background: rgba(255, 252, 248, 0.8);
+  border: 1px solid var(--color-hairline-strong);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .glass:hover {
+    border-color: color-mix(in srgb, var(--color-accent) 35%, var(--color-hairline));
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.34),
+      0 16px 30px -12px rgba(31, 95, 191, 0.8);
+  }
+
+  .btn-secondary:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .btn:disabled:hover {
+    transform: none;
   }
 }
 

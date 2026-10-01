@@ -23,9 +23,9 @@ const steps = [
     n: "01",
     title: "Bisedë",
     days: "Dita 1",
-    text: "Na tregon për biznesin dhe çfarë pret nga faqja — me takim, telefonatë ose video.",
+    text: "Na tregon çfarë shet, kujt ia shet dhe çfarë duhet të ndodhë kur dikush hap faqen.",
     detail:
-      "Pa përgatitje nga ana jote. Mjafton të dimë çfarë bën biznesi, kujt i shet dhe çfarë duhet të ndodhë kur dikush hap faqen.",
+      "Na duhen katër gjëra para se të nisim: tekstet, 5–10 foto, logo nëse e ke, dhe numri ku të të gjejnë klientët. Takim, telefonatë ose video — në ditën e parë.",
   },
   {
     n: "02",
@@ -73,7 +73,7 @@ export function Process() {
   return (
     <section
       id="procesi"
-      className="relative isolate overflow-hidden py-16 sm:py-24"
+      className="relative isolate scroll-mt-28 overflow-hidden py-16 sm:py-24"
     >
       {/* Background photograph, washed back far enough to sit under text. */}
       <div aria-hidden className="absolute inset-0 -z-20">
@@ -101,7 +101,7 @@ export function Process() {
             Nga ideja te publikimi — <span className="text-gradient">katër hapa.</span>
           </h2>
           <p className="max-w-2xl text-[15px] leading-relaxed text-fg-muted">
-            Kliko një hap për të parë se çfarë ndodh saktësisht në të.
+            Një javë pune për një faqe të zakonshme. Dyqani merr 2–3 javë. Kliko një hap për të parë çfarë ndodh në të.
           </p>
         </div>
 

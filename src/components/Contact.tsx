@@ -1,20 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { Container } from "./ui/Container";
 import { Eyebrow } from "./ui/Eyebrow";
 import { Photo } from "./ui/Photo";
 import { site, addressLine, telHref, whatsappHref } from "@/lib/site";
+import {
+  formatById,
+  isFormatId,
+  isPackageId,
+  packageById,
+  packages as offerPackages,
+  type FormatId,
+  type PackageId,
+} from "@/lib/offers";
 
-const packages = [
-  { id: "vetem-faqja", label: "Vetëm Faqja · €299" },
-  { id: "faqja-plus-domain", label: "Faqja + Domain · €399" },
-  { id: "mirembajtje", label: "Mirëmbajtje · €29/muaj" },
-  { id: "premium", label: "Gjithçka · €799" },
-  { id: "tjeter", label: "Diçka tjetër / pyetje" },
-];
+const packages = offerPackages.map((p) => ({
+  id: p.id,
+  label: p.price ? `${p.label} · ${p.price}` : p.label,
+}));
+
+const messagePlaceholders: Record<FormatId, string> = {
+  "nje-faqe":
+    "Kam një kafene në Tiranë. Dua një faqe me menu, orar dhe buton për rezervim në WhatsApp.",
+  nenfaqe:
+    "Kam një studio me tre shërbime. Dua faqe të ndara për secilin, plus një faqe kontakti.",
+  portfolio:
+    "Jam fotograf. Dua një galeri me 3 kategori dhe një faqe kontakti me telefon.",
+  dyqan:
+    "Shes produkte artizanale. Dua katalog, çmime dhe pagesë në faqe. Sa kohë merr dhe sa kushton?",
+};
 
 /** Only the channels that are actually reachable — see src/lib/site.ts. */
 function contactDetails() {
@@ -45,39 +63,11 @@ function contactDetails() {
 
 export function Contact() {
   const details = contactDetails();
-  const [sent, setSent] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const payload = Object.fromEntries(formData.entries());
-
-    setLoading(true);
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data?.error || "Diçka shkoi keq. Provo përsëri.");
-        return;
-      }
-      setSent(true);
-      toast.success("Mesazhi u dërgua");
-    } catch {
-      toast.error("Nuk u lidh me serverin.");
-    } finally {
-      setLoading(false);
-    }
-  }
 
   return (
     <section
       id="kontakt"
-      className="relative isolate overflow-hidden bg-canvas py-20 sm:py-28"
+      className="relative isolate scroll-mt-28 overflow-hidden bg-canvas py-20 sm:py-28"
     >
       {/* Mesh glow instead of a photo */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
@@ -98,19 +88,17 @@ export function Contact() {
             <Eyebrow className="mb-5">kontakt</Eyebrow>
 
             <h2 className="serif text-balance text-[clamp(2.4rem,5.5vw,4.2rem)] font-extrabold leading-[1] tracking-[0.012em] text-fg">
-              Le të <span className="text-gradient">flasim.</span><br />
-              Një kafe ose<br />
-              një email.
+              Na thuaj çfarë<br />
+              duhet të{" "}
+              <span className="text-gradient">bëjë faqja.</span>
             </h2>
 
             <p className="mt-7 max-w-md text-[16px] leading-[1.6] text-fg-muted">
-              Plotëso formularin këtu ose na shkruaj drejtpërdrejt &mdash; përgjigjemi brenda 24 orësh, me një propozim falas e pa asnjë angazhim.
+              Shkruaj biznesin, pakon dhe çfarë duhet të ndodhë kur dikush e hap — një telefonatë, një rezervim ose një porosi. Kthehemi brenda 24 orësh me çmimin dhe afatin. Propozimi është falas.
             </p>
 
-            {/* Two photographs, paired. The headline offers a coffee, and the
-                studio shot answers the question a stranger actually has at the
-                point of writing to you: who am I about to email? It moved here
-                when the "Si punojmë" section was cut. */}
+            {/* Two photographs, paired. The studio shot answers the question
+                a stranger has at the point of writing: who am I about to email? */}
             <div className="mt-9 grid grid-cols-2 gap-3">
               <Photo
                 src="/images/kafe.webp"
@@ -130,7 +118,7 @@ export function Contact() {
               />
             </div>
             <p className="mt-3 text-[12.5px] leading-relaxed text-fg-muted">
-              Studioja jonë në Tiranë — projektet zhvillohen një nga një.
+              Punojmë nga Tiranë. Takimi caktohet me orar, pasi të na shkruash.
             </p>
 
             <dl className="mt-12 flex flex-col gap-5 text-[14px]">
@@ -156,94 +144,210 @@ export function Contact() {
             </dl>
           </div>
 
-          {/* Right: glass form */}
+          {/* Right: glass form. The query string (which package, which format)
+              is request-time data, so it lives in a child under Suspense and
+              the rest of the page stays static. */}
           <div className="col-span-12 lg:col-span-6 lg:col-start-7">
-            {sent ? (
-              <div className="flex h-full min-h-[480px] flex-col items-start justify-center rounded-2xl glass p-10">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">faleminderit ✓</span>
-                <h3 className="serif mt-5 text-[40px] font-extrabold leading-none text-fg">
-                  Mesazhi u dërgua.
-                </h3>
-                <p className="mt-6 max-w-md text-[15px] leading-[1.65] text-fg-muted">
-                  Po e shqyrtojmë kërkesën tënde dhe do të të përgjigjemi brenda 24 orësh. Ndërkohë, shijo një kafe.
-                </p>
-                <button
-                  onClick={() => setSent(false)}
-                  className="link-underline mt-10 text-[14px] font-medium text-fg"
-                >
-                  Dërgo një mesazh tjetër →
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={onSubmit} className="rounded-2xl glass p-7 sm:p-9">
-                <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
-                <Field label="Emri" name="name" placeholder="Arben Hoxha" required />
-                <Field label="Email" name="email" type="email" placeholder="emri@biznesi.al" required />
-                <div className="grid gap-0 sm:grid-cols-2 sm:gap-x-5">
-                  <Field label="Telefon" name="phone" type="tel" placeholder="+355 69 ..." />
-                  <Field label="Biznesi" name="business" placeholder="Aroma Café" />
-                </div>
-
-                {/* Margin, not padding: a <legend> sits in the fieldset's
-                    border box and ignores its padding-top, so pt-* left the
-                    label jammed against the field above. */}
-                <fieldset className="mt-5">
-                  <legend className="mb-2 text-[13px] font-medium text-fg">
-                    Më intereson
-                  </legend>
-                  <div className="grid gap-2 sm:grid-cols-2">
-                    {packages.map((p, i) => (
-                      <label
-                        key={p.id}
-                        className="group flex cursor-pointer items-center gap-3 rounded-[10px] border border-hairline-strong bg-white px-4 py-3 text-[14px] text-fg-muted transition-colors hover:border-fg-muted has-[:checked]:border-accent has-[:checked]:bg-accent-soft has-[:checked]:text-fg has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent has-[:focus-visible]:outline-offset-2"
-                      >
-                        <input
-                          type="radio"
-                          name="package"
-                          value={p.id}
-                          defaultChecked={i === 1}
-                          className="sr-only"
-                        />
-                        {/* Radio mark, drawn so the selected state is visible
-                            without relying on colour alone. */}
-                        <span
-                          aria-hidden
-                          className="grid size-[18px] shrink-0 place-items-center rounded-full border border-hairline-strong transition-colors group-has-[:checked]:border-accent"
-                        >
-                          <span className="size-2 scale-0 rounded-full bg-accent transition-transform group-has-[:checked]:scale-100" />
-                        </span>
-                        {p.label}
-                      </label>
-                    ))}
-                  </div>
-                </fieldset>
-
-                <Field label="Trego pak për projektin" name="message" textarea placeholder="Kam një restorant në Tiranë dhe dua një faqe me menu, rezervime online..." required />
-
-                <div className="mt-7 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="max-w-xs text-[12px] leading-relaxed text-fg-muted">
-                    Duke dërguar këtë formular, pranon përpunimin e të dhënave
-                    për qëllim kontakti. Lexo{" "}
-                    <Link href="/privatesia" className="link-underline text-fg">
-                      politikën e privatësisë
-                    </Link>
-                    .
-                  </p>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="inline-flex h-12 shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-[10px] bg-accent-deep px-7 text-[14px] font-semibold text-white shadow-[0_6px_18px_-8px_rgba(31,95,191,0.6)] transition-transform hover:-translate-y-0.5 disabled:opacity-50"
-                  >
-                    {loading ? "Duke dërguar..." : "Dërgo mesazhin"}
-                    <span aria-hidden>→</span>
-                  </button>
-                </div>
-              </form>
-            )}
+            <Suspense
+              fallback={
+                <ContactForm
+                  initialPkg="faqja-plus-domain"
+                  initialFormat={null}
+                  fromQuery={false}
+                />
+              }
+            >
+              <ContactFormFromUrl />
+            </Suspense>
           </div>
         </div>
       </Container>
     </section>
+  );
+}
+
+function ContactFormFromUrl() {
+  const params = useSearchParams();
+  const pako = params.get("pako");
+  const format = params.get("format");
+  const urlPkg: PackageId = isPackageId(pako) ? pako : "faqja-plus-domain";
+  const urlFormat = isFormatId(format) ? format : null;
+
+  return (
+    <ContactForm
+      key={`${urlPkg}:${urlFormat ?? "none"}`}
+      initialPkg={urlPkg}
+      initialFormat={urlFormat}
+      fromQuery={isPackageId(pako) || urlFormat !== null}
+    />
+  );
+}
+
+function ContactForm({
+  initialPkg,
+  initialFormat,
+  fromQuery,
+}: {
+  initialPkg: PackageId;
+  initialFormat: FormatId | null;
+  fromQuery: boolean;
+}) {
+  const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [pkg, setPkg] = useState<PackageId>(initialPkg);
+  const chosen = packageById(pkg);
+  const chosenFormat = formatById(initialFormat);
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const payload = Object.fromEntries(formData.entries());
+    if (
+      chosenFormat &&
+      typeof payload.message === "string" &&
+      !payload.message.startsWith(`Formati: ${chosenFormat.label}`)
+    ) {
+      payload.message = `Formati: ${chosenFormat.label}\n\n${payload.message}`;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data?.error || "Diçka shkoi keq. Provo përsëri.");
+        return;
+      }
+      setSent(true);
+      toast.success("Mesazhi u dërgua");
+    } catch {
+      toast.error("Nuk u lidh me serverin.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (sent) {
+    return (
+      <div className="flex h-full min-h-[480px] flex-col items-start justify-center rounded-2xl glass p-10">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">
+          faleminderit ✓
+        </span>
+        <h3 className="serif mt-5 text-[40px] font-extrabold leading-none text-fg">
+          Mesazhi u dërgua.
+        </h3>
+        <p className="mt-6 max-w-md text-[15px] leading-[1.65] text-fg-muted">
+          Po e shqyrtojmë kërkesën tënde dhe do të të përgjigjemi brenda 24
+          orësh me çmimin dhe afatin.
+        </p>
+        <button
+          onClick={() => setSent(false)}
+          className="link-underline mt-10 text-[14px] font-medium text-fg"
+        >
+          Dërgo një mesazh tjetër →
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="rounded-2xl glass p-7 sm:p-9">
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        className="hidden"
+        aria-hidden
+      />
+      {fromQuery && chosen && (
+        <p className="mb-2 rounded-[10px] border border-accent/30 bg-accent-soft px-4 py-3 text-[13.5px] leading-relaxed text-fg">
+          Ke zgjedhur: {chosen.label}
+          {chosen.price ? ` · ${chosen.price}` : ""}
+          {chosenFormat ? `. Formati: ${chosenFormat.label}` : ""}. Mund ta
+          ndryshosh më poshtë.
+        </p>
+      )}
+      <Field label="Emri" name="name" placeholder="Arben Hoxha" required />
+      <Field
+        label="Email"
+        name="email"
+        type="email"
+        placeholder="emri@biznesi.al"
+        required
+      />
+      <div className="grid gap-0 sm:grid-cols-2 sm:gap-x-5">
+        <Field label="Telefon" name="phone" type="tel" placeholder="+355 69 ..." />
+        <Field label="Biznesi" name="business" placeholder="Aroma Café" />
+      </div>
+
+      {/* Margin, not padding: a <legend> sits in the fieldset's border box
+          and ignores its padding-top, so pt-* left the label jammed against
+          the field above. */}
+      <fieldset className="mt-5">
+        <legend className="mb-2 text-[13px] font-medium text-fg">
+          Më intereson
+        </legend>
+        <div className="grid gap-2 sm:grid-cols-2">
+          {packages.map((p) => (
+            <label
+              key={p.id}
+              className="group flex cursor-pointer items-center gap-3 rounded-[10px] border border-hairline-strong bg-white px-4 py-3 text-[14px] text-fg-muted transition-colors hover:border-fg-muted has-[:checked]:border-accent has-[:checked]:bg-accent-soft has-[:checked]:text-fg has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent has-[:focus-visible]:outline-offset-2"
+            >
+              <input
+                type="radio"
+                name="package"
+                value={p.id}
+                checked={pkg === p.id}
+                onChange={() => setPkg(p.id)}
+                className="sr-only"
+              />
+              <span
+                aria-hidden
+                className="grid size-[18px] shrink-0 place-items-center rounded-full border border-hairline-strong transition-colors group-has-[:checked]:border-accent"
+              >
+                <span className="size-2 scale-0 rounded-full bg-accent transition-transform group-has-[:checked]:scale-100" />
+              </span>
+              {p.label}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <Field
+        label="Çfarë duhet të bëjë faqja?"
+        name="message"
+        textarea
+        placeholder={
+          (initialFormat && messagePlaceholders[initialFormat]) ||
+          "Kam një restorant në Tiranë. Dua menu, orar dhe një buton për rezervim."
+        }
+        required
+      />
+
+      <div className="mt-7 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <p className="max-w-xs text-[12px] leading-relaxed text-fg-muted">
+          Duke dërguar këtë formular, pranon përpunimin e të dhënave për qëllim
+          kontakti. Lexo{" "}
+          <Link href="/privatesia" className="link-underline text-fg">
+            politikën e privatësisë
+          </Link>
+          .
+        </p>
+        <button
+          type="submit"
+          disabled={loading}
+          className="inline-flex h-12 shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-[10px] bg-accent-deep px-7 text-[14px] font-semibold text-white shadow-[0_6px_18px_-8px_rgba(31,95,191,0.6)] transition-transform hover:-translate-y-0.5 disabled:opacity-50"
+        >
+          {loading ? "Duke dërguar..." : "Dërgo mesazhin"}
+          <span aria-hidden>→</span>
+        </button>
+      </div>
+    </form>
   );
 }
 

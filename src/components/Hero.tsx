@@ -89,16 +89,19 @@ export function Hero() {
       <Container>
         <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
           <p className="inline-flex items-center gap-2 rounded-md border border-hairline bg-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-fg-muted">
-            Studio krijuese · Tiranë
+            Për biznese të vogla · Tiranë
           </p>
 
           <h1 className="serif mt-7 text-balance text-[clamp(2.5rem,6vw,4rem)] font-extrabold leading-[0.98] tracking-[0.015em] text-fg">
-            Krijojmë faqe që{" "}
-            <span className="text-gradient">punojnë.</span>
+            Faqja jote e publikuar{" "}
+            <span className="text-gradient">në 5–7 ditë.</span>
           </h1>
 
-          <p className="mt-6 max-w-xl text-pretty text-[16px] leading-relaxed text-fg-muted sm:text-[17px]">
-            Zhvillim, hosting dhe mirëmbajtje — gjithçka në një vend.
+          <p className="mt-6 max-w-2xl text-pretty text-[16px] leading-relaxed text-fg-muted sm:text-[17px]">
+            Për kafene, klinika, studio dhe dyqane në Shqipëri. Çmimet janë
+            në këtë faqe, nga €299 me TVSH. Na jep tekstet, fotot dhe logon
+            nëse e ke — ne e ndërtojmë, e lidhim me domain-in dhe nuk e
+            publikojmë pa miratimin tënd.
           </p>
 
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
@@ -106,7 +109,7 @@ export function Hero() {
               href="#kontakt"
               className="inline-flex h-12 items-center gap-2.5 rounded-[10px] bg-accent-deep px-7 text-[14px] font-semibold text-white shadow-[0_6px_18px_-8px_rgba(31,95,191,0.6)] transition-transform duration-300 hover:-translate-y-0.5"
             >
-              Nis një projekt <span aria-hidden>→</span>
+              Kërko propozimin <span aria-hidden>→</span>
             </a>
             <a
               href="#cmimet"
@@ -115,6 +118,20 @@ export function Hero() {
               Shiko çmimet <span aria-hidden>↓</span>
             </a>
           </div>
+
+          <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] font-medium text-fg">
+            {[
+              "Nga €299, me TVSH",
+              "5–7 ditë pune",
+              "2 raunde rishikimi",
+              "Përgjigje brenda 24 orësh",
+            ].map((fact) => (
+              <li key={fact} className="flex items-center gap-2">
+                <span aria-hidden className="size-1.5 rounded-full bg-accent" />
+                {fact}
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
     </section>

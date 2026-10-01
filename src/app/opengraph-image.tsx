@@ -85,7 +85,7 @@ export default async function Image() {
               lineHeight: 1.02,
             }}
           >
-            Krijojmë faqe që
+            E publikuar
           </div>
           <div
             style={{
@@ -97,7 +97,7 @@ export default async function Image() {
               lineHeight: 1.02,
             }}
           >
-            punojnë.
+            në 5–7 ditë.
           </div>
           <div
             style={{
@@ -107,7 +107,7 @@ export default async function Image() {
               color: "#4e535c",
             }}
           >
-            Zhvillim, hosting dhe mirëmbajtje — gjithçka në një vend.
+            Nga €299, me TVSH · faqe, domain dhe email.
           </div>
         </div>
       </div>

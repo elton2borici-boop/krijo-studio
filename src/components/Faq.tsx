@@ -30,7 +30,7 @@ const faqs = [
 
 export function Faq() {
   return (
-    <section id="faq" className="relative bg-canvas-raised py-16 sm:py-24">
+    <section id="faq" className="relative scroll-mt-28 bg-canvas-raised py-16 sm:py-24">
       <Container>
         <div className="grid grid-cols-12 gap-x-8 gap-y-12">
           <div className="col-span-12 lg:col-span-4">

@@ -40,9 +40,11 @@ export function Footer() {
         <div className="mt-12 grid grid-cols-12 gap-x-10 gap-y-10 lg:gap-x-12">
           <div className="col-span-12 min-w-0 lg:col-span-4">
             <p className="serif max-w-sm text-[20px] leading-[1.35] text-fg">
-              Studio e vogël dixhitale.<br />
+              Faqe për biznese të vogla.<br />
               {site.city}, {site.country} &mdash;{" "}
               <span className="italic">që nga {site.foundingYear}.</span>
+              <br />
+              Nga €299, me çmimet në faqe.
             </p>
 
             {socials.length > 0 && (
@@ -67,7 +69,7 @@ export function Footer() {
             {
               title: "Studio",
               links: [
-                { label: "Puna jonë", href: "#punet" },
+                { label: "Formatet", href: "#formatet" },
                 { label: "Çmimet", href: "#cmimet" },
                 { label: "Shërbimet", href: "#sherbimet" },
                 { label: "Procesi", href: "#procesi" },

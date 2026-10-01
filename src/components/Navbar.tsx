@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 /** Single primary navigation surface — footer handles fine-grain jumps. */
 const links = [
-  { href: "#punet", label: "Puna jonë" },
+  { href: "#formatet", label: "Formatet" },
   { href: "#cmimet", label: "Çmimet" },
   { href: "#sherbimet", label: "Shërbimet" },
   { href: "#kontakt", label: "Kontakt" },

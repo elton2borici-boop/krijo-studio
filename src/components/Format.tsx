@@ -10,18 +10,23 @@ import {
   ShopPreview,
   StudioPreview,
 } from "./SiteMocks";
+import { contactHref, type FormatId, type PackageId } from "@/lib/offers";
 import { cn } from "@/lib/utils";
 
 type FormatItem = {
   n: string;
+  id: FormatId;
   title: string;
   tag: string;
   text: string;
-  best: string;
+  forWhom: string;
+  scope: string;
+  time: string;
+  packageId: PackageId;
+  cta: string;
   bullets: string[];
-  /** Worked example of this structure — replaces the old abstract wireframe.
-      Merged in from the former "Punët" section, which asked the same question
-      ("what shape of site do I need?") with different pictures. */
+  /** Worked example of this structure. The pictures are models of the
+      structure, not client projects — the copy says so. */
   example: {
     domain: string;
     label: string;
@@ -33,15 +38,21 @@ type FormatItem = {
 const formats: FormatItem[] = [
   {
     n: "01",
+    id: "nje-faqe",
     title: "Një faqe e vetme",
     tag: "One‑pager",
     text:
-      "Gjithçka në një rrjedhë të vetme — i përshtatshëm kur mesazhi është i drejtpërdrejtë dhe vendimi merret shpejt.",
-    best: "Për biznese të reja, evente, ose një produkt të vetëm.",
+      "Një faqe: çfarë ofron, fotot, orari dhe një buton që çon te telefoni, rezervimi ose WhatsApp. Nuk ka menu me faqe të tjera.",
+    forWhom: "Kafene, evente, një shërbim i vetëm.",
+    scope:
+      "Zakonisht Faqja + Domain · €399. Nëse e ke domain-in: Vetëm Faqja · €299.",
+    time: "5 ditë pune, nëse tekstet dhe fotot janë gati.",
+    packageId: "faqja-plus-domain",
+    cta: "Dua një faqe të vetme",
     bullets: [
-      "Strukturë e shkurtër, vendim i shpejtë",
-      "Përshtatje e shkëlqyer për telefonin",
-      "Lansim më i shpejtë",
+      "4–6 seksione, në një faqe të vetme",
+      "Një veprim kryesor: telefono, rezervim ose porosi",
+      "Hapet së pari në telefon",
     ],
     example: {
       domain: "buke-vere.al",
@@ -52,35 +63,46 @@ const formats: FormatItem[] = [
   },
   {
     n: "02",
+    id: "nenfaqe",
     title: "Uebsajt me nënfaqe",
     tag: "Klasik",
     text:
-      "Kreu, rreth nesh, shërbimet, kontakti — strukturë e qartë që e ndan përmbajtjen sipas asaj që kërkon vizitori.",
-    best: "Për biznese me disa shërbime.",
+      "Kreu, shërbimet, rreth nesh dhe kontakti. Secila faqe përgjigjet për një pyetje — e duhur kur ke disa shërbime dhe klientët kërkojnë secilin veç e veç.",
+    forWhom: "Studio, klinika dhe zyra me 2–6 shërbime.",
+    scope:
+      "Faqja + Domain · €399, deri në 5–7 faqe. Blog dhe mirëmbajtje: Gjithçka · €799.",
+    time: "7 ditë pune, me materialet gati.",
+    packageId: "faqja-plus-domain",
+    cta: "Dua faqe të ndara",
     bullets: [
-      "Deri në 5–7 nënfaqe të dedikuara",
-      "SEO më i thellë për çdo shërbim",
-      "Më e lehtë për t’u rritur me kohën",
+      "5–7 faqe: kryefaqe, shërbime, rreth nesh, kontakt",
+      "Një faqe për çdo shërbim, me titull që lexohet nga Google",
+      "Telefon, email dhe formular në kontakt",
     ],
     example: {
       domain: "avokatura-arta.al",
       label: "Studio ligjore",
-      caption:
-        "Tipografi e qetë dhe shërbime të ndara qartë — besim që në lexim të parë.",
+      caption: "Çdo shërbim është faqe më vete, jo një listë në kryefaqe.",
       preview: <LawPreview />,
     },
   },
   {
     n: "03",
+    id: "portfolio",
     title: "Portfolio",
     tag: "Vizual",
     text:
-      "Fotografia dhe puna jote në qendër — me hapësirë, ritëm dhe një rrjedhë leximi që e bën galerinë protagonistin.",
-    best: "Për fotografë, arkitektë, studio krijuese.",
+      "Galeria është faqja. Teksti është i shkurtër: kush je, çfarë bën, si të të shkruajnë. Fotot ngarkohen në madhësi që hapen shpejt në telefon.",
+    forWhom: "Fotografë, arkitektë, studio krijuese.",
+    scope:
+      "Faqja + Domain · €399. Nëse e ke domain-in: Vetëm Faqja · €299.",
+    time: "7 ditë pune. Më gjatë nëse fotot i zgjedhim bashkë.",
+    packageId: "faqja-plus-domain",
+    cta: "Dua një portfolio",
     bullets: [
-      "Galeri të shpejta dhe të pastra",
-      "Tipografi e zgjedhur me kujdes",
-      "Kategori dhe filtra sipas nevojës",
+      "Galeri me deri në 4 kategori",
+      "Faqe kontakti me telefon dhe email",
+      "Pa tekst të gjatë mbi fotot",
     ],
     example: {
       domain: "elira-nushi.al",
@@ -91,21 +113,26 @@ const formats: FormatItem[] = [
   },
   {
     n: "04",
+    id: "dyqan",
     title: "Dyqan online",
     tag: "E‑commerce",
     text:
-      "Produkte, shportë, pagesa — me një menaxhim që mund ta përdorësh edhe pa njohuri teknike.",
-    best: "Për markat që duan të shesin direkt, pa platforma të jashtme.",
+      "Katalog me çmim, shportë dhe pagesë në faqe. Nuk është një faqe me buton që të çon te Instagram për të porositur.",
+    forWhom: "Marka që shesin produkte direkt, pa marketplace.",
+    scope:
+      "Nuk hyn te €299 ose €399. E nisim nga pakoja Gjithçka · €799 dhe e konfirmojmë me ofertë para punës.",
+    time: "2–3 javë, jo 7 ditë.",
+    packageId: "premium",
+    cta: "Dua një dyqan",
     bullets: [
-      "Pagesa me kartë dhe transfertë",
-      "Stoku & porositë në një vend",
-      "I integrueshëm me Instagram",
+      "Produkt, çmim, stok dhe porosi në një panel",
+      "Pagesë me kartë ose transfertë",
+      "Çmimi i saktë shkruhet para se të nisim",
     ],
     example: {
       domain: "atelier12.al",
       label: "Dyqan artizanal online",
-      caption:
-        "Produkte, çmime dhe blerje e shpejtë — e menduar së pari për telefonin.",
+      caption: "Çmimi dhe butoni i blerjes janë në kartën e produktit.",
       preview: <ShopPreview />,
     },
   },
@@ -116,17 +143,17 @@ export function Format() {
   const current = formats[selected];
 
   return (
-    <section id="punet" className="relative bg-canvas-raised py-16 sm:py-24">
+    <section id="formatet" className="relative scroll-mt-28 bg-canvas-raised py-16 sm:py-24">
       <Container>
         <SectionHeading
-          label="puna & formati"
+          label="formatet"
           title={
             <>
-              Cili format i përshtatet{" "}
-              <span className="text-gradient">markës sate?</span>
+              Katër lloje faqesh.{" "}
+              <span className="text-gradient">Zgjidh njërën.</span>
             </>
           }
-          lede="Zgjidh një strukturë më poshtë për të parë një shembull të plotë të saj. Pamjet janë ilustruese — portofolin me faqe reale klientësh e ndajmë me kërkesë."
+          lede="Secila ka një shembull, një afat dhe pakon ku hyn. Pamjet janë modele të strukturës, jo projekte klientësh."
         />
 
         <div className="mt-8 grid grid-cols-12 gap-x-8 gap-y-8 sm:mt-10 lg:gap-x-12">
@@ -142,7 +169,7 @@ export function Format() {
                   <button
                     type="button"
                     aria-pressed={isActive}
-                    aria-controls="punet-preview"
+                    aria-controls="formatet-preview"
                     onClick={() => setSelected(i)}
                     className={cn(
                       "group flex w-full items-center gap-4 rounded-xl px-5 py-4 text-left transition-all duration-300 min-h-[64px]",
@@ -184,7 +211,7 @@ export function Format() {
 
           {/* Preview panel — right column on desktop, below picker on mobile */}
           <div
-            id="punet-preview"
+            id="formatet-preview"
             aria-live="polite"
             className="col-span-12 flex flex-col gap-5 lg:col-span-7 lg:sticky lg:top-24"
           >
@@ -220,18 +247,32 @@ export function Format() {
               </ul>
             </div>
 
-            <p className="text-[13px] leading-relaxed text-fg">
-              <span className="mr-2 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-fg-muted">
-                Më i përshtatshëm
-              </span>
-              {current.best}
-            </p>
+            <dl className="flex flex-col gap-2.5 text-[13.5px] leading-relaxed text-fg">
+              <div>
+                <dt className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-fg-muted">
+                  Për kë
+                </dt>
+                <dd className="mt-0.5">{current.forWhom}</dd>
+              </div>
+              <div>
+                <dt className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-fg-muted">
+                  Afati
+                </dt>
+                <dd className="mt-0.5">{current.time}</dd>
+              </div>
+              <div>
+                <dt className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-fg-muted">
+                  Çmimi
+                </dt>
+                <dd className="mt-0.5">{current.scope}</dd>
+              </div>
+            </dl>
 
             <a
-              href="#kontakt"
+              href={contactHref({ pako: current.packageId, format: current.id })}
               className="inline-flex h-12 w-fit items-center gap-2 rounded-[10px] bg-accent-deep px-5 text-[14px] font-semibold text-white shadow-[0_6px_18px_-8px_rgba(31,95,191,0.6)] transition-transform duration-300 hover:-translate-y-0.5"
             >
-              Ky format më përshtatet
+              {current.cta}
               <span aria-hidden>→</span>
             </a>
           </div>

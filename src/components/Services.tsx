@@ -38,7 +38,7 @@ export function Services() {
   return (
     <section
       id="sherbimet"
-      className="relative bg-canvas py-16 sm:py-24"
+      className="chapter-warm relative py-16 sm:py-24"
     >
       <Container>
         <SectionHeading
@@ -55,7 +55,7 @@ export function Services() {
           {services.map((s, i) => (
             <li
               key={s.title}
-              className="flex flex-col rounded-2xl border border-hairline bg-white p-5 sm:p-6"
+              className="group flex flex-col rounded-2xl glass p-5 transition-colors duration-500 hover:border-accent/35 sm:p-6"
             >
               <div className="flex items-baseline gap-3">
                 <span className="mono tnum text-[12px] font-medium leading-none text-accent">

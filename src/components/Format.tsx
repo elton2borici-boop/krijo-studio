@@ -116,14 +116,14 @@ export function Format() {
   const current = formats[selected];
 
   return (
-    <section id="punet" className="relative bg-canvas-raised py-16 sm:py-24">
+    <section id="punet" className="chapter-warm relative py-16 sm:py-24">
       <Container>
         <SectionHeading
           label="puna & formati"
           title={
             <>
               Cili format i përshtatet{" "}
-              <span className="text-gradient">markës sate?</span>
+              <span className="italic text-gradient">markës sate?</span>
             </>
           }
           lede="Zgjidh një strukturë më poshtë për të parë një shembull të plotë të saj. Pamjet janë ilustruese — portofolin me faqe reale klientësh e ndajmë me kërkesë."
@@ -145,7 +145,7 @@ export function Format() {
                     aria-controls="punet-preview"
                     onClick={() => setSelected(i)}
                     className={cn(
-                      "group flex w-full items-center gap-4 rounded-xl px-5 py-4 text-left transition-all duration-300 min-h-[64px]",
+                      "group flex w-full items-center gap-4 rounded-2xl px-5 py-4 text-left transition-all duration-500 ease-soft min-h-[64px]",
                       isActive
                         ? "glass-strong text-fg ring-1 ring-accent/40"
                         : "glass text-fg-muted hover:text-fg"
@@ -186,8 +186,9 @@ export function Format() {
           <div
             id="punet-preview"
             aria-live="polite"
-            className="col-span-12 flex flex-col gap-5 lg:col-span-7 lg:sticky lg:top-24"
+            className="col-span-12 lg:sticky lg:top-24 lg:col-span-7"
           >
+          <div key={current.n} className="preview-swap flex flex-col gap-5">
             <p className="text-[15px] leading-relaxed text-fg-muted">
               {current.text}
             </p>
@@ -229,11 +230,12 @@ export function Format() {
 
             <a
               href="#kontakt"
-              className="inline-flex h-12 w-fit items-center gap-2 rounded-[10px] bg-accent-deep px-5 text-[14px] font-semibold text-white shadow-[0_6px_18px_-8px_rgba(31,95,191,0.6)] transition-transform duration-300 hover:-translate-y-0.5"
+              className="btn btn-primary w-fit"
             >
               Ky format më përshtatet
               <span aria-hidden>→</span>
             </a>
+          </div>
           </div>
         </div>
       </Container>

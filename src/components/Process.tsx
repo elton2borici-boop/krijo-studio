@@ -91,14 +91,22 @@ export function Process() {
           image still reads as an image. */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-canvas/88 backdrop-blur-[2px]"
+        className="absolute inset-0 -z-10 bg-canvas/86 backdrop-blur-[2px]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 z-10 h-20 bg-gradient-to-b from-canvas to-transparent"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-t from-canvas to-transparent"
       />
 
       <Container>
         <div className="flex flex-col gap-4 sm:gap-5">
           <Eyebrow>procesi</Eyebrow>
-          <h2 className="serif max-w-3xl text-balance text-[1.9rem] font-bold leading-[1.05] tracking-[0.012em] text-fg sm:text-[2.2rem] lg:text-[2.5rem]">
-            Nga ideja te publikimi — <span className="text-gradient">katër hapa.</span>
+          <h2 className="serif max-w-3xl text-balance text-[1.9rem] font-semibold leading-[1.02] tracking-[-0.02em] text-fg sm:text-[2.2rem] lg:text-[2.5rem]">
+            Nga ideja te publikimi — <span className="italic text-gradient">katër hapa.</span>
           </h2>
           <p className="max-w-2xl text-[15px] leading-relaxed text-fg-muted">
             Kliko një hap për të parë se çfarë ndodh saktësisht në të.

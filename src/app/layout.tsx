@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Sora, IBM_Plex_Mono } from "next/font/google";
+import { DM_Sans, Source_Serif_4, IBM_Plex_Mono } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { site } from "@/lib/site";
 import { localBusinessJsonLd } from "@/lib/structured-data";
@@ -13,11 +13,14 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-/* Display face — large, tight Sora for headlines and the wordmark. */
-const sora = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+/* Display face — Source Serif 4, static cuts only.
+   The optical-size axis redraws on scroll, so weights are pinned.
+   Italic is the emphasis voice (gradient words). Albanian needs latin-ext. */
+const sourceSerif = Source_Serif_4({
+  variable: "--font-source-serif",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "600", "700"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -59,7 +62,7 @@ export default function RootLayout({
   return (
     <html
       lang="sq"
-      className={`${dmSans.variable} ${sora.variable} ${ibmMono.variable} h-full antialiased`}
+      className={`${dmSans.variable} ${sourceSerif.variable} ${ibmMono.variable} h-full antialiased`}
     >
       <body className="relative min-h-full flex flex-col bg-canvas text-fg">
         <script
@@ -78,10 +81,10 @@ export default function RootLayout({
           toastOptions={{
             duration: 4000,
             style: {
-              background: "#ffffff",
+              background: "#fffcf8",
               color: "var(--color-fg)",
               border: "1px solid var(--color-hairline)",
-              borderRadius: 10,
+              borderRadius: 14,
               fontSize: "14px",
               fontWeight: 500,
               padding: "12px 18px",

@@ -3,9 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
-import { Container } from "./ui/Container";
-import { Eyebrow } from "./ui/Eyebrow";
-import { Photo } from "./ui/Photo";
+import { Container } from "@/components/ui/Container";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Photo } from "@/components/ui/Photo";
 import { site, addressLine, telHref, whatsappHref } from "@/lib/site";
 import { packages, formatPrice, OTHER_OPTION } from "@/content/packages";
 

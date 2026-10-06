@@ -1,14 +1,14 @@
-import { Navbar } from "@/components/Navbar";
-import { Hero } from "@/components/Hero";
-import { Services } from "@/components/Services";
-import { Format } from "@/components/Format";
-import { Pricing } from "@/components/Pricing";
-import { Process } from "@/components/Process";
-import { Testimonials } from "@/components/Testimonials";
-import { Faq } from "@/components/Faq";
-import { Contact } from "@/components/Contact";
-import { Footer } from "@/components/Footer";
-import { MotionLayer } from "@/components/MotionLayer";
+import { Navbar } from "@/components/layout/Navbar";
+import { Hero } from "@/components/sections/Hero";
+import { Services } from "@/components/sections/Services";
+import { Format } from "@/components/sections/Format";
+import { Pricing } from "@/components/sections/Pricing";
+import { Process } from "@/components/sections/Process";
+import { Testimonials } from "@/components/sections/Testimonials";
+import { Faq } from "@/components/sections/Faq";
+import { Contact } from "@/components/sections/Contact";
+import { Footer } from "@/components/layout/Footer";
+import { MotionLayer } from "@/components/layout/MotionLayer";
 
 export default function Home() {
   return (

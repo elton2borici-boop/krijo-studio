@@ -1,5 +1,5 @@
-import { Container } from "./ui/Container";
-import { InstagramIcon, FacebookIcon, LinkedInIcon } from "./icons/Social";
+import { Container } from "@/components/ui/Container";
+import { InstagramIcon, FacebookIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { site, addressLine, telHref, whatsappHref } from "@/lib/site";
 
 export function Footer() {

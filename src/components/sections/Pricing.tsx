@@ -1,8 +1,8 @@
 "use client";
 
-import { Container } from "./ui/Container";
-import { SectionHeading } from "./ui/SectionHeading";
-import { CountUp } from "./ui/CountUp";
+import { Container } from "@/components/ui/Container";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { CountUp } from "@/components/ui/CountUp";
 import { cn } from "@/lib/utils";
 import { packages, priceUnit } from "@/content/packages";
 

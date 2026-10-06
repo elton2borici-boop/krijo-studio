@@ -1,5 +1,5 @@
-import { Container } from "./ui/Container";
-import { Eyebrow } from "./ui/Eyebrow";
+import { Container } from "@/components/ui/Container";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 
 const faqs = [
   {

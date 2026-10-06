@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Container } from "./ui/Container";
-import { SectionHeading } from "./ui/SectionHeading";
+import { Container } from "@/components/ui/Container";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { WorkCard } from "./WorkCard";
 import {
   GastroPreview,

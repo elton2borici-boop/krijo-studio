@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Container } from "./ui/Container";
+import { Container } from "@/components/ui/Container";
 import { HeroWall } from "./HeroWall";
 
 /**

@@ -1,5 +1,5 @@
-import { Container } from "./ui/Container";
-import { SectionHeading } from "./ui/SectionHeading";
+import { Container } from "@/components/ui/Container";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
 const services = [
   {

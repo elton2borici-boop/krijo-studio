@@ -58,7 +58,7 @@ export function ContactForm() {
       ref={thanksRef}
       tabIndex={-1}
       role="status"
-      className="card flex h-full min-h-[480px] flex-col items-start justify-center p-8 outline-none sm:p-10"
+      className="card relative flex h-full min-h-[480px] flex-col items-start justify-center overflow-hidden p-8 shadow-raised outline-none before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-accent-fill sm:p-10"
     >
       <span className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">
         faleminderit ✓
@@ -79,7 +79,11 @@ export function ContactForm() {
       </button>
     </div>
   ) : (
-    <form onSubmit={onSubmit} className="card p-6 sm:p-8">
+    <form
+      onSubmit={onSubmit}
+      // Accent cap along the top edge marks the page's final action.
+      className="card relative overflow-hidden p-6 shadow-raised before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-accent-fill sm:p-8"
+    >
       {/* Honeypot: hidden from people and assistive tech, filled by bots. */}
       <input
         type="text"

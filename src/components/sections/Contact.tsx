@@ -34,7 +34,20 @@ function contactDetails() {
 export function Contact() {
   const details = contactDetails();
   return (
-    <Section id="kontakt" labelledBy="kontakt-titulli">
+    <Section
+      id="kontakt"
+      labelledBy="kontakt-titulli"
+      className="isolate overflow-hidden"
+    >
+      {/* Static accent wash and texture behind the closing headline. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_45%_55%_at_15%_25%,var(--accent-soft),transparent_70%)]"
+      />
+      <div
+        aria-hidden
+        className="dot-texture pointer-events-none absolute inset-y-0 left-0 -z-10 w-1/2 opacity-50"
+      />
       <div className="grid gap-14 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-5">
           <Eyebrow>kontakt</Eyebrow>

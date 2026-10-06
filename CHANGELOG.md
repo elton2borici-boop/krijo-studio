@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-10-06 — Simplification and design-system pass
+
+No content or behaviour was removed; every page, API route and form flow works as before (verified after each step with lint, typecheck, build, an HTTP smoke test of every route and API case, and a Playwright run of the format picker, lightbox, process tabs, FAQ, mobile menu and contact form).
+
+### Code
+
+- **Single source for packages**: `src/content/packages.ts` now feeds the pricing cards, contact-form options, the API's Zod enum, lead-notification labels and the JSON-LD catalog (previously five separate copies).
+- **Content split from layout**: all section copy lives in `src/content/`.
+- **Structure**: components grouped into `layout/`, `sections/` and `ui/`; new shared `Button`, `Section` and `CheckIcon` primitives; `SectionHeading` used everywhere.
+- **Less client JS**: Hero, Pricing and the Contact section are Server Components; only `ContactForm` hydrates.
+- **Removed**: `react-hot-toast` (form feedback is now inline and announced to screen readers), IBM Plex Mono, `CountUp`, dead CSS (`dot-grid`, `section-glow`, `tilt`, …), the unused Unsplash image allowance.
+- **Build**: the Turbopack "whole project traced" warning from `db.ts` is fixed.
+
+### Design
+
+- Token-based design system in `globals.css`: semantic colours, one blue accent, two fonts, Tailwind's type scale, radius and shadow tokens.
+- **Dark mode**: follows the OS, manual toggle in the header (remembered per browser), no flash on load.
+- Removed the cursor spotlight, gradient blobs, pricing glow/count-up/scale. The hero wall stays, drifting more slowly.
+
+### Fixes
+
+- Hidden horizontal overflow on phones (12-column grid gaps made the page 464px wide on a 390px screen).
+- Footer links were dead on `/privatesia` (bare `#anchors`).
+- Accessibility: zero axe-core violations (WCAG 2.1 AA) in both themes. Also fixed the Process tab roles, a missing Testimonials heading, labels whose names didn't match their visible text, contact-field autocomplete, Escape to close the mobile menu, and keyboard focus inside not-yet-revealed sections.
+- Privacy policy now discloses the `krijo_ct` rate-limit cookie, the stored browser identifier, the theme preference in localStorage, and Resend/Telegram lead notifications.
+- `/admin` is marked `noindex`.
+
 ## 2026-06-10 — Page compaction and visual redesign
 
 Buyer-lens redesign pass: the page was 16.4 viewports tall on desktop and 22.3 on mobile, repeated its core claims up to five times, and undermined trust with placeholder-looking visuals. Now **8.6k px desktop (−35%) and 11.8k px mobile (−37%)**.

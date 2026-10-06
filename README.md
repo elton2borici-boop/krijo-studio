@@ -10,12 +10,12 @@ The site is intentionally lightweight: no CMS, no animation frameworks, no exter
 
 ## Features
 
-- Single-page editorial layout: Hero, Portfolio showcase, Pricing, Services, Format picker, Process strip, Principles, Testimonials, FAQ, Contact
+- Single-page layout: Hero, Format picker (with enlargeable example sites), Pricing, Services, Process, Testimonials, FAQ, Contact
 - Contact form with Zod validation, spam honeypot, and per-IP rate limiting (5 submissions / 10 minutes)
 - Submissions persisted to SQLite via `better-sqlite3` (synchronous, zero-config)
 - Admin dashboard at `/admin` and JSON listing at `/api/contacts`, both behind Basic Auth in production
-- Warm-paper editorial design system: serif display type, mono labels, grain texture, scroll-reveal motion
-- Accessibility: skip link, visible focus states, reduced-motion support, semantic landmarks, native `<details>` FAQ
+- Token-based design system with light and dark themes (follows the OS, with a manual toggle remembered per browser)
+- Accessibility: skip link, visible focus states, reduced-motion support, labelled landmarks, native `<details>` FAQ; audited with axe-core (WCAG 2.1 AA) in both themes
 - Albanian (`sq`) locale throughout, including metadata and Open Graph tags
 
 ## Tech stack
@@ -25,18 +25,18 @@ The site is intentionally lightweight: no CMS, no animation frameworks, no exter
 | Framework  | Next.js 16 (App Router, Turbopack)                      |
 | UI         | React 19, TypeScript 5                                  |
 | Styling    | Tailwind CSS v4, design tokens in `src/app/globals.css` |
-| Fonts      | DM Sans, Source Serif 4, IBM Plex Mono (`next/font`)    |
+| Fonts      | Sora (display), DM Sans (text) via `next/font`          |
 | Validation | Zod 4                                                   |
 | Storage    | SQLite via `better-sqlite3`                             |
-| Feedback   | react-hot-toast                                         |
 
 ## Architecture
 
 ```
 Browser
   │
-  ├─ GET /              → Server-rendered single page (mostly Server Components;
-  │                       Navbar, Format, Contact are Client Components)
+  ├─ GET /              → Server-rendered single page (Server Components; only
+  │                       Navbar, ThemeToggle, Format, WorkCard, Process,
+  │                       ContactForm and MotionLayer hydrate)
   │
   ├─ POST /api/contact  → Route handler: Zod validation → honeypot check
   │                       → per-IP rate limit → INSERT into SQLite
@@ -57,23 +57,27 @@ The database layer (`src/lib/db.ts`) opens a single shared connection, creates t
 ```
 src/
 ├─ app/
-│  ├─ api/
-│  │  ├─ contact/route.ts     # POST — validate and store a submission
-│  │  └─ contacts/route.ts    # GET  — list submissions (Basic Auth in prod)
-│  ├─ admin/page.tsx          # Server-rendered submissions dashboard
-│  ├─ layout.tsx              # Fonts, metadata, toaster, skip link
-│  ├─ page.tsx                # Homepage section composition
-│  └─ globals.css             # Tailwind v4 theme tokens + custom CSS
+│  ├─ api/contact/route.ts     # POST — validate and store a submission
+│  ├─ api/contacts/route.ts    # GET  — list submissions (Basic Auth in prod)
+│  ├─ admin/page.tsx           # Server-rendered submissions dashboard
+│  ├─ privatesia/page.tsx      # Privacy policy
+│  ├─ layout.tsx               # Fonts, metadata, pre-paint theme script, skip link
+│  ├─ page.tsx                 # Homepage section composition
+│  └─ globals.css              # Design tokens (light + dark) and shared CSS
 ├─ components/
-│  ├─ Hero / Portfolio / Pricing / Services / Format / Process /
-│  │  WhyUs / Testimonials / Faq / Contact / Footer / Navbar
-│  ├─ MotionLayer.tsx         # IntersectionObserver scroll-reveal (progressive)
-│  ├─ icons/Social.tsx        # Inline SVG social icons
-│  └─ ui/                     # Container, SectionHeading, Eyebrow
+│  ├─ layout/                  # Navbar, ThemeToggle, Footer, Logo, MotionLayer
+│  ├─ sections/                # Hero, HeroWall, Format, WorkCard, SiteMocks, Pricing,
+│  │                           # Services, Process, Testimonials, Faq, Contact, ContactForm
+│  └─ ui/                      # Button, Section, SectionHeading, Eyebrow, Container,
+│                              # Photo, CheckIcon, SocialIcons
+├─ content/                    # All page copy as typed data (packages, formats, …)
 ├─ lib/
-│  ├─ db.ts                   # SQLite connection, schema, typed queries
-│  └─ utils.ts                # cn() class-merge helper
-└─ proxy.ts                   # Basic Auth gate for the admin area
+│  ├─ db.ts                    # SQLite connection, schema, typed queries
+│  ├─ notify.ts                # Optional email (Resend) / Telegram lead alerts
+│  ├─ site.ts                  # Business identity (name, email, phone, socials)
+│  ├─ structured-data.ts       # JSON-LD for local search
+│  └─ utils.ts                 # cn() class-merge helper
+└─ proxy.ts                    # Basic Auth gate for the admin area
 data/                          # SQLite files (gitignored, auto-created)
 public/images/                 # Local photography assets
 ```
@@ -168,7 +172,6 @@ There is a single auth mechanism: **HTTP Basic Auth, enforced by [src/proxy.ts](
 - **SQLite persistence** — the database lives on the filesystem (`DATA_DIR`, default `./data`). Deploy to a host with a persistent disk (VPS, Fly.io volume, Railway volume). Serverless platforms without persistent storage will silently lose submissions between invocations.
 - **Native module** — `better-sqlite3` compiles a native binding; run `npm install` on the same OS/architecture as production, and note it is declared in `serverExternalPackages` in [next.config.ts](next.config.ts).
 - **Fonts** — Google Fonts are downloaded at build time and cached by `next/font`. Build once with network access; subsequent offline builds reuse the cache.
-- **Remote images** — only the Hero uses an Unsplash placeholder (allowed via `images.remotePatterns`). Replace it with studio photography before a real launch and remove the Unsplash pattern.
 - **Reverse proxies** — the rate limiter reads `x-forwarded-for`; make sure your proxy sets it accurately, otherwise all traffic appears to share one IP.
 
 ## Development
@@ -179,12 +182,21 @@ There is a single auth mechanism: **HTTP Basic Auth, enforced by [src/proxy.ts](
 
 Where to edit common things:
 
-- **Copy** (all Albanian): section components in `src/components/` — each holds its own content arrays at the top of the file
-- **Pricing**: the `plans` array in [Pricing.tsx](src/components/Pricing.tsx); keep the package `id`s in sync with the Zod enum in [route.ts](src/app/api/contact/route.ts) and the radio options in [Contact.tsx](src/components/Contact.tsx)
-- **Design tokens** (colors, fonts): the `@theme` block in [globals.css](src/app/globals.css)
-- **Contact details / socials**: [Contact.tsx](src/components/Contact.tsx) and [Footer.tsx](src/components/Footer.tsx)
+- **Copy** (all Albanian): `src/content/` — one typed module per section
+- **Packages and prices**: [src/content/packages.ts](src/content/packages.ts) is the single source of truth. The pricing cards, contact-form options, API validation, lead notifications and JSON-LD all read from it
+- **Business details** (email, phone, address, socials): [src/lib/site.ts](src/lib/site.ts)
+- **Design tokens** (colours for both themes, fonts, radius, shadows): the top of [globals.css](src/app/globals.css)
 
-Conventions: Server Components by default — `"use client"` only where state or browser APIs are needed (Navbar, Format, Contact, MotionLayer). Shared UI primitives live in `src/components/ui/`. Class names are merged with the `cn()` helper. The portfolio "site previews" are pure CSS/text mocks in [Portfolio.tsx](src/components/Portfolio.tsx) — edit the copy there to change the showcased examples.
+### Design system
+
+- **Colour**: semantic tokens only (`canvas`, `surface`, `fg`, `fg-muted`, `hairline`, `accent`, `accent-fill`, `danger`, …). Each has a light and a dark value in `globals.css`; never use raw hex in components. The illustrative mini-sites in `SiteMocks.tsx` are the one deliberate exception, since they depict light-themed client sites.
+- **Type**: Sora (`font-display`) for headings, DM Sans for everything else; Tailwind's default size scale (`text-xs` … `text-7xl`).
+- **Shape and depth**: `rounded-control` (buttons, inputs), `rounded-card` (cards, panels), `shadow-card` / `shadow-raised` / `shadow-overlay`.
+- **Building blocks**: wrap a homepage section in `<Section>`, head it with `<SectionHeading>`, and use `<Button>` / `<ButtonLink>` for actions and the `card` class for panels.
+- **Dark mode**: an inline script in `layout.tsx` sets `data-theme` on `<html>` before paint (stored choice, else OS). Tailwind's `dark:` variant follows that attribute.
+- **Motion**: subtle only. Scroll reveal, hover colour changes, the active-link underline, and the slowly drifting hero wall (which slows further, rather than stopping, under `prefers-reduced-motion`; see the note in `globals.css` to stop it entirely).
+
+Conventions: Server Components by default; `"use client"` only where state or browser APIs are needed. Class names are merged with the `cn()` helper.
 
 ## Security
 

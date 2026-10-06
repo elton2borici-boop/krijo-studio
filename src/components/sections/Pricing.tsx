@@ -26,20 +26,23 @@ export function Pricing() {
         role="list"
         tabIndex={0}
         aria-label="Pakot"
-        className="-mx-4 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pt-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 lg:grid-cols-4"
+        className="stagger -mx-4 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pt-6 pb-4 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 lg:grid-cols-4 lg:items-stretch"
       >
-        {packages.map((p) => (
+        {packages.map((p, i) => (
           <li
             key={p.id}
+            style={{ "--i": i } as React.CSSProperties}
             className={cn(
-              "card relative flex w-[82vw] max-w-sm shrink-0 snap-center flex-col p-6 transition-colors duration-200 sm:w-auto sm:max-w-none",
+              "card relative flex w-[82vw] max-w-sm shrink-0 snap-center flex-col p-6 sm:w-auto sm:max-w-none",
+              // The recommended plan is the page's focal card: a navy panel
+              // (tone-ink re-themes its contents) standing a little taller.
               p.starred
-                ? "border-accent shadow-raised"
-                : "hover:border-hairline-strong"
+                ? "tone-ink border-accent/40 shadow-raised lg:-my-4 lg:py-10"
+                : "card-hover"
             )}
           >
             {p.starred && (
-              <span className="absolute -top-3 left-6 rounded-full bg-accent-fill px-3 py-1 text-xs font-semibold text-on-accent">
+              <span className="absolute -top-3 left-6 rounded-full bg-accent-fill px-3 py-1 text-xs font-semibold text-on-accent shadow-card">
                 Rekomanduar për biznese të reja
               </span>
             )}
@@ -55,7 +58,7 @@ export function Pricing() {
             </p>
 
             <p className="mt-6 flex items-baseline gap-1.5 border-t border-hairline pt-5">
-              <span className="font-display text-4xl font-bold tabular-nums leading-none text-fg">
+              <span className="font-display text-5xl font-bold tabular-nums leading-none tracking-tight text-fg">
                 {p.price}
               </span>
               <span className="text-sm font-medium text-fg-muted">

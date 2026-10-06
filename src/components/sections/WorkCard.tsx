@@ -50,14 +50,12 @@ export function WorkCard({
         </span>
       </button>
 
-      <div className="mt-4 flex items-baseline justify-between gap-3">
-        <h3 className="font-display text-lg font-semibold text-fg">
-          {title}
-        </h3>
-        <span className="shrink-0 text-xs font-semibold uppercase tracking-[0.12em] text-accent">
-          {tag}
-        </span>
-      </div>
+      <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-accent">
+        {tag}
+      </p>
+      <h3 className="mt-1 font-display text-lg font-semibold text-fg">
+        {title}
+      </h3>
       <p className="mt-1.5 text-sm leading-relaxed text-fg-muted">
         {caption}
       </p>

@@ -57,10 +57,12 @@ export function Format() {
                   aria-controls="punet-preview"
                   onClick={() => setSelected(i)}
                   className={cn(
-                    "group flex min-h-16 w-full items-center gap-4 rounded-card border px-5 py-4 text-left transition-colors duration-200",
+                    "group relative flex min-h-16 w-full items-center gap-4 overflow-hidden rounded-card border px-5 py-4 text-left transition-[background-color,border-color,box-shadow] duration-200",
+                    // Accent bar on the leading edge marks the current pick.
+                    "before:absolute before:inset-y-3 before:left-0 before:w-1 before:rounded-r-full before:bg-accent before:transition-transform before:duration-300 before:ease-out-soft",
                     isActive
-                      ? "border-accent bg-surface shadow-card"
-                      : "border-transparent hover:border-hairline hover:bg-surface"
+                      ? "border-hairline bg-surface shadow-raised before:scale-y-100"
+                      : "border-transparent before:scale-y-0 hover:border-hairline hover:bg-surface/70"
                   )}
                 >
                   <span
@@ -100,9 +102,15 @@ export function Format() {
         <div
           id="punet-preview"
           aria-live="polite"
-          className="flex flex-col gap-6 lg:sticky lg:top-24 lg:col-span-7 lg:self-start"
+          className="relative isolate flex flex-col gap-6 overflow-hidden rounded-card border border-hairline bg-stage p-6 sm:p-8 lg:sticky lg:top-24 lg:col-span-7 lg:self-start"
         >
-          <p className="text-base leading-relaxed text-fg-muted">
+          {/* The stage: a tinted, textured backdrop so the example reads as
+              a showcase rather than another card on the page. */}
+          <div
+            aria-hidden
+            className="dot-texture pointer-events-none absolute inset-0 -z-10 opacity-70"
+          />
+          <p className="text-base leading-relaxed text-fg">
             {current.text}
           </p>
 

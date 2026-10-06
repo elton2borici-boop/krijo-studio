@@ -3,19 +3,23 @@ import path from "node:path";
 import fs from "node:fs";
 
 // Override with DATA_DIR in production to point at a persistent volume.
-const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), "data");
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
+// The turbopackIgnore hints stop the build from tracing the whole project
+// into the server bundle because of these runtime filesystem paths.
+const DATA_DIR =
+  process.env.DATA_DIR ||
+  path.join(/* turbopackIgnore: true */ process.cwd(), "data");
+if (!fs.existsSync(/* turbopackIgnore: true */ DATA_DIR)) {
+  fs.mkdirSync(/* turbopackIgnore: true */ DATA_DIR, { recursive: true });
 }
 
-const DB_PATH = path.join(DATA_DIR, "krijo.db");
+const DB_PATH = path.join(/* turbopackIgnore: true */ DATA_DIR, "krijo.db");
 
 declare global {
   var __krijoDb: Database.Database | undefined;
 }
 
 function createDb() {
-  const db = new Database(DB_PATH);
+  const db = new Database(/* turbopackIgnore: true */ DB_PATH);
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
 

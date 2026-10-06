@@ -82,7 +82,7 @@ export function Contact() {
       {/* Mesh glow instead of a photo */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div
-          className="mesh-blob mesh-a absolute -left-[10%] top-[10%] h-[55vh] w-[55vh] rounded-full"
+          className="mesh-blob absolute -left-[10%] top-[10%] h-[55vh] w-[55vh] rounded-full"
           style={{ background: "radial-gradient(circle, rgba(31,95,191,0.09), transparent 64%)" }}
         />
         <div

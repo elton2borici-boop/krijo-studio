@@ -58,7 +58,7 @@ export function Hero() {
           composition picks up the same tint. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-20">
         <div
-          className="mesh-blob mesh-a absolute -left-[12%] -top-[20%] h-[72vh] w-[72vh] rounded-full"
+          className="mesh-blob absolute -left-[12%] -top-[20%] h-[72vh] w-[72vh] rounded-full"
           style={{
             background:
               "radial-gradient(circle, rgba(31,95,191,0.10), transparent 62%)",

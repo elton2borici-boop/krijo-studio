@@ -66,7 +66,10 @@ export function Navbar() {
       <div
         className={cn(
           "mx-auto flex w-full max-w-6xl items-center justify-between gap-4 rounded-card border px-4 py-2.5 transition-[background-color,border-color,box-shadow] duration-300",
-          scrolled || open ? "nav-surface" : "border-transparent"
+          // Over the blue hero the bar is transparent and borrows the hero's
+          // palette (white type, inverted button); once scrolled it becomes
+          // the normal frosted surface.
+          scrolled || open ? "nav-surface" : "tone-accent-vars border-transparent"
         )}
       >
         <Logo />

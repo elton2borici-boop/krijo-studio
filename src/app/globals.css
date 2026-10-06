@@ -256,6 +256,54 @@
     color: var(--fg);
   }
 
+  /* Brand-blue band: the hero, and the one card per section that should
+     shout. Buttons invert (white fill, blue text). The -vars variant swaps
+     colours without painting a background — used by the navbar while it
+     floats over the blue hero.
+     Contrast vs #1b4fa8: fg 7.7, muted 5.9, accent 5.5, line-strong 3.6. */
+  .tone-accent,
+  .tone-accent-vars {
+    color-scheme: dark;
+    --canvas: #1b4fa8;
+    --canvas-raised: #1d55b2;
+    --surface: #2458b3;
+    --stage: #2458b3;
+    --fg: #ffffff;
+    --fg-muted: #d6e3fa;
+    --fg-faint: #9dbcf0;
+    --fg-placeholder: #c4d6f5;
+    --line: rgb(255 255 255 / 0.18);
+    --line-strong: #8fb3ee;
+    --accent: #c4dbff;
+    --accent-fill: #ffffff;
+    --on-accent: #1b4fa8;
+    --accent-soft: rgb(255 255 255 / 0.14);
+    --shadow-color: 6 20 50;
+    --shadow-strength: 2;
+    color: var(--fg);
+  }
+
+  .tone-accent {
+    background-color: var(--canvas);
+  }
+
+  /* Forces the light palette on a subtree — for the illustrative browser
+     windows in the hero, which depict real (light) websites in any theme. */
+  .tone-paper {
+    color-scheme: light;
+    --canvas: #fbfaf7;
+    --canvas-raised: #f3f1ec;
+    --surface: #ffffff;
+    --fg: #15181d;
+    --fg-muted: #4e535c;
+    --line: #e3dfd6;
+    --line-strong: #8b8579;
+    --accent: #1b56ad;
+    --shadow-color: 6 20 50;
+    --shadow-strength: 2.2;
+    color: var(--fg);
+  }
+
   /* Static dot texture, faded toward the edges. Paint-once, no motion. */
   .dot-texture {
     background-image: radial-gradient(
@@ -541,6 +589,25 @@
 /* Keyboard focus never lands in a half-faded section. */
 .reveal:focus-within {
   transition: none;
+}
+
+/* Services marquee: two identical lists side by side, shifted by exactly one
+   list width so the loop is seamless. Pauses on hover; under reduced motion
+   the global rule below stops it and it rests as a static row. */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
 /* Theme switch: a short cross-fade via the View Transitions API where

@@ -7,7 +7,7 @@ import { packages, priceUnit } from "@/content/packages";
 
 export function Pricing() {
   return (
-    <Section id="cmimet" labelledBy="cmimet-titulli">
+    <Section id="cmimet" tone="ink" labelledBy="cmimet-titulli">
       <SectionHeading
         id="cmimet-titulli"
         label="çmimet"
@@ -34,10 +34,10 @@ export function Pricing() {
             style={{ "--i": i } as React.CSSProperties}
             className={cn(
               "card relative flex w-[82vw] max-w-sm shrink-0 snap-center flex-col p-6 sm:w-auto sm:max-w-none",
-              // The recommended plan is the page's focal card: a navy panel
-              // (tone-ink re-themes its contents) standing a little taller.
+              // On the navy section the recommended plan is the one bright-blue
+              // panel (tone-accent re-themes its contents), standing taller.
               p.starred
-                ? "tone-ink border-accent/40 shadow-raised lg:-my-4 lg:py-10"
+                ? "tone-accent border-transparent shadow-overlay lg:-my-6 lg:py-12"
                 : "card-hover"
             )}
           >

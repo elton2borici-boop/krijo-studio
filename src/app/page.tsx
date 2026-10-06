@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/sections/Hero";
+import { ServicesMarquee } from "@/components/sections/ServicesMarquee";
 import { Services } from "@/components/sections/Services";
 import { Format } from "@/components/sections/Format";
 import { Pricing } from "@/components/sections/Pricing";
@@ -23,6 +24,7 @@ export default function Home() {
           section silently reversed that, which is worth guarding here. */}
       <main id="permbajtja" className="relative flex-1">
         <Hero />
+        <ServicesMarquee />
         <Format />
         <Pricing />
         <Services />

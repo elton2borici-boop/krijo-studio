@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-06 — Bolder identity
+
+- **Brand-blue hero** (`.tone-accent`): full-bleed blue, white display type up to 8xl, a fanned stack of example sites on the right (`ui/BrowserFrame.tsx`, light via `.tone-paper`), the drifting wall as a white-line texture.
+- **Navbar** borrows the hero palette while floating over it, and becomes the frosted bar once scrolled.
+- **Services marquee** under the hero (names from `content/services.ts`; screen readers get the list once; stops under reduced motion).
+- **Larger section headings** throughout.
+- **Colour blocking**: pricing on navy with the recommended plan in bright blue; the core service card in blue; navy footer.
+- Still zero axe-core violations in both themes; no horizontal overflow on phones.
+
 ## 2026-10-06 — Visual depth pass
 
 The first redesign was clean but every section shared one template (eyebrow, heading, grid of identical white cards) on near-identical backgrounds. This pass gives the page rhythm and focal points without new dependencies, extra fonts or a second accent colour.

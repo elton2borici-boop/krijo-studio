@@ -52,7 +52,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="border-t border-hairline bg-canvas-deep py-16 sm:py-20">
+    <footer className="tone-ink py-16 sm:py-20">
       <Container>
         {/* Decorative wordmark — the name is already in the header logo. */}
         <p

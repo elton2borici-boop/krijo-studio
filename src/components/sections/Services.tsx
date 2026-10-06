@@ -28,7 +28,9 @@ export function Services() {
             style={{ "--i": i } as React.CSSProperties}
             className={cn(
               "card card-hover relative flex flex-col overflow-hidden p-6 sm:p-7",
-              wide.has(i) && "lg:col-span-2"
+              wide.has(i) && "lg:col-span-2",
+              // The core service leads in brand blue.
+              i === 0 && "tone-accent border-transparent"
             )}
           >
             {/* Oversized faint numeral as a quiet graphic anchor. Drawn as

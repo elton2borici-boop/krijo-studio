@@ -4,98 +4,8 @@ import { Container } from "./ui/Container";
 import { SectionHeading } from "./ui/SectionHeading";
 import { CountUp } from "./ui/CountUp";
 import { cn } from "@/lib/utils";
+import { packages, priceUnit } from "@/content/packages";
 
-type Plan = {
-  id: string;
-  name: string;
-  tagline: string;
-  price: string;
-  unit: string;
-  note: string;
-  description: string;
-  features: string[];
-  cta: string;
-  starred?: boolean;
-};
-
-const plans: Plan[] = [
-  {
-    id: "vetem-faqja",
-    name: "Vetëm Faqja",
-    tagline: "Fillimi yt",
-    price: "299",
-    unit: "€",
-    note: "Një pagesë e vetme. Pa kosto mujore.",
-    description: "Ti sjell domain-in dhe hosting-un. Ne sjellim faqen.",
-    features: [
-      "Deri në 5 faqe të personalizuara",
-      "Dizajn unik, kod nga zero",
-      "Plotësisht responsive",
-      "Formular kontakti",
-      "SEO bazë",
-      "Dorëzim brenda 7 ditësh",
-    ],
-    cta: "Zgjidh këtë pako",
-  },
-  {
-    id: "faqja-plus-domain",
-    name: "Faqja + Domain",
-    tagline: "Gati për nisje",
-    price: "399",
-    unit: "€",
-    note: "Një pagesë e vetme. Domain & email të përfshira për 1 vit.",
-    description: "Gjithçka për të nisur. Asgjë tjetër për të blerë.",
-    features: [
-      "Gjithçka nga pakoja Vetëm Faqja",
-      "Domain falas vitin e parë (.al/.com)",
-      "Email profesional @biznesi-yt",
-      "DNS i konfiguruar plotësisht",
-      "Integrim me Instagram & Facebook",
-      "Dorëzim brenda 5 ditësh",
-    ],
-    cta: "Nis me këtë pako",
-    starred: true,
-  },
-  {
-    id: "mirembajtje",
-    name: "Mirëmbajtje",
-    tagline: "Për faqet ekzistuese",
-    price: "29",
-    unit: "€/muaj",
-    note: "Asnjë kontratë afatgjatë. Anulim kur të duash.",
-    description: "Ti ke tashmë faqen. Ne mbajmë gjithçka në rregull.",
-    features: [
-      "Përditësime të rregullta",
-      "Kopje rezervë ditore",
-      "Monitorim 24/7",
-      "Rregullim defektesh",
-      "2 ndryshime përmbajtjeje/muaj",
-      "Raport mujor",
-    ],
-    cta: "Aktivizo mirëmbajtjen",
-  },
-  {
-    id: "premium",
-    name: "Gjithçka",
-    tagline: "Eksperienca e plotë",
-    price: "799",
-    unit: "€",
-    note: "+ €39/muaj mirëmbajtje. Pa kufizim faqesh.",
-    description:
-      "Lansim i plotë: faqe, domain, hosting, email, SEO, mirëmbajtje.",
-    features: [
-      "Numër i pakufizuar faqesh",
-      "Domain .al + .com (2 vjet)",
-      "Hosting premium me CDN global",
-      "5 email-e profesionale",
-      "Mirëmbajtje 24/7 e përfshirë",
-      "SEO i avancuar + Google Ads",
-      "Blog / Lajme / Newsletter",
-      "Linjë WhatsApp e dedikuar",
-    ],
-    cta: "Zgjidh këtë pako",
-  },
-];
 
 export function Pricing() {
   return (
@@ -119,7 +29,7 @@ export function Pricing() {
             The recommended plan is scaled up and lifted out of the row; the
             other three sit on a lower surface so the eye has one target. */}
         <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 lg:mt-16 lg:grid lg:grid-cols-4 lg:overflow-visible lg:pb-0">
-          {plans.map((p) => (
+          {packages.map((p) => (
             <div
               key={p.id}
               className={cn(
@@ -164,11 +74,11 @@ export function Pricing() {
 
               <div className="mt-5 flex flex-wrap items-baseline gap-x-2 gap-y-1 border-y border-hairline py-3.5">
                 <CountUp
-                  value={Number(p.price)}
+                  value={p.price}
                   className="serif tnum text-[clamp(28px,3.8vw,36px)] font-bold leading-none tracking-tight text-gradient"
                 />
                 <span className="text-[13px] font-medium text-fg-muted">
-                  {p.unit}
+                  {priceUnit(p)}
                 </span>
               </div>
               <p className="mt-2.5 text-[12px] leading-[1.6] text-fg-muted">

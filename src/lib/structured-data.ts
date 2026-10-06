@@ -1,4 +1,5 @@
 import { site, addressLine } from "./site";
+import { packages } from "@/content/packages";
 
 /**
  * LocalBusiness schema for Albanian local search.
@@ -7,6 +8,11 @@ import { site, addressLine } from "./site";
  * contradicts the visible page, so an unconfirmed address or phone number is
  * omitted rather than guessed — see the TODOs in src/lib/site.ts.
  */
+function priceRange() {
+  const prices = packages.map((p) => p.price);
+  return `€${Math.min(...prices)}–€${Math.max(...prices)}`;
+}
+
 export function localBusinessJsonLd() {
   const address = addressLine();
 
@@ -21,7 +27,7 @@ export function localBusinessJsonLd() {
       "Studio e vogël dixhitale në Tiranë. Faqe interneti, domain, hosting dhe mirëmbajtje, me çmime të hapura.",
     inLanguage: "sq",
     areaServed: { "@type": "Country", name: "Shqipëri" },
-    priceRange: "€29–€799",
+    priceRange: priceRange(),
     foundingDate: String(site.foundingYear),
     knowsLanguage: ["sq", "en"],
   };
@@ -49,25 +55,20 @@ export function localBusinessJsonLd() {
   data.hasOfferCatalog = {
     "@type": "OfferCatalog",
     name: "Pako",
-    itemListElement: [
-      { name: "Vetëm Faqja", price: "299", unit: null },
-      { name: "Faqja + Domain", price: "399", unit: null },
-      { name: "Mirëmbajtje", price: "29", unit: "MON" },
-      { name: "Gjithçka", price: "799", unit: null },
-    ].map((p) => ({
+    itemListElement: packages.map((p) => ({
       "@type": "Offer",
       itemOffered: { "@type": "Service", name: p.name },
-      price: p.price,
+      price: String(p.price),
       priceCurrency: "EUR",
-      ...(p.unit
+      ...(p.monthly
         ? {
             priceSpecification: {
               "@type": "UnitPriceSpecification",
-              price: p.price,
+              price: String(p.price),
               priceCurrency: "EUR",
               billingDuration: 1,
               billingIncrement: 1,
-              unitCode: p.unit,
+              unitCode: "MON",
             },
           }
         : {}),

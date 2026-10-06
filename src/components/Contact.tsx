@@ -7,13 +7,15 @@ import { Container } from "./ui/Container";
 import { Eyebrow } from "./ui/Eyebrow";
 import { Photo } from "./ui/Photo";
 import { site, addressLine, telHref, whatsappHref } from "@/lib/site";
+import { packages, formatPrice, OTHER_OPTION } from "@/content/packages";
 
-const packages = [
-  { id: "vetem-faqja", label: "Vetëm Faqja · €299" },
-  { id: "faqja-plus-domain", label: "Faqja + Domain · €399" },
-  { id: "mirembajtje", label: "Mirëmbajtje · €29/muaj" },
-  { id: "premium", label: "Gjithçka · €799" },
-  { id: "tjeter", label: "Diçka tjetër / pyetje" },
+const interestOptions = [
+  ...packages.map((p) => ({
+    id: p.id as string,
+    label: `${p.name} · ${formatPrice(p)}`,
+    starred: p.starred,
+  })),
+  { ...OTHER_OPTION, starred: false },
 ];
 
 /** Only the channels that are actually reachable — see src/lib/site.ts. */
@@ -192,7 +194,7 @@ export function Contact() {
                     Më intereson
                   </legend>
                   <div className="grid gap-2 sm:grid-cols-2">
-                    {packages.map((p, i) => (
+                    {interestOptions.map((p) => (
                       <label
                         key={p.id}
                         className="group flex cursor-pointer items-center gap-3 rounded-[10px] border border-hairline-strong bg-white px-4 py-3 text-[14px] text-fg-muted transition-colors hover:border-fg-muted has-[:checked]:border-accent has-[:checked]:bg-accent-soft has-[:checked]:text-fg has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent has-[:focus-visible]:outline-offset-2"
@@ -201,7 +203,7 @@ export function Contact() {
                           type="radio"
                           name="package"
                           value={p.id}
-                          defaultChecked={i === 1}
+                          defaultChecked={p.starred}
                           className="sr-only"
                         />
                         {/* Radio mark, drawn so the selected state is visible

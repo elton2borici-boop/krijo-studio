@@ -1,5 +1,6 @@
 import type { ContactRow } from "./db";
 import { site } from "./site";
+import { interestLabel } from "@/content/packages";
 
 /**
  * Push a new lead to wherever the owner actually looks: email and/or Telegram.
@@ -13,14 +14,6 @@ import { site } from "./site";
  *   TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID
  */
 
-const PACKAGE_LABELS: Record<string, string> = {
-  "vetem-faqja": "Vetëm Faqja (€299)",
-  "faqja-plus-domain": "Faqja + Domain (€399)",
-  mirembajtje: "Mirëmbajtje (€29/muaj)",
-  premium: "Gjithçka (€799)",
-  tjeter: "Diçka tjetër / pyetje",
-};
-
 function summarize(row: ContactRow) {
   const lines = [
     `Emri: ${row.name}`,
@@ -28,7 +21,7 @@ function summarize(row: ContactRow) {
     row.phone ? `Telefon: ${row.phone}` : null,
     row.business ? `Biznesi: ${row.business}` : null,
     row.package
-      ? `Interesi: ${PACKAGE_LABELS[row.package] ?? row.package}`
+      ? `Interesi: ${interestLabel(row.package)}`
       : null,
     "",
     row.message,

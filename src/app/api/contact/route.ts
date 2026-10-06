@@ -7,6 +7,7 @@ import {
   countContactsSinceByToken,
 } from "@/lib/db";
 import { notifyNewLead } from "@/lib/notify";
+import { INTEREST_IDS } from "@/content/packages";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -68,13 +69,7 @@ const contactSchema = z.object({
     .nullable()
     .transform((v) => v || null),
   package: z
-    .enum([
-      "vetem-faqja",
-      "faqja-plus-domain",
-      "mirembajtje",
-      "premium",
-      "tjeter",
-    ])
+    .enum(INTEREST_IDS)
     .optional()
     .nullable(),
   message: z

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Footer } from "@/components/layout/Footer";
+import { Logo } from "@/components/layout/Logo";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -72,21 +74,27 @@ const collected = [
 export default function PrivacyPage() {
   return (
     <>
-      <main className="relative flex-1 py-24 sm:py-32">
+      <header className="px-3 pt-3 sm:px-6">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2.5">
+          <Logo />
+          <ThemeToggle />
+        </div>
+      </header>
+      <main id="permbajtja" className="relative flex-1 pt-12 pb-24 sm:pt-16 sm:pb-32">
         <Container>
           <div className="mx-auto max-w-2xl">
             <Link
               href="/"
-              className="link-underline text-[13.5px] font-medium text-fg-muted"
+              className="link-underline text-sm font-medium text-fg-muted hover:text-accent"
             >
               ← kthehu në faqen kryesore
             </Link>
 
-            <h1 className="serif mt-8 text-balance text-[clamp(2.2rem,5vw,3.2rem)] font-extrabold leading-[1.05] tracking-[0.012em] text-fg">
-              Politika e <span className="text-gradient">privatësisë.</span>
+            <h1 className="mt-8 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-fg sm:text-5xl">
+              Politika e <span className="text-accent">privatësisë.</span>
             </h1>
 
-            <p className="mt-6 text-[16px] leading-[1.7] text-fg-muted">
+            <p className="mt-6 text-base leading-relaxed text-fg-muted">
               Kjo faqe ka një formular të vetëm kontakti. Nuk përdorim cookies
               gjurmuese, nuk kemi Google Analytics, nuk kemi pixel reklamash dhe
               nuk ndajmë asgjë me palë të treta për marketing. Më poshtë është
@@ -111,13 +119,13 @@ export default function PrivacyPage() {
               <ul className="mt-2 flex flex-col divide-y divide-hairline border-y border-hairline">
                 {collected.map((c) => (
                   <li key={c.field} className="grid gap-1 py-4 sm:grid-cols-[180px_1fr] sm:gap-4">
-                    <span className="text-[12px] font-semibold text-accent">
+                    <span className="text-xs font-semibold text-accent">
                       {c.field}
                       {!c.required && (
                         <span className="text-fg-muted"> · opsionale</span>
                       )}
                     </span>
-                    <span className="text-[14.5px] leading-relaxed text-fg-muted">
+                    <span className="text-sm leading-relaxed text-fg-muted">
                       {c.why}
                     </span>
                   </li>
@@ -133,6 +141,10 @@ export default function PrivacyPage() {
                 tregon kush je, skadon pas 30 ditësh dhe shërben vetëm për të
                 mbrojtur formularin nga spam-i. Nuk përdorim cookies analitike
                 ose reklamash.
+              </p>
+              <p className="mt-3">
+                Nëse zgjedh temën e çelët ose të errët, zgjedhja ruhet vetëm në
+                shfletuesin tënd (localStorage) dhe nuk na dërgohet ne.
               </p>
             </Section>
 
@@ -227,10 +239,10 @@ function Section({
 }) {
   return (
     <section className="mt-12">
-      <h2 className="serif text-[22px] font-bold tracking-tight text-fg">
+      <h2 className="font-display text-2xl font-bold tracking-tight text-fg">
         {title}
       </h2>
-      <div className="mt-3 text-[15px] leading-[1.7] text-fg-muted">
+      <div className="mt-3 text-base leading-relaxed text-fg-muted">
         {children}
       </div>
     </section>

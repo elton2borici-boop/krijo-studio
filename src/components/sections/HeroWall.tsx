@@ -23,7 +23,7 @@
    headline. Tune the wall's opacity for contrast, these for legibility. */
 const NEUTRAL = "bg-fg/[0.36]";
 const NEUTRAL_SOFT = "bg-fg/[0.24]";
-const ACCENT = "bg-accent-deep/90";
+const ACCENT = "bg-accent-fill/90";
 
 function Bar({ w = "w-full", h = "h-2", tone = NEUTRAL }: Tone) {
   return <div className={`${h} ${w} shrink-0 rounded-[2px] ${tone}`} />;
@@ -51,7 +51,7 @@ function Tile({
 }) {
   return (
     <div
-      className={`${h} flex shrink-0 flex-col gap-1.5 overflow-hidden rounded-lg border-2 border-fg/30 bg-white p-2`}
+      className={`${h} flex shrink-0 flex-col gap-1.5 overflow-hidden rounded-lg border-2 border-fg/30 bg-surface p-2`}
     >
       <Chrome />
       {children}

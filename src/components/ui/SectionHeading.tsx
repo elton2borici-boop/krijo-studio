@@ -2,9 +2,8 @@ import { cn } from "@/lib/utils";
 import { Eyebrow } from "./Eyebrow";
 
 /**
- * One quiet eyebrow label — avoids duplicating navbar “chapter numbers”.
- * `size="lg"` is reserved for the page's key moments (pricing); secondary
- * sections use the default "md" so the headline rhythm doesn't shout six times.
+ * Eyebrow + h2 + optional lede. `size="lg"` is reserved for the page's key
+ * moment (pricing) so the headline rhythm doesn't shout in every section.
  */
 export function SectionHeading({
   label,
@@ -12,6 +11,7 @@ export function SectionHeading({
   lede,
   align = "left",
   size = "md",
+  id,
   className,
 }: {
   label: string;
@@ -19,29 +19,30 @@ export function SectionHeading({
   lede?: React.ReactNode;
   align?: "left" | "center";
   size?: "md" | "lg";
+  /** Lets the section point aria-labelledby at the heading. */
+  id?: string;
   className?: string;
 }) {
   return (
     <div
       className={cn(
-        "flex flex-col gap-4 sm:gap-5",
+        "flex flex-col gap-4",
         align === "center" ? "items-center text-center" : "items-start",
         className
       )}
     >
       <Eyebrow>{label}</Eyebrow>
       <h2
+        id={id}
         className={cn(
-          "serif max-w-4xl text-balance font-bold leading-[1.04] tracking-[0.012em] text-fg",
-          size === "lg"
-            ? "text-[2.3rem] sm:text-[3rem] lg:text-[3.7rem]"
-            : "text-[1.8rem] sm:text-[2.05rem] lg:text-[2.3rem]"
+          "max-w-3xl font-display font-bold leading-[1.1] tracking-tight text-fg",
+          size === "lg" ? "text-4xl sm:text-5xl" : "text-3xl sm:text-4xl"
         )}
       >
         {title}
       </h2>
       {lede && (
-        <p className="max-w-2xl text-pretty text-[15px] leading-relaxed text-fg-muted sm:text-[16px]">
+        <p className="max-w-2xl text-pretty text-base leading-relaxed text-fg-muted sm:text-lg">
           {lede}
         </p>
       )}

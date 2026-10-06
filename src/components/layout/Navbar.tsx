@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Logo } from "./Logo";
+import { ThemeToggle } from "./ThemeToggle";
+import { ButtonLink } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-import { ButtonLink, buttonClasses } from "@/components/ui/Button";
 
 /** Single primary navigation surface — footer handles fine-grain jumps. */
 const links = [
@@ -18,10 +19,9 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
 
-  // Scroll-spy: highlight the nav link for the section crossing a band ~45%
-  // down the viewport (IntersectionObserver). A single passive scroll read
-  // also tracks the sticky background and clears the highlight up in the hero,
-  // where no nav section is in the band yet.
+  // Scroll-spy: highlight the link for the section crossing a band ~45% down
+  // the viewport. A passive scroll read also drives the nav background and
+  // clears the highlight while still in the hero.
   useEffect(() => {
     const els = links
       .map((l) => document.getElementById(l.href.slice(1)))
@@ -29,7 +29,6 @@ export function Navbar() {
 
     const onScroll = () => {
       setScrolled(window.scrollY > 8);
-      // Above the first nav section → no section is "current".
       if (els[0] && els[0].getBoundingClientRect().top > window.innerHeight * 0.55) {
         setActive("");
       }
@@ -54,18 +53,26 @@ export function Navbar() {
     };
   }, []);
 
+  // Escape closes the mobile menu.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-3 sm:px-6 sm:pt-4">
+    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6">
       <div
         className={cn(
-          "mx-auto flex w-full max-w-[1180px] items-center justify-between rounded-[14px] px-4 py-2.5 transition-all duration-300 sm:px-5",
-          scrolled ? "glass-nav" : "border border-transparent"
+          "mx-auto flex w-full max-w-6xl items-center justify-between gap-4 rounded-card border px-4 py-2.5 transition-[background-color,border-color,box-shadow] duration-300",
+          scrolled || open ? "nav-surface" : "border-transparent"
         )}
       >
         <Logo />
 
         <nav className="hidden lg:block" aria-label="Navigimi kryesor">
-          <ul className="flex items-center gap-7">
+          <ul className="flex items-center gap-8">
             {links.map((l) => {
               const isActive = active === l.href.slice(1);
               return (
@@ -74,8 +81,13 @@ export function Navbar() {
                     href={l.href}
                     aria-current={isActive ? "true" : undefined}
                     className={cn(
-                      "text-[14px] font-medium transition-colors hover:text-fg",
-                      isActive ? "text-accent" : "text-fg-muted"
+                      // The underline is the "new" effect: it slides in under
+                      // the current section's link as you scroll.
+                      "relative py-1 text-sm font-medium transition-colors duration-200 hover:text-fg",
+                      "after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:rounded-full after:bg-accent after:transition-transform after:duration-300 after:ease-out-soft",
+                      isActive
+                        ? "text-fg after:scale-x-100"
+                        : "text-fg-muted after:scale-x-0"
                     )}
                   >
                     {l.label}
@@ -86,46 +98,48 @@ export function Navbar() {
           </ul>
         </nav>
 
-        <div className="hidden lg:block">
-          <ButtonLink href="#kontakt" size="sm">
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <ButtonLink href="#kontakt" size="sm" className="hidden lg:inline-flex">
             Kontakt
           </ButtonLink>
+          <button
+            type="button"
+            aria-label={open ? "Mbyll menynë" : "Hap menynë"}
+            aria-expanded={open}
+            aria-controls="menu-celular"
+            onClick={() => setOpen((o) => !o)}
+            className="inline-flex h-9 items-center rounded-control border border-hairline-strong px-4 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent lg:hidden"
+          >
+            {open ? "Mbyll" : "Menu"}
+          </button>
         </div>
-
-        <button
-          type="button"
-          aria-label={open ? "Mbyll menynë" : "Hap menynë"}
-          aria-expanded={open}
-          onClick={() => setOpen((o) => !o)}
-          className={buttonClasses({ variant: "secondary", size: "sm", className: "bg-transparent lg:hidden" })}
-        >
-          {open ? "Mbyll" : "Menu"}
-        </button>
       </div>
 
-      {/* Opaque, not glass: this panel floats over the hero headline, and a 5%
-          white fill leaves 60px display type legible straight through it. */}
       {open && (
-        <div className="mx-auto mt-2 max-w-[1180px] rounded-[14px] border border-hairline bg-white px-2 shadow-[0_20px_50px_-18px_rgba(21,24,29,0.25)] lg:hidden">
+        <div
+          id="menu-celular"
+          className="card mx-auto mt-2 max-w-6xl p-2 shadow-raised lg:hidden"
+        >
           <nav aria-label="Menuja për celular">
-            <ul className="px-3 py-1">
+            <ul>
               {links.map((l) => (
-                <li key={l.href} className="border-b border-hairline last:border-b-0">
+                <li key={l.href}>
                   <a
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    className="flex items-center justify-between py-3.5 text-[15px] font-medium text-fg"
+                    className="flex items-center justify-between rounded-control px-4 py-3.5 text-base font-medium text-fg transition-colors hover:bg-canvas-raised"
                   >
                     {l.label}
-                    <span className="text-[12px] text-accent">→</span>
+                    <span aria-hidden className="text-accent">→</span>
                   </a>
                 </li>
               ))}
-              <li className="py-3">
+              <li className="p-2">
                 <ButtonLink
                   href="#kontakt"
                   onClick={() => setOpen(false)}
-                  className="h-11 w-full"
+                  className="w-full"
                 >
                   Kontakt
                 </ButtonLink>

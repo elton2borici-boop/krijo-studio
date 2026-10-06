@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
  * A framed photograph, graded to sit inside the page's palette.
  *
  * The source images are warm daylight shots; the page's only chromatic voice is
- * blue (--color-accent-deep). A low-opacity `mix-blend-mode: color` layer
+ * blue (--color-accent-fill). A low-opacity `mix-blend-mode: color` layer
  * shifts hue toward that blue while leaving luminance alone, so the photos read
  * as part of the same system without going cold or muddy. Strength is one
  * token: --photo-tint (see globals.css).

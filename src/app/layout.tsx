@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import { DM_Sans, Sora, IBM_Plex_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { DM_Sans, Sora } from "next/font/google";
 import { site } from "@/lib/site";
 import { localBusinessJsonLd } from "@/lib/structured-data";
 import "./globals.css";
 
-/* Body face — muted white at rest. */
+/* Body face. */
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin", "latin-ext"],
@@ -12,20 +12,27 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-/* Display face — large, tight Sora for headlines and the wordmark. */
+/* Display face — headlines and the wordmark. */
 const sora = Sora({
   variable: "--font-sora",
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+  subsets: ["latin", "latin-ext"],
+  weight: ["600", "700", "800"],
   display: "swap",
 });
 
-const ibmMono = IBM_Plex_Mono({
-  variable: "--font-ibm-mono",
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500"],
-  display: "swap",
-});
+/**
+ * Runs before first paint so the page never flashes the wrong theme: a stored
+ * choice wins, otherwise the OS setting — which it keeps following live until
+ * the visitor picks one with the toggle.
+ */
+const themeScript = `(function(){try{var d=document.documentElement,m=matchMedia("(prefers-color-scheme: dark)");function a(){var s=localStorage.getItem("theme");d.dataset.theme=s==="dark"||s==="light"?s:m.matches?"dark":"light"}a();m.addEventListener("change",a)}catch(e){}})()`;
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fbfaf7" },
+    { media: "(prefers-color-scheme: dark)", color: "#0e1014" },
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -58,9 +65,14 @@ export default function RootLayout({
   return (
     <html
       lang="sq"
-      className={`${dmSans.variable} ${sora.variable} ${ibmMono.variable} h-full antialiased`}
+      className={`${dmSans.variable} ${sora.variable} h-full`}
+      // The theme script sets data-theme before React hydrates.
+      suppressHydrationWarning
     >
-      <body className="relative min-h-full flex flex-col bg-canvas text-fg">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="relative flex min-h-full flex-col bg-canvas text-fg">
         <script
           type="application/ld+json"
           // Serialized from a typed object we control, not user input.

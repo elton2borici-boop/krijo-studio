@@ -1,136 +1,114 @@
-import { Container } from "@/components/ui/Container";
+import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { CountUp } from "@/components/ui/CountUp";
+import { ButtonLink } from "@/components/ui/Button";
+import { CheckIcon } from "@/components/ui/CheckIcon";
 import { cn } from "@/lib/utils";
 import { packages, priceUnit } from "@/content/packages";
-import { ButtonLink } from "@/components/ui/Button";
-
 
 export function Pricing() {
   return (
-    <section
-      id="cmimet"
-      className="relative bg-canvas-raised py-16 sm:py-24"
-    >
-      <Container>
-        <SectionHeading
-          label="çmimet"
-          size="lg"
-          title={
-            <>
-              Katër pako. <span className="text-gradient">Çmime të hapura.</span>
-            </>
-          }
-          lede="Në Euro, me TVSH të përfshirë. Pa kosto të fshehura — dhe nëse të duhet diçka tjetër, bëjmë ofertë të personalizuar."
-        />
+    <Section id="cmimet" labelledBy="cmimet-titulli">
+      <SectionHeading
+        id="cmimet-titulli"
+        label="çmimet"
+        size="lg"
+        title={
+          <>
+            Katër pako. <span className="text-accent">Çmime të hapura.</span>
+          </>
+        }
+        lede="Në Euro, me TVSH të përfshirë. Pa kosto të fshehura — dhe nëse të duhet diçka tjetër, bëjmë ofertë të personalizuar."
+      />
 
-        {/* Cards. Mobile: swipeable snap row (cards peek). Desktop: 4-up.
-            The recommended plan is scaled up and lifted out of the row; the
-            other three sit on a lower surface so the eye has one target. */}
-        <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 lg:mt-16 lg:grid lg:grid-cols-4 lg:overflow-visible lg:pb-0">
-          {packages.map((p) => (
-            <div
-              key={p.id}
-              className={cn(
-                // The hover-lift lives here and nowhere else. It was on four
-                // different kinds of card, which made it read as decoration;
-                // confined to the one section where you are actively comparing
-                // and choosing, it reads as "pick me" again.
-                "group card-spot relative flex w-[84vw] shrink-0 snap-center flex-col rounded-2xl p-6 transition-transform duration-300 sm:w-[400px] lg:w-auto lg:hover:-translate-y-1.5",
-                p.starred
-                  ? "glass-strong border-accent shadow-[0_20px_48px_-18px_rgba(31,95,191,0.35)] lg:-mt-3 lg:scale-[1.03] lg:p-7"
-                  : "glass card-quiet"
-              )}
-            >
-              {/* Accent hairline draws in on hover. Clipped to the rounded top
-                  corners without an overflow-hidden that would cut the badge. */}
-              <span
-                aria-hidden
-                className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[2px] origin-left scale-x-0 rounded-t-2xl bg-gradient-to-r from-accent to-violet transition-transform duration-300 ease-out group-hover:scale-x-100"
-              />
-
-              {p.starred && (
-                <span className="absolute -top-3 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full bg-accent-deep px-3 py-1 text-[10px] font-semibold tracking-[0.02em] text-white shadow-[0_4px_12px_-2px_rgba(31,95,191,0.45)]">
-                  Rekomanduar për biznese të reja
-                </span>
-              )}
-
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-fg-muted">
-                  {p.tagline}
-                </span>
-              </div>
-
-              <div className="mt-4 flex items-baseline gap-2.5">
-                <h3 className="serif text-[21px] font-bold tracking-tight text-fg">
-                  {p.name}
-                </h3>
-              </div>
-
-              <p className="mt-3 text-[13px] leading-relaxed text-fg-muted">
-                {p.description}
-              </p>
-
-              <div className="mt-5 flex flex-wrap items-baseline gap-x-2 gap-y-1 border-y border-hairline py-3.5">
-                <CountUp
-                  value={p.price}
-                  className="serif tnum text-[clamp(28px,3.8vw,36px)] font-bold leading-none tracking-tight text-gradient"
-                />
-                <span className="text-[13px] font-medium text-fg-muted">
-                  {priceUnit(p)}
-                </span>
-              </div>
-              <p className="mt-2.5 text-[12px] leading-[1.6] text-fg-muted">
-                {p.note}
-              </p>
-
-              <ul className="mt-5 flex flex-col gap-2">
-                {p.features.map((f) => (
-                  <li
-                    key={f}
-                    className="flex gap-2 text-[13.5px] leading-snug text-fg-muted"
-                  >
-                    <span aria-hidden className="text-accent">✓</span>
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-auto pt-6">
-                <ButtonLink
-                  href="#kontakt"
-                  variant={p.starred ? "primary" : "secondary"}
-                  className="h-11 w-full justify-between px-4 text-[13px]"
-                >
-                  <span>{p.cta}</span>
-                  <span aria-hidden>→</span>
-                </ButtonLink>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Swipe affordance: the peeking card alone doesn't tell people the row
-            scrolls, and there is no hover state on touch to hint at it. */}
-        <p
-          aria-hidden
-          className="mt-3 flex items-center justify-center gap-2 text-[12px] font-medium text-fg-muted lg:hidden"
-        >
-          <span>←</span> rrëshqit për të gjitha katër pakot <span>→</span>
-        </p>
-
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
-          <p className="text-[12.5px] leading-relaxed text-fg-muted">
-            * çmimet me TVSH të përfshirë. † IBAN shqiptar, transfertë ndërkombëtare ose para në dorë.
-          </p>
-          <a
-            href="#kontakt"
-            className="link-underline text-[13.5px] font-medium text-fg"
+      {/* Phones: a swipeable row (cards peek), focusable so it can also be
+          scrolled from the keyboard. Tablets: 2×2. Desktop: 4 across. */}
+      <ul
+        role="list"
+        tabIndex={0}
+        aria-label="Pakot"
+        className="-mx-4 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pt-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 lg:grid-cols-4"
+      >
+        {packages.map((p) => (
+          <li
+            key={p.id}
+            className={cn(
+              "card relative flex w-[82vw] max-w-sm shrink-0 snap-center flex-col p-6 transition-colors duration-200 sm:w-auto sm:max-w-none",
+              p.starred
+                ? "border-accent shadow-raised"
+                : "hover:border-hairline-strong"
+            )}
           >
-            nuk je i sigurt? bisedo me ne →
-          </a>
-        </div>
-      </Container>
-    </section>
+            {p.starred && (
+              <span className="absolute -top-3 left-6 rounded-full bg-accent-fill px-3 py-1 text-xs font-semibold text-on-accent">
+                Rekomanduar për biznese të reja
+              </span>
+            )}
+
+            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-fg-muted">
+              {p.tagline}
+            </span>
+            <h3 className="mt-3 font-display text-xl font-bold text-fg">
+              {p.name}
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-fg-muted">
+              {p.description}
+            </p>
+
+            <p className="mt-6 flex items-baseline gap-1.5 border-t border-hairline pt-5">
+              <span className="font-display text-4xl font-bold tabular-nums leading-none text-fg">
+                {p.price}
+              </span>
+              <span className="text-sm font-medium text-fg-muted">
+                {priceUnit(p)}
+              </span>
+            </p>
+            <p className="mt-2 text-xs leading-relaxed text-fg-muted">
+              {p.note}
+            </p>
+
+            <ul className="mt-6 flex flex-col gap-2.5 border-t border-hairline pt-5">
+              {p.features.map((f) => (
+                <li key={f} className="flex gap-2.5 text-sm leading-snug text-fg">
+                  <CheckIcon />
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-auto pt-8">
+              <ButtonLink
+                href="#kontakt"
+                variant={p.starred ? "primary" : "secondary"}
+                className="w-full justify-between"
+              >
+                <span>{p.cta}</span>
+                <span aria-hidden>→</span>
+              </ButtonLink>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      {/* Swipe affordance: a peeking card alone doesn't say the row scrolls. */}
+      <p
+        aria-hidden
+        className="mt-3 text-center text-xs font-medium text-fg-muted sm:hidden"
+      >
+        ← rrëshqit për të gjitha katër pakot →
+      </p>
+
+      <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
+        <p className="text-sm leading-relaxed text-fg-muted">
+          * çmimet me TVSH të përfshirë. † IBAN shqiptar, transfertë
+          ndërkombëtare ose para në dorë.
+        </p>
+        <a
+          href="#kontakt"
+          className="link-underline text-sm font-medium text-accent"
+        >
+          nuk je i sigurt? bisedo me ne →
+        </a>
+      </div>
+    </Section>
   );
 }

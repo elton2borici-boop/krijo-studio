@@ -1,4 +1,4 @@
-import { Container } from "@/components/ui/Container";
+import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Photo } from "@/components/ui/Photo";
 import { site, addressLine, telHref, whatsappHref } from "@/lib/site";
@@ -34,50 +34,39 @@ function contactDetails() {
 export function Contact() {
   const details = contactDetails();
   return (
-    <section
-      id="kontakt"
-      className="relative isolate overflow-hidden bg-canvas py-20 sm:py-28"
-    >
-      {/* Mesh glow instead of a photo */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div
-          className="mesh-blob absolute -left-[10%] top-[10%] h-[55vh] w-[55vh] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(31,95,191,0.09), transparent 64%)" }}
-        />
-        <div
-          className="mesh-blob mesh-b absolute -bottom-[20%] right-[-8%] h-[50vh] w-[50vh] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(91,63,212,0.07), transparent 66%)" }}
-        />
-      </div>
+    <Section id="kontakt" labelledBy="kontakt-titulli">
+      <div className="grid gap-14 lg:grid-cols-12 lg:gap-8">
+        <div className="lg:col-span-5">
+          <Eyebrow>kontakt</Eyebrow>
 
-      <Container>
-        <div className="grid grid-cols-12 gap-y-14 lg:gap-x-8">
-          {/* Left: bold statement */}
-          <div className="col-span-12 lg:col-span-5">
-            <Eyebrow className="mb-5">kontakt</Eyebrow>
+          <h2
+            id="kontakt-titulli"
+            className="mt-4 font-display text-5xl font-extrabold leading-[1.02] tracking-tight text-fg sm:text-6xl"
+          >
+            Le të <span className="text-accent">flasim.</span>
+            <br />
+            Një kafe ose
+            <br />
+            një email.
+          </h2>
 
-            <h2 className="serif text-balance text-[clamp(2.4rem,5.5vw,4.2rem)] font-extrabold leading-[1] tracking-[0.012em] text-fg">
-              Le të <span className="text-gradient">flasim.</span><br />
-              Një kafe ose<br />
-              një email.
-            </h2>
+          <p className="mt-6 max-w-md text-lg leading-relaxed text-fg-muted">
+            Plotëso formularin këtu ose na shkruaj drejtpërdrejt &mdash;
+            përgjigjemi brenda 24 orësh, me një propozim falas e pa asnjë
+            angazhim.
+          </p>
 
-            <p className="mt-7 max-w-md text-[16px] leading-[1.6] text-fg-muted">
-              Plotëso formularin këtu ose na shkruaj drejtpërdrejt &mdash; përgjigjemi brenda 24 orësh, me një propozim falas e pa asnjë angazhim.
-            </p>
-
-            {/* Two photographs, paired. The headline offers a coffee, and the
-                studio shot answers the question a stranger actually has at the
-                point of writing to you: who am I about to email? It moved here
-                when the "Si punojmë" section was cut. */}
-            <div className="mt-9 grid grid-cols-2 gap-3">
+          {/* The headline offers a coffee; the studio shot answers the
+              question a stranger has at this point: who am I emailing? */}
+          <figure className="mt-10">
+            <div className="grid grid-cols-2 gap-3">
               <Photo
                 src="/images/kafe.webp"
                 alt="Një espresso dhe një bloknot mbi tavolinën e një kafenaje në Tiranë."
                 width={1408}
                 height={690}
                 sizes="(min-width: 1024px) 225px, 45vw"
-                className="aspect-[4/3] rounded-2xl border border-hairline shadow-[0_10px_30px_-14px_rgba(21,24,29,0.18)]"
+                className="aspect-[4/3] rounded-card border border-hairline"
               />
               <Photo
                 src="/images/studio.webp"
@@ -85,42 +74,41 @@ export function Contact() {
                 width={1376}
                 height={690}
                 sizes="(min-width: 1024px) 225px, 45vw"
-                className="aspect-[4/3] rounded-2xl border border-hairline shadow-[0_10px_30px_-14px_rgba(21,24,29,0.18)]"
+                className="aspect-[4/3] rounded-card border border-hairline"
               />
             </div>
-            <p className="mt-3 text-[12.5px] leading-relaxed text-fg-muted">
+            <figcaption className="mt-3 text-sm leading-relaxed text-fg-muted">
               Studioja jonë në Tiranë — projektet zhvillohen një nga një.
-            </p>
+            </figcaption>
+          </figure>
 
-            <dl className="mt-12 flex flex-col gap-5 text-[14px]">
-              {details.map((d) => (
-                <div
-                  key={d.term}
-                  className="grid grid-cols-[80px_1fr] gap-3 border-t border-hairline pt-4"
-                >
-                  <dt className="text-[11px] font-semibold uppercase tracking-[0.08em] text-fg-muted">
-                    {d.term}
-                  </dt>
-                  <dd className="text-fg">
-                    {d.href ? (
-                      <a href={d.href} className="link-underline text-fg">
-                        {d.value}
-                      </a>
-                    ) : (
-                      d.value
-                    )}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          {/* Right: glass form */}
-          <div className="col-span-12 lg:col-span-6 lg:col-start-7">
-            <ContactForm />
-          </div>
+          <dl className="mt-10 flex flex-col text-sm">
+            {details.map((d) => (
+              <div
+                key={d.term}
+                className="grid grid-cols-[5rem_1fr] gap-3 border-t border-hairline py-4"
+              >
+                <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-fg-muted">
+                  {d.term}
+                </dt>
+                <dd className="text-fg">
+                  {d.href ? (
+                    <a href={d.href} className="link-underline">
+                      {d.value}
+                    </a>
+                  ) : (
+                    d.value
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
-      </Container>
-    </section>
+
+        <div className="lg:col-span-6 lg:col-start-7">
+          <ContactForm />
+        </div>
+      </div>
+    </Section>
   );
 }

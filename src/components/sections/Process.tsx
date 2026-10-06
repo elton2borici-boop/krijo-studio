@@ -39,7 +39,8 @@ export function Process() {
   return (
     <section
       id="procesi"
-      className="relative isolate overflow-hidden py-16 sm:py-24"
+      className="relative isolate overflow-hidden py-20 sm:py-28"
+      aria-labelledby="procesi-titulli"
     >
       {/* Background photograph, washed back far enough to sit under text. */}
       <div aria-hidden className="absolute inset-0 -z-20">
@@ -52,21 +53,21 @@ export function Process() {
           priority={false}
         />
       </div>
-      {/* Scrim: the photo is light and busy, and body copy needs a floor to
-          stand on. Slightly stronger at the edges than the middle so the
-          image still reads as an image. */}
+      {/* Scrim: the photo is light and busy, and body copy needs a floor
+          to stand on — in either theme, since it is the canvas colour. */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-canvas/88 backdrop-blur-[2px]"
+        className="absolute inset-0 -z-10 bg-canvas/90 backdrop-blur-[2px]"
       />
 
       <Container>
         <SectionHeading
+          id="procesi-titulli"
           label="procesi"
           title={
             <>
               Nga ideja te publikimi —{" "}
-              <span className="text-gradient">katër hapa.</span>
+              <span className="text-accent">katër hapa.</span>
             </>
           }
           lede="Kliko një hap për të parë se çfarë ndodh saktësisht në të."
@@ -90,12 +91,12 @@ export function Process() {
             style={{ width: `${(active / (steps.length - 1)) * 100}%` }}
           />
 
-          <ol className="relative grid gap-4 sm:grid-cols-4 sm:gap-6">
+          <ol role="presentation" className="relative grid gap-4 sm:grid-cols-4 sm:gap-6">
             {steps.map((s, i) => {
               const isActive = i === active;
               const isDone = i < active;
               return (
-                <li key={s.n}>
+                <li key={s.n} role="presentation">
                   <button
                     id={`hap-${i}`}
                     role="tab"
@@ -103,13 +104,13 @@ export function Process() {
                     aria-controls="hap-detajet"
                     tabIndex={isActive ? 0 : -1}
                     onClick={() => setActive(i)}
-                    className="group flex w-full items-center gap-3 text-left sm:flex-col sm:items-start sm:gap-3"
+                    className="group flex w-full items-center gap-3 rounded-control text-left sm:flex-col sm:items-start"
                   >
                     <span
                       className={cn(
-                        "grid size-11 shrink-0 place-items-center rounded-full border-2 text-[13px] font-semibold tabular-nums transition-colors duration-300",
+                        "grid size-11 shrink-0 place-items-center rounded-full border-2 text-sm font-semibold tabular-nums transition-colors duration-300",
                         isActive
-                          ? "border-accent bg-accent text-white"
+                          ? "border-accent-fill bg-accent-fill text-on-accent"
                           : isDone
                             ? "border-accent bg-canvas text-accent"
                             : "border-hairline-strong bg-canvas text-fg-muted group-hover:border-accent group-hover:text-accent"
@@ -118,12 +119,12 @@ export function Process() {
                       {s.n}
                     </span>
                     <span className="flex flex-col gap-0.5">
-                      <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-fg-muted">
+                      <span className="text-xs font-semibold uppercase tracking-[0.12em] text-fg-muted">
                         {s.days}
                       </span>
                       <span
                         className={cn(
-                          "serif text-[19px] font-bold leading-tight tracking-tight transition-colors duration-300",
+                          "font-display text-xl font-bold leading-tight transition-colors duration-300",
                           isActive ? "text-fg" : "text-fg-muted group-hover:text-fg"
                         )}
                       >
@@ -150,7 +151,7 @@ export function Process() {
           id="hap-detajet"
           role="tabpanel"
           aria-live="polite"
-          className="mt-8 grid max-w-2xl rounded-2xl glass p-6 sm:mt-10 sm:p-8"
+          className="card mt-8 grid max-w-2xl p-6 sm:mt-10 sm:p-8"
         >
           {steps.map((s, i) => (
             <div
@@ -161,8 +162,8 @@ export function Process() {
                 i === active ? "opacity-100" : "invisible opacity-0"
               )}
             >
-              <p className="text-[16px] leading-relaxed text-fg">{s.text}</p>
-              <p className="mt-3 text-[14.5px] leading-relaxed text-fg-muted">
+              <p className="text-base leading-relaxed text-fg">{s.text}</p>
+              <p className="mt-3 text-sm leading-relaxed text-fg-muted">
                 {s.detail}
               </p>
             </div>

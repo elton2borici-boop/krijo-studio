@@ -1,22 +1,17 @@
 import { cn } from "@/lib/utils";
 
+/** Centred page-width wrapper with the standard side gutters. */
 export function Container({
   children,
   className,
-  size = "default",
 }: {
   children: React.ReactNode;
   className?: string;
-  size?: "default" | "wide" | "narrow";
 }) {
-  const max =
-    size === "wide"
-      ? "max-w-[1400px]"
-      : size === "narrow"
-        ? "max-w-3xl"
-        : "max-w-[1240px]";
   return (
-    <div className={cn("mx-auto w-full px-6 sm:px-10 lg:px-14", max, className)}>
+    <div
+      className={cn("mx-auto w-full max-w-6xl px-4 sm:px-8 lg:px-10", className)}
+    >
       {children}
     </div>
   );

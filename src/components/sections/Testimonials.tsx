@@ -1,33 +1,39 @@
-import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Section } from "@/components/ui/Section";
 import { testimonials } from "@/content/testimonials";
 
 export function Testimonials() {
   return (
-    <section className="relative bg-canvas py-16 sm:py-24">
-      <Container>
-        <Eyebrow className="mb-9 sm:mb-11">zëra klientësh</Eyebrow>
+    <Section labelledBy="zerat-titulli">
+      {/* Styled as an eyebrow, but a real heading so the section is reachable
+          by heading navigation. */}
+      <h2
+        id="zerat-titulli"
+        className="text-xs font-semibold uppercase tracking-[0.12em] text-accent"
+      >
+        zëra klientësh
+      </h2>
 
-        <div className="grid grid-cols-12 gap-5">
-          {testimonials.map((q) => (
-            <figure
-              key={q.name}
-              className="col-span-12 flex flex-col rounded-2xl glass p-7 lg:col-span-4"
-            >
-              <span className="serif text-[52px] leading-[0.5] text-gradient" aria-hidden>
+      <ul role="list" className="mt-10 grid gap-4 lg:grid-cols-3">
+        {testimonials.map((q) => (
+          <li key={q.name} className="card flex">
+            <figure className="flex flex-1 flex-col p-7">
+              <span
+                aria-hidden
+                className="font-display text-5xl leading-[0.5] text-accent"
+              >
                 “
               </span>
-              <blockquote className="mt-4 flex-1 text-[16px] leading-[1.5] text-fg sm:text-[17px]">
+              <blockquote className="mt-5 flex-1 text-base leading-relaxed text-fg sm:text-lg">
                 {q.text}
               </blockquote>
-              <figcaption className="mt-6 flex flex-col gap-1 border-t border-hairline pt-4 text-[13px]">
-                <span className="text-fg">{q.name}</span>
-                <span className="max-w-none text-pretty leading-relaxed text-fg-muted">{q.role}</span>
+              <figcaption className="mt-6 flex flex-col gap-0.5 border-t border-hairline pt-4 text-sm">
+                <span className="font-semibold text-fg">{q.name}</span>
+                <span className="text-fg-muted">{q.role}</span>
               </figcaption>
             </figure>
-          ))}
-        </div>
-      </Container>
-    </section>
+          </li>
+        ))}
+      </ul>
+    </Section>
   );
 }

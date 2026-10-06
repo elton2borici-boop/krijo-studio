@@ -1,11 +1,6 @@
 import { cn } from "@/lib/utils";
 
-/**
- * Small label above each section heading. Uppercase and tracked rather than a
- * mono shell prompt — the terminal styling read as "built by programmers" to a
- * non-technical buyer, which is the opposite of the intended signal.
- * Pass a text-* class to retint.
- */
+/** Small uppercase label above a heading. */
 export function Eyebrow({
   children,
   className,
@@ -16,7 +11,7 @@ export function Eyebrow({
   return (
     <p
       className={cn(
-        "inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-accent",
+        "text-xs font-semibold uppercase tracking-[0.12em] text-accent",
         className
       )}
     >

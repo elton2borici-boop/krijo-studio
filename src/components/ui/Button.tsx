@@ -4,18 +4,18 @@ type Variant = "primary" | "secondary";
 type Size = "sm" | "md";
 
 const base =
-  "inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-[10px] font-semibold transition-[transform,color,border-color] duration-300 disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-control font-semibold transition-colors duration-200 disabled:pointer-events-none disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-accent-deep text-white shadow-[0_6px_18px_-8px_rgba(31,95,191,0.6)] hover:-translate-y-0.5",
+    "bg-accent-fill text-on-accent shadow-card hover:bg-[color-mix(in_srgb,var(--accent-fill)_88%,var(--fg))]",
   secondary:
-    "border border-hairline-strong bg-white text-fg hover:border-accent hover:text-accent",
+    "border border-hairline-strong bg-surface text-fg hover:border-accent hover:text-accent",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-9 px-4 text-[13.5px]",
-  md: "h-12 px-7 text-[14px]",
+  sm: "h-9 px-4 text-sm",
+  md: "h-12 px-6 text-sm",
 };
 
 /** Class string for anything that should look like a button. */

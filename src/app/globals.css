@@ -1,305 +1,309 @@
 @import "tailwindcss";
 
+/* Dark mode follows `data-theme` on <html>, which the inline script in
+   layout.tsx sets before first paint (stored choice, else the OS setting). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* =============================================================================
+   Design tokens
+   -----------------------------------------------------------------------------
+   Raw values live on :root and are swapped per theme; the @theme block below
+   maps them onto Tailwind utilities (bg-canvas, text-fg, rounded-card, …).
+   Components only ever use the semantic names, never a hex value, so both
+   themes come from this one file.
+
+   Contrast (WCAG 2.x) measured against the theme's canvas / surface:
+                    light            dark
+     fg             17.1 / 17.8      16.7 / 14.8
+     fg-muted        7.4 /  7.7       8.4 /  7.5
+     accent          6.8 /  7.0       9.0 /  8.0
+     placeholder     4.5 /  4.7       6.0 /  5.3
+     line-strong     3.5 /  3.7       3.9 /  3.5   (≥3:1 for control borders)
+     white on accent-fill: 6.1 light, 5.1 dark
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  --canvas: #fbfaf7; /* page background */
+  --canvas-raised: #f3f1ec; /* alternate sections */
+  --canvas-deep: #ebe8e1; /* footer */
+  --surface: #ffffff; /* cards, inputs, menus */
+
+  --fg: #15181d;
+  --fg-muted: #4e535c;
+  --fg-faint: #7c8290; /* decorative only — below 4.5:1 */
+  --fg-placeholder: #6e747f;
+
+  --line: #e3dfd6; /* dividers, card edges */
+  --line-strong: #8b8579; /* control borders */
+
+  --accent: #1b56ad; /* text, icons, focus */
+  --accent-fill: #1f5fbf; /* button backgrounds */
+  --on-accent: #ffffff;
+  --accent-soft: rgb(31 95 191 / 0.1);
+
+  --danger: #b42318;
+
+  --shadow-color: 21 24 29;
+  --shadow-strength: 1;
+}
+
+/* Dark palette — applied by explicit choice (data-theme="dark"), or by the OS
+   setting when no choice has been made. The two blocks must stay identical;
+   the media-query copy is what visitors without JavaScript get. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --canvas: #0e1014;
+  --canvas-raised: #15181e;
+  --canvas-deep: #0a0c0f;
+  --surface: #1a1d24;
+
+  --fg: #eef0f3;
+  --fg-muted: #a7adb8;
+  --fg-faint: #6b7280;
+  --fg-placeholder: #8b919c;
+
+  --line: #262a31;
+  --line-strong: #6b7280;
+
+  --accent: #8ab4f8;
+  --accent-fill: #2f6bd0;
+  --on-accent: #ffffff;
+  --accent-soft: rgb(138 180 248 / 0.12);
+
+  --danger: #f97066;
+
+  --shadow-color: 0 0 0;
+  --shadow-strength: 2.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --canvas: #0e1014;
+    --canvas-raised: #15181e;
+    --canvas-deep: #0a0c0f;
+    --surface: #1a1d24;
+
+    --fg: #eef0f3;
+    --fg-muted: #a7adb8;
+    --fg-faint: #6b7280;
+    --fg-placeholder: #8b919c;
+
+    --line: #262a31;
+    --line-strong: #6b7280;
+
+    --accent: #8ab4f8;
+    --accent-fill: #2f6bd0;
+    --on-accent: #ffffff;
+    --accent-soft: rgb(138 180 248 / 0.12);
+
+    --danger: #f97066;
+
+    --shadow-color: 0 0 0;
+    --shadow-strength: 2.5;
+  }
+}
+
 @theme inline {
-  /* Light, warm neutral. Warmth comes from the neutral's hue bias, not from a
-     second accent — the blue is the only chromatic voice, deepened so it holds
-     AA on a light ground. Every ratio below is measured against --color-canvas.
+  /* Colour */
+  --color-canvas: var(--canvas);
+  --color-canvas-raised: var(--canvas-raised);
+  --color-canvas-deep: var(--canvas-deep);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-faint: var(--fg-faint);
+  --color-fg-placeholder: var(--fg-placeholder);
+  --color-hairline: var(--line);
+  --color-hairline-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-fill: var(--accent-fill);
+  --color-on-accent: var(--on-accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
 
-     `canvas` is a surface, `fg` is text on it, `hairline` is a border. The
-     names describe the role, not the theme. */
-  --color-canvas: #fbfaf7; /* barely-warm off-white — page background */
-  --color-canvas-raised: #f0eee8; /* elevated surface — alt chapters */
-  --color-canvas-deep: #e8e5dd; /* deeper surface — footer */
-
-  --color-fg: #15181d; /* 17.05:1 — primary text */
-  --color-fg-muted: #4e535c; /* 7.41:1 — body copy, passes AAA */
-  --color-fg-faint: #7c8290; /* DECORATIVE ONLY — 3.69:1, below the 4.5:1 AA floor */
-  --color-fg-placeholder: #6e747f; /* 4.50:1 — form placeholders */
-
-  /* Dividers only: a hairline carries no state, so it sits below the 3:1 UI
-     floor on purpose. Anything that bounds an interactive control — an input,
-     a selectable card — uses hairline-strong instead. */
-  --color-hairline: #ddd9d0; /* 1.35:1 — section rules, card edges */
-  --color-hairline-strong: #8b8579; /* 3.51:1 — input borders, meets 1.4.11 */
-
-  --color-accent: #1b56ad; /* 6.75:1 — links, eyebrows, icons */
-  --color-accent-deep: #1f5fbf; /* 6.09:1 white-on-fill — buttons */
-  --color-accent-soft: rgba(31, 95, 191, 0.1); /* wash / tint */
-
-  --color-violet: #5b3fd4; /* 6.48:1 — secondary accent (sparing) */
-  --color-violet-bright: #6d4fe0; /* 5.23:1 */
-  --color-violet-soft: rgba(91, 63, 212, 0.1);
-
+  /* Type: two families — Sora for display, DM Sans for everything else. */
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-sora), var(--font-dm-sans), ui-sans-serif, sans-serif;
-  --font-mono: var(--font-ibm-mono), ui-monospace, monospace;
+
+  /* Radius */
+  --radius-control: 10px; /* buttons, inputs, small chips */
+  --radius-card: 16px; /* cards, panels, dialogs */
+
+  /* Elevation — one scale, tinted per theme via --shadow-color. */
+  --shadow-card:
+    0 1px 2px rgb(var(--shadow-color) / calc(0.04 * var(--shadow-strength))),
+    0 8px 24px -14px rgb(var(--shadow-color) / calc(0.12 * var(--shadow-strength)));
+  --shadow-raised:
+    0 2px 4px rgb(var(--shadow-color) / calc(0.05 * var(--shadow-strength))),
+    0 18px 44px -18px rgb(var(--shadow-color) / calc(0.18 * var(--shadow-strength)));
+  --shadow-overlay: 0 30px 80px -24px rgb(var(--shadow-color) / calc(0.4 * var(--shadow-strength)));
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* =============================================================================
+   Base
+   ========================================================================== */
 
-html {
-  scroll-behavior: auto;
-  scroll-padding-top: 5.5rem; /* clear the fixed glass nav on anchor jumps */
-}
-
-html,
-body {
-  background: var(--color-canvas);
-  color: var(--color-fg);
-  font-family: var(--font-sans);
-  overflow-x: hidden;
-}
-
-@media (hover: hover) and (pointer: fine) {
+@layer base {
   html {
-    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem; /* clear the fixed nav on anchor jumps */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body {
+    background: var(--canvas);
+    color: var(--fg);
+    font-family: var(--font-sans);
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 25%, transparent);
+    color: var(--fg);
+  }
+
+  /* One visible keyboard focus style everywhere. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
   }
 }
 
-::selection {
-  background: color-mix(in srgb, var(--color-accent) 22%, transparent);
-  color: var(--color-fg);
-}
+/* =============================================================================
+   Components
+   ========================================================================== */
 
-/* Visible keyboard focus everywhere; components may override per-surface. */
-:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-/* Skip link — visually hidden until focused (keyboard users only). */
-.skip-link {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  z-index: 100;
-  padding: 10px 16px;
-  background: var(--color-accent-deep);
-  color: #fff;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  border-radius: 8px;
-  transform: translateY(-200%);
-}
-
-.skip-link:focus {
-  transform: none;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-canvas);
-}
-
-::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--color-accent) 35%, var(--color-canvas-deep));
-  border-radius: 99px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb, var(--color-accent) 60%, var(--color-canvas-deep));
-}
-
-/* Display face is now Sora; the class name is kept so components don't churn. */
-.serif {
-  font-family: var(--font-display);
-}
-
-.mono {
-  font-family: var(--font-mono);
-  letter-spacing: 0.02em;
-}
-
-.tnum {
-  font-variant-numeric: tabular-nums lining-nums;
-}
-
-.link-underline {
-  position: relative;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .link-underline::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -2px;
-    height: 1px;
-    background: currentColor;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+@layer components {
+  /* Visually hidden until focused (keyboard users only). */
+  .skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 100;
+    padding: 10px 16px;
+    border-radius: var(--radius-control);
+    background: var(--accent-fill);
+    color: var(--on-accent);
+    font-size: 14px;
+    font-weight: 600;
+    transform: translateY(-200%);
   }
 
-  .link-underline:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
+  .skip-link:focus {
+    transform: none;
+  }
+
+  /* Cards: solid surface, hairline edge, soft shadow. */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Fixed nav once scrolled: translucent over content, opaque fallback. */
+  .nav-surface {
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-card);
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .nav-surface {
+      background: var(--surface);
+    }
+  }
+
+  /* Underline that draws in on hover — links in running text and footers. */
+  .link-underline {
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: text-decoration-color 0.2s ease, color 0.2s ease;
+  }
+
+  .link-underline:hover {
+    text-decoration-color: currentColor;
   }
 }
 
-/* ---- Card surfaces --------------------------------------------------------
-   On a light ground, translucent-white "glass" has nothing to lift off — the
-   fill disappears and only the border reads. Cards are solid white with a real
-   shadow instead. Class names are kept so components don't churn. */
-.glass {
-  background: #ffffff;
-  border: 1px solid var(--color-hairline);
-  box-shadow:
-    0 1px 2px rgba(21, 24, 29, 0.04),
-    0 10px 26px -14px rgba(21, 24, 29, 0.12);
-}
-
-.glass-strong {
-  background: #ffffff;
-  border: 1px solid var(--color-hairline);
-  box-shadow:
-    0 2px 4px rgba(21, 24, 29, 0.05),
-    0 18px 44px -18px rgba(21, 24, 29, 0.18);
-}
-
-/* A quieter card, for the options you are not steering people toward. Defined
-   after .glass so it wins on source order — both are unlayered, so specificity
-   alone would tie. */
-.card-quiet {
-  background: var(--color-canvas);
-  box-shadow: 0 1px 2px rgba(21, 24, 29, 0.03);
-}
-
-/* The one place translucency still earns its keep: the fixed nav pill, which
-   sits over scrolling content. Falls back to an opaque surface where
-   backdrop-filter is unsupported, so the bar never turns into a smear. */
-.glass-nav {
-  background: rgba(255, 255, 255, 0.78);
-  border: 1px solid var(--color-hairline);
-  /* Blur radius drives the cost of this filter, and it re-runs on every scroll
-     frame because the bar is fixed. 10px is indistinguishable from 16px behind
-     a 78% white fill; saturate() bought nothing on a near-neutral page. */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 1px 2px rgba(21, 24, 29, 0.05);
-}
-
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .glass-nav {
-    background: #ffffff;
-  }
-}
-
-/* Display text clipped to a blue→violet gradient. Both stops are deepened for
-   the light ground; the lightest is 5.23:1. */
-.text-gradient {
-  background: linear-gradient(
-    110deg,
-    var(--color-accent-deep) 0%,
-    var(--color-violet-bright) 55%,
-    var(--color-violet) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Static gradient washes.
-   These used to drift on 24s/28s loops with `will-change: transform`, which
-   kept two ~70vh layers permanently promoted and repainting for the whole life
-   of the page — on the old black ground that bought visible atmosphere. At the
-   light theme's 0.08–0.10 alpha the movement is imperceptible, so it was
-   costing every frame and returning nothing. They are plain painted
-   backgrounds now: no animation, no layer promotion. */
-.mesh-blob {
-  transform: translateZ(0);
-}
-
-.mesh-b {
-  transform: translateZ(0) scale(1.1);
-}
-
-/* ---- Hero wall -------------------------------------------------------------
+/* =============================================================================
+   Hero wall
+   -----------------------------------------------------------------------------
    Drifting columns of layout wireframes behind the hero. Only `transform` is
-   animated, on three wrappers, so this composites and costs no per-frame
-   repaint no matter how many tiles are in a column. */
+   animated, on the column wrappers, so this composites and costs no per-frame
+   repaint no matter how many tiles are in a column.
+   ========================================================================== */
+
 .hero-wall {
   position: absolute;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  /* Kept low so the headline and CTAs never fight the texture behind them.
-     The tiles' own ink is dialled up to compensate — see HeroWall.tsx.
-     Verified: even the darkest pixel this can produce leaves the headline
-     above 13:1, so there is room to push it further if wanted. */
+  /* Kept low so the headline never fights the texture behind it; the tiles'
+     own ink is dialled up to compensate (see HeroWall.tsx). */
   opacity: 0.2;
-  /* Two mask layers, intersected, so there is no hard line on ANY edge:
-       1. vertical — reaches full transparency at 88%, i.e. a clear band
-          before the section boundary rather than exactly on it.
-       2. horizontal — softens the left/right edges, where the scaled and
-          rotated grid would otherwise be sliced flat by overflow:hidden.
-     Percentages differ per axis on purpose: the bottom needs a long, lazy
-     falloff to read as a dissolve, the sides only need the cut taken off. */
-  -webkit-mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 1) 34%,
-      rgba(0, 0, 0, 0) 88%
-    ),
-    linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 1) 10%,
-      rgba(0, 0, 0, 1) 90%,
-      rgba(0, 0, 0, 0) 100%
-    );
-  mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 1) 34%,
-      rgba(0, 0, 0, 0) 88%
-    ),
-    linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 1) 10%,
-      rgba(0, 0, 0, 1) 90%,
-      rgba(0, 0, 0, 0) 100%
-    );
-  /* Both layers must pass for a pixel to show. Safari needs the legacy
-     keyword; the standard one is ignored where unsupported, which degrades
-     to "vertical fade only" rather than to a broken mask. */
+  /* Two intersected masks: a long fade at the bottom, a short one at the
+     sides where the scaled grid would otherwise be sliced flat. */
+  -webkit-mask-image:
+    linear-gradient(to bottom, #000 34%, transparent 88%),
+    linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  mask-image:
+    linear-gradient(to bottom, #000 34%, transparent 88%),
+    linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
 
+[data-theme="dark"] .hero-wall {
+  opacity: 0.14;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .hero-wall {
+    opacity: 0.14;
+  }
+}
+
 .hero-wall-inner {
   display: grid;
-  /* Four rather than five: wider columns mean bigger, more legible page
-     mockups, which is the point of the wall. */
   grid-template-columns: repeat(4, 1fr);
-  /* Each column must size to its OWN content. Grid items stretch by default,
-     which made every column adopt the tallest one's height — and since
-     translateY(-50%) resolves against the element's own height, that put the
-     loop point up to 197px away from the start of the second copy. */
+  /* Each column sizes to its own content, so translateY(-50%) lands exactly
+     on the start of the second copy of its tiles. */
   align-items: start;
   gap: 14px;
   height: 100%;
   padding: 0 2%;
-  /* Flat and straight on, deliberately. A rotateY tilt rendered column 5's
-     tiles 1.68x wider than column 1's and sloped the tops by 165px, which
-     read as a lopsided wall rather than a considered one. The only transform
-     left is a mild scale, to push the outer columns past the frame so the
-     horizontal mask has something to fade instead of ending on a tile edge. */
+  /* Pushes the outer columns past the frame so the side mask has something
+     to fade instead of ending on a tile edge. */
   transform: scale(1.14);
   transform-origin: center;
 }
 
-/* Stagger, so the tiles don't lock into visible rows and read as a rigid
-   grid. Symmetric about the middle column — every column keeps the same
-   width and scale, only its vertical phase differs. */
+/* Stagger alternate columns so the tiles don't lock into visible rows. */
 .hero-wall-col-2,
 .hero-wall-col-4 {
   margin-top: -76px;
@@ -309,14 +313,11 @@ body {
   display: flex;
   flex-direction: column;
   will-change: transform;
+  animation: hero-wall-drift var(--drift) linear infinite;
 }
 
-/* Spacing lives on the tiles, not as `gap`, and deliberately so.
-   With `gap`, a column of 2n tiles has 2n-1 gaps, so translateY(-50%) lands
-   one list plus HALF a gap along — a 7px jump on every loop. Giving every
-   tile its own bottom margin makes each list block exactly
-   (tiles + n*margin) tall, so -50% is exactly one block and the loop is
-   seamless. Flex doesn't collapse margins, so this is exact. */
+/* Spacing lives on the tiles, not as `gap`: with gap, 2n tiles have 2n-1
+   gaps and -50% would land half a gap off, jumping on every loop. */
 .hero-wall-col > * {
   margin-bottom: 14px;
 }
@@ -327,22 +328,13 @@ body {
   }
 }
 
-/* Duration lives in a custom property so the reduce-motion override below can
-   re-assert it without restating five separate animation shorthands. */
-.hero-wall-col {
-  animation: hero-wall-drift var(--drift) linear infinite;
-}
-
-.hero-wall-col-1 { --drift: 24s; }
-.hero-wall-col-2 { --drift: 33s; animation-direction: reverse; }
-.hero-wall-col-3 { --drift: 28s; }
-.hero-wall-col-4 { --drift: 38s; animation-direction: reverse; }
+/* Slow, deliberate drift. */
+.hero-wall-col-1 { --drift: 40s; }
+.hero-wall-col-2 { --drift: 54s; animation-direction: reverse; }
+.hero-wall-col-3 { --drift: 46s; }
+.hero-wall-col-4 { --drift: 62s; animation-direction: reverse; }
 .hero-wall-col-5 { display: none; }
 
-/* Phones and tablets: keep the wall, drop to three columns. The animation is
-   transform-only so it composites on mobile GPUs too, but fewer columns means
-   fewer layers and fewer nodes, and three reads better on a narrow screen than
-   five slivers. */
 @media (max-width: 1023px) {
   .hero-wall-inner {
     grid-template-columns: repeat(3, 1fr);
@@ -356,44 +348,32 @@ body {
   }
 }
 
-/* The wall keeps drifting even under prefers-reduced-motion, at the owner's
-   explicit direction. Two things have to be defeated for that to happen: the
-   old `animation: none` here, and the global `*` rule near the bottom of this
-   file that crushes every animation to 0.001ms — hence the !important
-   re-assertion of both duration and iteration count.
-
-   This is a deliberate accessibility trade-off, not an oversight. The motion
-   is slow, low-contrast and confined to a background layer, which is the
-   gentlest category of it, but a visitor who asked for no motion still gets
-   motion. Revert by deleting this block. */
+/* Owner's call: the wall keeps moving under prefers-reduced-motion, but at a
+   third of the speed — slow, low-contrast, background-only motion. Delete the
+   `animation-duration` line and add `animation: none` to stop it instead. */
 @media (prefers-reduced-motion: reduce) {
   .hero-wall-col {
-    animation-name: hero-wall-drift !important;
-    animation-duration: var(--drift) !important;
-    animation-timing-function: linear !important;
-    animation-iteration-count: infinite !important;
+    animation-duration: calc(var(--drift) * 3);
   }
 }
 
-/* ---- Photography ----------------------------------------------------------
-   The photos are warm daylight shots; the page's one chromatic voice is blue.
-   `mix-blend-mode: color` takes hue and saturation from the overlay and
-   luminance from the photo underneath, so this cools the cast without
-   darkening or flattening the image the way soft-light or multiply would.
-   `isolation: isolate` keeps the blend inside the frame — without it the
-   overlay would composite against the page background too. */
+/* =============================================================================
+   Photography
+   -----------------------------------------------------------------------------
+   The photos are warm daylight shots; a low-opacity `mix-blend-mode: color`
+   layer shifts their hue toward the accent without touching luminance, so
+   they sit inside the palette. `isolation` keeps the blend inside the frame.
+   ========================================================================== */
+
 .photo {
-  --photo-tint: 0.12;
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: var(--color-canvas-raised);
+  background: var(--canvas-raised);
 }
 
 .photo img {
   display: block;
-  /* Pulls the warm saturation back a touch so the tint reads as a grade
-     rather than a colour cast fighting the original. */
   filter: saturate(0.92);
 }
 
@@ -402,34 +382,47 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: var(--color-accent-deep);
+  background: var(--accent-fill);
   mix-blend-mode: color;
-  opacity: var(--photo-tint);
+  opacity: 0.12;
 }
 
-/* ---- Portfolio lightbox ---------------------------------------------------- */
+/* =============================================================================
+   Portfolio lightbox
+   ========================================================================== */
+
 .work-dialog {
   margin: auto;
   max-width: min(92vw, 860px);
   max-height: 92vh;
   padding: 0;
   overflow: auto;
-  border: 1px solid var(--color-hairline);
-  border-radius: 16px;
-  background: var(--color-canvas);
-  color: var(--color-fg);
-  box-shadow: 0 30px 80px -24px rgba(21, 24, 29, 0.4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--canvas);
+  color: var(--fg);
+  box-shadow: var(--shadow-overlay);
 }
 
 .work-dialog::backdrop {
-  background: rgba(21, 24, 29, 0.45);
+  background: rgb(10 12 15 / 0.55);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
 }
 
-/* The mocks are authored at ~360px with 6–13px type. zoom scales layout as
-   well as text, so the frame grows with its contents. Falls back to actual
-   size where zoom is unsupported — smaller, never broken. */
+.work-dialog[open] {
+  animation: dialog-in 0.22s var(--ease-out-soft);
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+}
+
+/* The mocks are authored at ~360px with 6–13px type. `zoom` scales layout as
+   well as text, so the frame grows with its contents. */
 .work-dialog-zoom {
   zoom: 2;
 }
@@ -446,64 +439,18 @@ body {
   }
 }
 
-.work-dialog[open] {
-  animation: dialog-in 0.22s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@keyframes dialog-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px) scale(0.99);
-  }
-}
-
-/* Hero spotlight. A fixed-size disc moved with translate3d, so pointer motion
-   is a composited transform. The previous version animated the position of a
-   radial-gradient inside a full-viewport element, which repainted the entire
-   hero on every mousemove — the single most expensive thing on the page. */
-.spotlight {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 880px;
-  height: 880px;
-  margin: -440px 0 0 -440px;
-  pointer-events: none;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(31, 95, 191, 0.07), transparent 60%);
-  will-change: transform;
-  transform: translate3d(-9999px, -9999px, 0);
-}
-
-/* Card spotlight: a soft glow that tracks the pointer via --mx/--my (set in JS),
-   revealed on hover. Pairs with `group` on the card. */
-.card-spot::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  background: radial-gradient(
-    320px circle at var(--mx, 50%) var(--my, 0%),
-    var(--color-accent-soft),
-    transparent 60%
-  );
-}
-
-.group:hover .card-spot::before {
-  opacity: 1;
-}
+/* =============================================================================
+   Motion
+   ========================================================================== */
 
 /* Scroll reveal — class added by MotionLayer; absent without JS, so content
-   stays visible for no-JS users. IntersectionObserver-driven, not scroll-bound. */
+   stays visible for no-JS users. */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(16px);
   transition:
-    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.7s var(--ease-out-soft),
+    transform 0.7s var(--ease-out-soft);
 }
 
 .reveal.is-visible {
@@ -511,21 +458,32 @@ body {
   transform: none;
 }
 
+/* Theme switch: a short cross-fade via the View Transitions API where
+   supported (see ThemeToggle); elsewhere the switch is instant. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Everything stops except the hero wall (slowed above). */
+  *:not(.hero-wall-col),
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
   }
 
   .reveal {
     opacity: 1;
     transform: none;
-  }
-
-  .spotlight {
-    display: none;
   }
 }

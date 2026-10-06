@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import toast from "react-hot-toast";
 import { packages, formatPrice, OTHER_OPTION } from "@/content/packages";
 
 const interestOptions = [
@@ -18,6 +17,14 @@ const interestOptions = [
 export function ContactForm() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const thanksRef = useRef<HTMLDivElement>(null);
+
+  // Move focus to the confirmation so keyboard and screen-reader users land
+  // on it — the form they were in has just been unmounted.
+  useEffect(() => {
+    if (sent) thanksRef.current?.focus();
+  }, [sent]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -25,6 +32,7 @@ export function ContactForm() {
     const payload = Object.fromEntries(formData.entries());
 
     setLoading(true);
+    setError(null);
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -33,20 +41,24 @@ export function ContactForm() {
       });
       const data = await res.json();
       if (!res.ok) {
-        toast.error(data?.error || "Diçka shkoi keq. Provo përsëri.");
+        setError(data?.error || "Diçka shkoi keq. Provo përsëri.");
         return;
       }
       setSent(true);
-      toast.success("Mesazhi u dërgua");
     } catch {
-      toast.error("Nuk u lidh me serverin.");
+      setError("Nuk u lidh me serverin.");
     } finally {
       setLoading(false);
     }
   }
 
   return sent ? (
-    <div className="flex h-full min-h-[480px] flex-col items-start justify-center rounded-2xl glass p-10">
+    <div
+      ref={thanksRef}
+      tabIndex={-1}
+      role="status"
+      className="flex h-full min-h-[480px] flex-col items-start justify-center rounded-2xl glass p-10 outline-none"
+    >
       <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">faleminderit ✓</span>
       <h3 className="serif mt-5 text-[40px] font-extrabold leading-none text-fg">
         Mesazhi u dërgua.
@@ -118,6 +130,7 @@ export function ContactForm() {
         </p>
         <button
           type="submit"
+          aria-describedby={error ? "kontakt-error" : undefined}
           disabled={loading}
           className="inline-flex h-12 shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-[10px] bg-accent-deep px-7 text-[14px] font-semibold text-white shadow-[0_6px_18px_-8px_rgba(31,95,191,0.6)] transition-transform hover:-translate-y-0.5 disabled:opacity-50"
         >
@@ -125,6 +138,15 @@ export function ContactForm() {
           <span aria-hidden>→</span>
         </button>
       </div>
+
+      {/* Always mounted so screen readers announce the message when it appears. */}
+      <p
+        id="kontakt-error"
+        role="alert"
+        className="mt-4 text-[13.5px] font-medium text-[#b42318] empty:hidden"
+      >
+        {error}
+      </p>
     </form>
   );
 }

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { DM_Sans, Sora, IBM_Plex_Mono } from "next/font/google";
-import { Toaster } from "react-hot-toast";
 import { site } from "@/lib/site";
 import { localBusinessJsonLd } from "@/lib/structured-data";
 import "./globals.css";
@@ -73,34 +72,6 @@ export default function RootLayout({
           Kalo te përmbajtja
         </a>
         <div className="relative z-10 flex flex-1 flex-col">{children}</div>
-        <Toaster
-          position="bottom-center"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: "#ffffff",
-              color: "var(--color-fg)",
-              border: "1px solid var(--color-hairline)",
-              borderRadius: 10,
-              fontSize: "14px",
-              fontWeight: 500,
-              padding: "12px 18px",
-              boxShadow: "0 12px 32px -12px rgba(21, 24, 29, 0.22)",
-            },
-            success: {
-              iconTheme: {
-                primary: "var(--color-accent)",
-                secondary: "var(--color-canvas)",
-              },
-            },
-            error: {
-              iconTheme: {
-                primary: "var(--color-accent)",
-                secondary: "var(--color-canvas)",
-              },
-            },
-          }}
-        />
       </body>
     </html>
   );

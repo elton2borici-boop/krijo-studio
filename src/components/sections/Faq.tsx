@@ -6,7 +6,7 @@ export function Faq() {
   return (
     <section id="faq" className="relative bg-canvas-raised py-16 sm:py-24">
       <Container>
-        <div className="grid grid-cols-12 gap-x-8 gap-y-12">
+        <div className="grid grid-cols-12 gap-y-12 lg:gap-x-8">
           <div className="col-span-12 lg:col-span-4">
             <SectionHeading
               label="pyetjet"

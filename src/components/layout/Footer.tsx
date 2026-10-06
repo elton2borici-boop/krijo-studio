@@ -37,7 +37,7 @@ export function Footer() {
           krijo<span className="text-gradient">.</span>
         </div>
 
-        <div className="mt-12 grid grid-cols-12 gap-x-10 gap-y-10 lg:gap-x-12">
+        <div className="mt-12 grid grid-cols-12 gap-y-10 sm:gap-x-10 lg:gap-x-12">
           <div className="col-span-12 min-w-0 lg:col-span-4">
             <p className="serif max-w-sm text-[20px] leading-[1.35] text-fg">
               Studio e vogël dixhitale.<br />

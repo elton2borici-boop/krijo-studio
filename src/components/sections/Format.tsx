@@ -40,7 +40,7 @@ export function Format() {
           lede="Zgjidh një strukturë më poshtë për të parë një shembull të plotë të saj. Pamjet janë ilustruese — portofolin me faqe reale klientësh e ndajmë me kërkesë."
         />
 
-        <div className="mt-8 grid grid-cols-12 gap-x-8 gap-y-8 sm:mt-10 lg:gap-x-12">
+        <div className="mt-8 grid grid-cols-12 gap-y-8 sm:mt-10 lg:gap-x-12">
           {/* Picker — left column on desktop, full width on mobile */}
           <ol
             aria-label="Formatet e mundshme"

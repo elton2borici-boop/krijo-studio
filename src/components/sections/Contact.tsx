@@ -51,7 +51,7 @@ export function Contact() {
       </div>
 
       <Container>
-        <div className="grid grid-cols-12 gap-x-8 gap-y-14">
+        <div className="grid grid-cols-12 gap-y-14 lg:gap-x-8">
           {/* Left: bold statement */}
           <div className="col-span-12 lg:col-span-5">
             <Eyebrow className="mb-5">kontakt</Eyebrow>

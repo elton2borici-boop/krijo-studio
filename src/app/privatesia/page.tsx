@@ -58,6 +58,11 @@ const collected = [
     required: true,
   },
   {
+    field: "Identifikuesi i shfletuesit",
+    why: "Një kod i rastësishëm nga cookie-ja teknike (shih më poshtë), vetëm për të kufizuar dërgimet e shpeshta nga i njëjti shfletues.",
+    required: true,
+  },
+  {
     field: "Data e dërgimit",
     why: "Për të ditur radhën e kërkesave dhe për të zbatuar afatin e ruajtjes.",
     required: true,
@@ -120,6 +125,17 @@ export default function PrivacyPage() {
               </ul>
             </Section>
 
+            <Section title="Cookies">
+              <p>
+                Faqja vendos një cookie të vetme teknike,{" "}
+                <code className="text-fg">krijo_ct</code>, dhe vetëm kur
+                dërgon formularin. Përmban një kod të rastësishëm që nuk
+                tregon kush je, skadon pas 30 ditësh dhe shërben vetëm për të
+                mbrojtur formularin nga spam-i. Nuk përdorim cookies analitike
+                ose reklamash.
+              </p>
+            </Section>
+
             <Section title="Baza ligjore">
               <p>
                 Të dhënat i përpunojmë mbi bazën e pëlqimit tënd, të dhënë në
@@ -145,6 +161,31 @@ export default function PrivacyPage() {
                 Aksesin e ka vetëm {site.name}, përmes një paneli të mbrojtur me
                 fjalëkalim. Nuk i shesim, nuk i shkëmbejmë dhe nuk i përdorim
                 për t&apos;u dërguar newsletter pa kërkesën tënde.
+              </p>
+              <p className="mt-3">
+                Që të përgjigjemi shpejt, kur vjen një kërkesë e re mund të
+                marrim një njoftim me email përmes{" "}
+                <a
+                  href="https://resend.com/legal/privacy-policy"
+                  className="link-underline text-fg"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Resend
+                </a>{" "}
+                dhe/ose një mesazh në{" "}
+                <a
+                  href="https://telegram.org/privacy"
+                  className="link-underline text-fg"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Telegram
+                </a>
+                . Njoftimi përmban emrin, email-in, telefonin, biznesin,
+                pakon dhe mesazhin — jo adresën IP. Këta ofrues mund ta
+                përpunojnë njoftimin edhe jashtë Shqipërisë, vetëm për të na
+                e dorëzuar.
               </p>
             </Section>
 

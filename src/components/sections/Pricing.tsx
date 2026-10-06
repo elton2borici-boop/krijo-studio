@@ -1,10 +1,9 @@
-"use client";
-
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CountUp } from "@/components/ui/CountUp";
 import { cn } from "@/lib/utils";
 import { packages, priceUnit } from "@/content/packages";
+import { ButtonLink } from "@/components/ui/Button";
 
 
 export function Pricing() {
@@ -98,18 +97,14 @@ export function Pricing() {
               </ul>
 
               <div className="mt-auto pt-6">
-                <a
+                <ButtonLink
                   href="#kontakt"
-                  className={cn(
-                    "inline-flex h-11 w-full items-center justify-between rounded-[10px] px-4 text-[13px] font-semibold transition-transform duration-300 lg:hover:-translate-y-0.5",
-                    p.starred
-                      ? "bg-accent-deep text-white shadow-[0_0_28px_-8px_var(--color-accent)]"
-                      : "border border-hairline-strong bg-white text-fg hover:border-accent hover:text-accent"
-                  )}
+                  variant={p.starred ? "primary" : "secondary"}
+                  className="h-11 w-full justify-between px-4 text-[13px]"
                 >
                   <span>{p.cta}</span>
                   <span aria-hidden>→</span>
-                </a>
+                </ButtonLink>
               </div>
             </div>
           ))}

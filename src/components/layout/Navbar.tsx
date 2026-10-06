@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Logo } from "./Logo";
 import { cn } from "@/lib/utils";
+import { ButtonLink, buttonClasses } from "@/components/ui/Button";
 
 /** Single primary navigation surface — footer handles fine-grain jumps. */
 const links = [
@@ -86,12 +87,9 @@ export function Navbar() {
         </nav>
 
         <div className="hidden lg:block">
-          <a
-            href="#kontakt"
-            className="inline-flex h-9 items-center rounded-[10px] bg-accent-deep px-4 text-[13.5px] font-semibold text-white shadow-[0_4px_14px_-6px_rgba(31,95,191,0.7)] transition-transform hover:-translate-y-0.5"
-          >
+          <ButtonLink href="#kontakt" size="sm">
             Kontakt
-          </a>
+          </ButtonLink>
         </div>
 
         <button
@@ -99,7 +97,7 @@ export function Navbar() {
           aria-label={open ? "Mbyll menynë" : "Hap menynë"}
           aria-expanded={open}
           onClick={() => setOpen((o) => !o)}
-          className="inline-flex h-9 items-center rounded-[10px] border border-hairline-strong px-4 text-[13.5px] font-semibold text-fg lg:hidden"
+          className={buttonClasses({ variant: "secondary", size: "sm", className: "bg-transparent lg:hidden" })}
         >
           {open ? "Mbyll" : "Menu"}
         </button>
@@ -124,13 +122,13 @@ export function Navbar() {
                 </li>
               ))}
               <li className="py-3">
-                <a
+                <ButtonLink
                   href="#kontakt"
                   onClick={() => setOpen(false)}
-                  className="flex h-11 w-full items-center justify-center rounded-[10px] bg-accent-deep text-[14px] font-semibold text-white"
+                  className="h-11 w-full"
                 >
                   Kontakt
-                </a>
+                </ButtonLink>
               </li>
             </ul>
           </nav>

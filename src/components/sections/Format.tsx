@@ -12,6 +12,7 @@ import {
 } from "./SiteMocks";
 import { cn } from "@/lib/utils";
 import { formats, type MockId } from "@/content/formats";
+import { ButtonLink } from "@/components/ui/Button";
 
 const mocks: Record<MockId, React.ComponentType> = {
   gastro: GastroPreview,
@@ -137,13 +138,10 @@ export function Format() {
               {current.best}
             </p>
 
-            <a
-              href="#kontakt"
-              className="inline-flex h-12 w-fit items-center gap-2 rounded-[10px] bg-accent-deep px-5 text-[14px] font-semibold text-white shadow-[0_6px_18px_-8px_rgba(31,95,191,0.6)] transition-transform duration-300 hover:-translate-y-0.5"
-            >
+            <ButtonLink href="#kontakt" className="w-fit px-5">
               Ky format më përshtatet
               <span aria-hidden>→</span>
-            </a>
+            </ButtonLink>
           </div>
         </div>
       </Container>

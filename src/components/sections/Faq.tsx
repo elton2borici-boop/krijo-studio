@@ -1,5 +1,5 @@
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { faqs } from "@/content/faqs";
 
 export function Faq() {
@@ -8,14 +8,16 @@ export function Faq() {
       <Container>
         <div className="grid grid-cols-12 gap-x-8 gap-y-12">
           <div className="col-span-12 lg:col-span-4">
-            <Eyebrow className="mb-5">pyetjet</Eyebrow>
-            <h2 className="serif text-[1.9rem] font-bold leading-[1.06] tracking-tight text-fg sm:text-[2.3rem]">
-              Pyetjet që na <span className="text-gradient">bëjnë më shpesh.</span>
-            </h2>
-            <p className="mt-6 max-w-md text-[15px] leading-relaxed text-fg-muted">
-              Nuk e gjete përgjigjen këtu? Na shkruaj me email — zakonisht
-              përgjigjemi brenda 24 orësh gjatë ditëve të punës.
-            </p>
+            <SectionHeading
+              label="pyetjet"
+              title={
+                <>
+                  Pyetjet që na{" "}
+                  <span className="text-gradient">bëjnë më shpesh.</span>
+                </>
+              }
+              lede="Nuk e gjete përgjigjen këtu? Na shkruaj me email — zakonisht përgjigjemi brenda 24 orësh gjatë ditëve të punës."
+            />
           </div>
 
           <ul className="col-span-12 flex flex-col gap-3 lg:col-span-8">

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Container } from "@/components/ui/Container";
 import { HeroWall } from "./HeroWall";
+import { ButtonLink } from "@/components/ui/Button";
 
 /**
  * Liquid Spotlight hero — type-forward on a true-black field.
@@ -102,18 +103,12 @@ export function Hero() {
           </p>
 
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#kontakt"
-              className="inline-flex h-12 items-center gap-2.5 rounded-[10px] bg-accent-deep px-7 text-[14px] font-semibold text-white shadow-[0_6px_18px_-8px_rgba(31,95,191,0.6)] transition-transform duration-300 hover:-translate-y-0.5"
-            >
+            <ButtonLink href="#kontakt">
               Nis një projekt <span aria-hidden>→</span>
-            </a>
-            <a
-              href="#cmimet"
-              className="inline-flex h-12 items-center gap-2.5 rounded-[10px] border border-hairline-strong bg-white px-7 text-[14px] font-semibold text-fg transition-colors duration-300 hover:border-accent hover:text-accent"
-            >
+            </ButtonLink>
+            <ButtonLink href="#cmimet" variant="secondary">
               Shiko çmimet <span aria-hidden>↓</span>
-            </a>
+            </ButtonLink>
           </div>
         </div>
       </Container>

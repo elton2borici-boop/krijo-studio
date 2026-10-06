@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { packages, formatPrice, OTHER_OPTION } from "@/content/packages";
+import { Button } from "@/components/ui/Button";
 
 const interestOptions = [
   ...packages.map((p) => ({
@@ -128,15 +129,15 @@ export function ContactForm() {
           </Link>
           .
         </p>
-        <button
+        <Button
           type="submit"
           aria-describedby={error ? "kontakt-error" : undefined}
           disabled={loading}
-          className="inline-flex h-12 shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-[10px] bg-accent-deep px-7 text-[14px] font-semibold text-white shadow-[0_6px_18px_-8px_rgba(31,95,191,0.6)] transition-transform hover:-translate-y-0.5 disabled:opacity-50"
+          className="shrink-0 gap-3"
         >
           {loading ? "Duke dërguar..." : "Dërgo mesazhin"}
           <span aria-hidden>→</span>
-        </button>
+        </Button>
       </div>
 
       {/* Always mounted so screen readers announce the message when it appears. */}

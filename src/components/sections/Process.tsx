@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { cn } from "@/lib/utils";
 import { steps } from "@/content/process";
 
@@ -61,15 +61,16 @@ export function Process() {
       />
 
       <Container>
-        <div className="flex flex-col gap-4 sm:gap-5">
-          <Eyebrow>procesi</Eyebrow>
-          <h2 className="serif max-w-3xl text-balance text-[1.9rem] font-bold leading-[1.05] tracking-[0.012em] text-fg sm:text-[2.2rem] lg:text-[2.5rem]">
-            Nga ideja te publikimi — <span className="text-gradient">katër hapa.</span>
-          </h2>
-          <p className="max-w-2xl text-[15px] leading-relaxed text-fg-muted">
-            Kliko një hap për të parë se çfarë ndodh saktësisht në të.
-          </p>
-        </div>
+        <SectionHeading
+          label="procesi"
+          title={
+            <>
+              Nga ideja te publikimi —{" "}
+              <span className="text-gradient">katër hapa.</span>
+            </>
+          }
+          lede="Kliko një hap për të parë se çfarë ndodh saktësisht në të."
+        />
 
         {/* The route. The connecting rule sits behind the stops and is filled
             up to the active one, so progress is visible at a glance. */}

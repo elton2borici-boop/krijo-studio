@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/Button";
 
 /**
  * A portfolio piece that opens to full size.
@@ -77,13 +78,14 @@ export function WorkCard({
                 {caption}
               </p>
             </div>
-            <button
-              type="button"
+            <Button
+              variant="secondary"
+              size="sm"
               onClick={close}
-              className="shrink-0 rounded-[10px] border border-hairline-strong bg-white px-3.5 py-1.5 text-[13px] font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
+              className="shrink-0 px-3.5"
             >
               Mbyll
-            </button>
+            </Button>
           </div>
 
           <div className="work-dialog-zoom">

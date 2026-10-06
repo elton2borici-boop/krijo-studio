@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-10-06 — Visual depth pass
+
+The first redesign was clean but every section shared one template (eyebrow, heading, grid of identical white cards) on near-identical backgrounds. This pass gives the page rhythm and focal points without new dependencies, extra fonts or a second accent colour.
+
+- **Navy "ink" band** (`.tone-ink`, `<Section tone="ink">`): re-themes everything inside it via the colour tokens. Used for the Process section and the recommended pricing card.
+- **Hero**: shorter, static dot texture and accent wash, hand-drawn underline, and a proof strip (starting price from `packages.ts`, 5–7 day delivery, 24h reply — all already stated on the page).
+- **Format**: the example sits on a tinted, textured stage; the active option gets an accent bar.
+- **Pricing**: the recommended plan is a taller navy card; larger prices; hover lift.
+- **Services**: bento layout with custom line icons (`ui/ServiceIcons.tsx`).
+- **Testimonials**: featured large quote, initials avatars.
+- **FAQ**: one divided list; the open item is highlighted. **Contact**: raised form with an accent cap.
+- Staggered reveals and a shared hover lift; both are off under `prefers-reduced-motion`.
+- Still zero axe-core violations in both themes.
+
 ## 2026-10-06 — Simplification and design-system pass
 
 No content or behaviour was removed; every page, API route and form flow works as before (verified after each step with lint, typecheck, build, an HTTP smoke test of every route and API case, and a Playwright run of the format picker, lightbox, process tabs, FAQ, mobile menu and contact form).

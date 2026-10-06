@@ -31,13 +31,13 @@ export function Services() {
               wide.has(i) && "lg:col-span-2"
             )}
           >
-            {/* Oversized faint numeral as a quiet graphic anchor. */}
+            {/* Oversized faint numeral as a quiet graphic anchor. Drawn as
+                CSS content so it stays pure decoration, not page text. */}
             <span
               aria-hidden
-              className="pointer-events-none absolute -top-3 right-4 font-display text-8xl font-extrabold tabular-nums text-fg/[0.04]"
-            >
-              {String(i + 1).padStart(2, "0")}
-            </span>
+              data-n={String(i + 1).padStart(2, "0")}
+              className="pointer-events-none absolute -top-3 right-4 font-display text-8xl font-extrabold tabular-nums text-fg/[0.04] before:content-[attr(data-n)]"
+            />
 
             <span className="grid size-12 place-items-center rounded-control bg-accent-soft text-accent">
               <ServiceIconGlyph name={s.icon} />

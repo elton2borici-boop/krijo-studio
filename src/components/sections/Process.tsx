@@ -39,7 +39,7 @@ export function Process() {
   return (
     <section
       id="procesi"
-      className="relative isolate overflow-hidden py-20 sm:py-28"
+      className="tone-ink relative isolate overflow-hidden py-20 sm:py-28"
       aria-labelledby="procesi-titulli"
     >
       {/* Background photograph, washed back far enough to sit under text. */}
@@ -53,11 +53,12 @@ export function Process() {
           priority={false}
         />
       </div>
-      {/* Scrim: the photo is light and busy, and body copy needs a floor
-          to stand on — in either theme, since it is the canvas colour. */}
+      {/* Navy scrim: solid behind the text on the left, thinning to the
+          right so the photograph shows through as a deliberate image. On
+          phones, where text spans the width, it stays even. */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-canvas/90 backdrop-blur-[2px]"
+        className="absolute inset-0 -z-10 bg-canvas/90 lg:bg-transparent lg:bg-gradient-to-r lg:from-canvas lg:from-35% lg:via-canvas/90 lg:to-canvas/55"
       />
 
       <Container>
@@ -151,7 +152,7 @@ export function Process() {
           id="hap-detajet"
           role="tabpanel"
           aria-live="polite"
-          className="card mt-8 grid max-w-2xl p-6 sm:mt-10 sm:p-8"
+          className="card mt-8 grid max-w-2xl bg-surface/80 p-6 backdrop-blur-sm sm:mt-10 sm:p-8"
         >
           {steps.map((s, i) => (
             <div

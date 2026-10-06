@@ -45,6 +45,9 @@
 
   --danger: #b42318;
 
+  /* Accent-tinted surface for showcase areas. */
+  --stage: #eaf0fa;
+
   --shadow-color: 21 24 29;
   --shadow-strength: 1;
 }
@@ -75,6 +78,8 @@
 
   --danger: #f97066;
 
+  --stage: #141c2b;
+
   --shadow-color: 0 0 0;
   --shadow-strength: 2.5;
 }
@@ -103,6 +108,8 @@
 
     --danger: #f97066;
 
+    --stage: #141c2b;
+
     --shadow-color: 0 0 0;
     --shadow-strength: 2.5;
   }
@@ -125,6 +132,7 @@
   --color-on-accent: var(--on-accent);
   --color-accent-soft: var(--accent-soft);
   --color-danger: var(--danger);
+  --color-stage: var(--stage);
 
   /* Type: two families — Sora for display, DM Sans for everything else. */
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
@@ -219,6 +227,60 @@
     border: 1px solid var(--line);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
+  }
+
+  /* Deep-navy band: re-points the tokens for its whole subtree, so headings,
+     cards, buttons and links inside it adapt with no per-component work.
+     Same values in both themes (it is the page's one dark moment in light
+     mode, and a navy lift off the near-black canvas in dark mode).
+     Contrast vs #0c1830: fg 15.7, muted 8.6, accent 8.4, line-strong 3.6. */
+  .tone-ink {
+    color-scheme: dark;
+    --canvas: #0c1830;
+    --canvas-raised: #0f1d39;
+    --surface: #13223f;
+    --stage: #13223f;
+    --fg: #eef2f8;
+    --fg-muted: #a9b6cc;
+    --fg-faint: #6c7d9c;
+    --fg-placeholder: #8d9bb4;
+    --line: #22355a;
+    --line-strong: #5d7194;
+    --accent: #8ab4f8;
+    --accent-fill: #2f6bd0;
+    --on-accent: #ffffff;
+    --accent-soft: rgb(138 180 248 / 0.14);
+    --shadow-color: 0 0 0;
+    --shadow-strength: 2.5;
+    background-color: var(--canvas);
+    color: var(--fg);
+  }
+
+  /* Static dot texture, faded toward the edges. Paint-once, no motion. */
+  .dot-texture {
+    background-image: radial-gradient(
+      color-mix(in srgb, var(--fg) 14%, transparent) 1px,
+      transparent 1.4px
+    );
+    background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, #000 30%, transparent 80%);
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, #000 30%, transparent 80%);
+  }
+
+  /* Interactive card: lifts a touch and firms its edge on hover. */
+  .card-hover {
+    transition:
+      transform 0.25s var(--ease-out-soft),
+      box-shadow 0.25s var(--ease-out-soft),
+      border-color 0.25s ease;
+  }
+
+  @media (hover: hover) {
+    .card-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-raised);
+      border-color: var(--line-strong);
+    }
   }
 
   /* Fixed nav once scrolled: translucent over content, opaque fallback. */
@@ -459,6 +521,23 @@
   transform: none;
 }
 
+/* Children marked .stagger rise in sequence once their section reveals.
+   Order comes from --i (set inline); without JS nothing is hidden. */
+.reveal .stagger > * {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.6s var(--ease-out-soft),
+    transform 0.6s var(--ease-out-soft);
+  transition-delay: calc(var(--i, 0) * 70ms + 120ms);
+}
+
+.reveal.is-visible .stagger > *,
+.reveal:focus-within .stagger > * {
+  opacity: 1;
+  transform: none;
+}
+
 /* Keyboard focus never lands in a half-faded section. */
 .reveal:focus-within {
   transition: none;
@@ -488,7 +567,8 @@
     animation-iteration-count: 1 !important;
   }
 
-  .reveal {
+  .reveal,
+  .reveal .stagger > * {
     opacity: 1;
     transform: none;
   }

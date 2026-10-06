@@ -1,23 +1,6 @@
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-
-const quotes = [
-  {
-    text: "Komunikim i vazhdueshëm gjatë gjithë ndërtimit dhe çmime të qarta që në fillim — asnjë surprizë në fund.",
-    name: "Eriona Kola",
-    role: "Restorant, Tiranë",
-  },
-  {
-    text: "Faqja e re i përmbush kërkesat e Google-it dhe duket mirë në telefon — pikërisht aty ku na gjen shumica e klientëve të rinj.",
-    name: "Av. Erald Berisha",
-    role: "Studio ligjore, Tiranë",
-  },
-  {
-    text: "Më shumë vlerësova kontaktin e drejtpërdrejtë e të shpejtë me personin përgjegjës, pa nivele të tepërta menaxhimi.",
-    name: "Dr. Klaudia Hoxha",
-    role: "Klinikë dentare, Durrës",
-  },
-];
+import { testimonials } from "@/content/testimonials";
 
 export function Testimonials() {
   return (
@@ -26,7 +9,7 @@ export function Testimonials() {
         <Eyebrow className="mb-9 sm:mb-11">zëra klientësh</Eyebrow>
 
         <div className="grid grid-cols-12 gap-5">
-          {quotes.map((q) => (
+          {testimonials.map((q) => (
             <figure
               key={q.name}
               className="col-span-12 flex flex-col rounded-2xl glass p-7 lg:col-span-4"

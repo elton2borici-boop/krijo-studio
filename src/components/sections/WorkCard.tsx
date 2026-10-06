@@ -40,10 +40,14 @@ export function WorkCard({
       <button
         type="button"
         onClick={() => dialogRef.current?.showModal()}
-        aria-label={`Shiko ${title} nga afër`}
         className="block w-full cursor-zoom-in rounded-card text-left focus-visible:outline-offset-4"
       >
-        <BrowserFrame domain={domain}>{children}</BrowserFrame>
+        <span className="sr-only">Shiko {title} nga afër</span>
+        {/* The thumbnail is a picture of a page; its micro-copy is read in
+            the dialog, at a legible size. */}
+        <span aria-hidden className="block">
+          <BrowserFrame domain={domain}>{children}</BrowserFrame>
+        </span>
       </button>
 
       <div className="mt-4 flex items-baseline justify-between gap-3">

@@ -21,7 +21,7 @@ export function GastroPreview() {
     <div className="flex h-full flex-col bg-[#ffffff] text-[#15181d]">
       <div className="flex items-center justify-between border-b border-[#15181d]/10 px-4 py-2.5">
         <span className="serif text-[11px] font-semibold tracking-tight">Bukë &amp; Verë</span>
-        <span className="flex items-center gap-2.5 text-[6.5px] uppercase tracking-[0.12em] text-[#15181d]/55">
+        <span className="flex items-center gap-2.5 text-[6.5px] uppercase tracking-[0.12em] text-[#15181d]/70">
           <span>Menuja</span>
           <span>Historia</span>
           <span className="rounded-[3px] bg-[#1f5fbf] px-1.5 py-0.5 text-white">Rezervo</span>
@@ -99,7 +99,7 @@ export function LawPreview() {
         ].map(([t, d]) => (
           <div key={t} className="rounded-sm bg-white p-2 shadow-[0_1px_3px_rgba(26,36,32,0.08)]">
             <span className="block text-[7px] font-semibold">{t}</span>
-            <span className="mt-0.5 block text-[6px] leading-snug text-[#15181d]/60">{d}</span>
+            <span className="mt-0.5 block text-[6px] leading-snug text-[#15181d]/70">{d}</span>
           </div>
         ))}
       </div>
@@ -113,7 +113,7 @@ export function ShopPreview() {
     <div className="flex h-full flex-col bg-white text-[#15181d]">
       <div className="flex items-center justify-between px-4 py-2.5">
         <span className="serif text-[10.5px] font-semibold tracking-tight">Atelier № 12</span>
-        <span className="flex items-center gap-2 text-[6.5px] uppercase tracking-[0.12em] text-[#15181d]/60">
+        <span className="flex items-center gap-2 text-[6.5px] uppercase tracking-[0.12em] text-[#15181d]/70">
           <span>Koleksioni</span>
           <span className="relative">
             Shporta
@@ -154,14 +154,14 @@ export function StudioPreview() {
         <span className="serif text-[10.5px] font-semibold tracking-tight">
           Elira Nushi
         </span>
-        <span className="flex items-center gap-2.5 text-[6.5px] uppercase tracking-[0.12em] text-[#15181d]/55">
+        <span className="flex items-center gap-2.5 text-[6.5px] uppercase tracking-[0.12em] text-[#15181d]/70">
           <span>Punët</span>
           <span>Rreth meje</span>
           <span className="border-b border-[#15181d]/40">Kontakt</span>
         </span>
       </div>
       <div className="px-4 pb-1.5">
-        <span className="text-[6px] uppercase tracking-[0.2em] text-[#15181d]/50">
+        <span className="text-[6px] uppercase tracking-[0.2em] text-[#15181d]/70">
           Fotografe · Tiranë
         </span>
       </div>

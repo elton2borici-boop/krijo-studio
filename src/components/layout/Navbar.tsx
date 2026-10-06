@@ -105,7 +105,6 @@ export function Navbar() {
           </ButtonLink>
           <button
             type="button"
-            aria-label={open ? "Mbyll menynë" : "Hap menynë"}
             aria-expanded={open}
             aria-controls="menu-celular"
             onClick={() => setOpen((o) => !o)}

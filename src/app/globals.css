@@ -153,7 +153,7 @@
 
 @layer base {
   html {
-    scroll-padding-top: 5.5rem; /* clear the fixed nav on anchor jumps */
+    scroll-padding-top: 6rem; /* clear the fixed nav on anchor jumps and focus */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -453,9 +453,15 @@
     transform 0.7s var(--ease-out-soft);
 }
 
-.reveal.is-visible {
+.reveal.is-visible,
+.reveal:focus-within {
   opacity: 1;
   transform: none;
+}
+
+/* Keyboard focus never lands in a half-faded section. */
+.reveal:focus-within {
+  transition: none;
 }
 
 /* Theme switch: a short cross-fade via the View Transitions API where

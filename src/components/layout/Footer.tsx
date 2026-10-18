@@ -53,9 +53,7 @@ export function Footer() {
 
   return (
     // Navy, like the hero, so the page opens and closes on the same note.
-    <footer className="tone-ink relative isolate overflow-hidden py-16 sm:py-20">
-      <div aria-hidden className="ink-glow pointer-events-none absolute inset-0 -z-20" />
-      <div aria-hidden className="grid-texture pointer-events-none absolute inset-0 -z-10" />
+    <footer className="tone-ink py-16 sm:py-20">
       <Container>
         {/* Decorative wordmark — the name is already in the header logo. */}
         <p

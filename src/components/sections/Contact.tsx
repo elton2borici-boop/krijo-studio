@@ -1,5 +1,4 @@
 import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Photo } from "@/components/ui/Photo";
 import { site, addressLine, telHref, whatsappHref } from "@/lib/site";
 import { ContactForm } from "./ContactForm";
@@ -37,26 +36,14 @@ export function Contact() {
     <Section
       id="kontakt"
       labelledBy="kontakt-titulli"
-      className="isolate overflow-hidden"
     >
-      {/* Static accent wash and texture behind the closing headline. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_45%_55%_at_15%_25%,var(--accent-soft),transparent_70%)]"
-      />
-      <div
-        aria-hidden
-        className="dot-texture pointer-events-none absolute inset-y-0 left-0 -z-10 w-1/2 opacity-50"
-      />
       <div className="grid gap-14 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-5">
-          <Eyebrow>kontakt</Eyebrow>
-
           <h2
             id="kontakt-titulli"
-            className="mt-4 font-display text-5xl font-extrabold leading-[1.02] tracking-tight text-fg sm:text-6xl"
+            className="font-display text-5xl font-extrabold leading-[1.02] tracking-tight text-fg sm:text-6xl"
           >
-            Le të <span className="text-accent">flasim.</span>
+            Le të flasim.
             <br />
             Një kafe ose
             <br />

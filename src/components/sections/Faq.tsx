@@ -9,13 +9,7 @@ export function Faq() {
         <SectionHeading
           id="faq-titulli"
           className="lg:col-span-4"
-          label="pyetjet"
-          title={
-            <>
-              Pyetjet që na{" "}
-              <span className="text-accent">bëjnë më shpesh.</span>
-            </>
-          }
+          title="Pyetjet që na bëjnë më shpesh."
           lede="Nuk e gjete përgjigjen këtu? Na shkruaj me email — zakonisht përgjigjemi brenda 24 orësh gjatë ditëve të punës."
         />
 

@@ -1,12 +1,10 @@
 import { cn } from "@/lib/utils";
-import { Eyebrow } from "./Eyebrow";
 
 /**
- * Eyebrow + h2 + optional lede. `size="lg"` is reserved for the page's key
+ * h2 + optional lede. `size="lg"` is reserved for the page's key
  * moment (pricing) so the headline rhythm doesn't shout in every section.
  */
 export function SectionHeading({
-  label,
   title,
   lede,
   align = "left",
@@ -14,7 +12,6 @@ export function SectionHeading({
   id,
   className,
 }: {
-  label: string;
   title: React.ReactNode;
   lede?: React.ReactNode;
   align?: "left" | "center";
@@ -31,7 +28,6 @@ export function SectionHeading({
         className
       )}
     >
-      <Eyebrow>{label}</Eyebrow>
       <h2
         id={id}
         className={cn(

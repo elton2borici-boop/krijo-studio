@@ -106,7 +106,7 @@ export default function PrivacyPage() {
             </Link>
 
             <h1 className="mt-8 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-fg sm:text-5xl">
-              Politika e <span className="text-accent">privatësisë.</span>
+              Politika e privatësisë.
             </h1>
 
             <p className="mt-6 text-base leading-relaxed text-fg-muted">

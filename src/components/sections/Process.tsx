@@ -65,13 +65,7 @@ export function Process() {
       <Container>
         <SectionHeading
           id="procesi-titulli"
-          label="procesi"
-          title={
-            <>
-              Nga ideja te publikimi —{" "}
-              <span className="text-accent">katër hapa.</span>
-            </>
-          }
+          title="Nga ideja te publikimi — katër hapa."
           lede="Kliko një hap për të parë se çfarë ndodh saktësisht në të."
         />
 

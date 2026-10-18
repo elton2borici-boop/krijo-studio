@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-10-18 — Plainer, less template-like
+
+Removed the effects that made the page read as a generated template. Content, layout and behaviour are unchanged.
+
+- **Labels**: the "Studio krijuese · Tiranë" pill in the hero and the small pill labels above every section heading are gone (`Eyebrow` deleted). "Zëra klientësh" is now a normal section heading.
+- **Headings**: one colour. The blue second half in every section heading is gone; the hero's "punojnë." is the page's only accent-coloured headline word, without the squiggle underline.
+- **Hero**: solid navy (no glow or grid), the example site in a flat window (no tilt, no floating chips, no pulsing dot), and the three-box stat card replaced by one line of text.
+- **Buttons**: flat fill, no gradient, glow or hover lift.
+- **Services**: plain line icons; no gradient tiles, giant numbers or hover glow.
+- **Pricing, testimonials, footer**: navy panels without glow or grid; the featured quote sits at the top of its card.
+- **Format and Contact**: no dot textures or radial washes.
+- Still zero axe-core violations on `/` and `/privatesia`, both themes, desktop and mobile.
+
 ## 2026-10-18 — Bold redesign
 
 A darker, higher-contrast look with the same content, structure and behaviour.

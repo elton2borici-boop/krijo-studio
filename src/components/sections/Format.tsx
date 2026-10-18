@@ -31,13 +31,7 @@ export function Format() {
     <Section id="punet" tone="raised" labelledBy="punet-titulli">
       <SectionHeading
         id="punet-titulli"
-        label="puna & formati"
-        title={
-          <>
-            Cili format i përshtatet{" "}
-            <span className="text-accent">markës sate?</span>
-          </>
-        }
+        title="Cili format i përshtatet markës sate?"
         lede="Zgjidh një strukturë më poshtë për të parë një shembull të plotë të saj. Pamjet janë ilustruese — portofolin me faqe reale klientësh e ndajmë me kërkesë."
       />
 
@@ -104,16 +98,8 @@ export function Format() {
           aria-live="polite"
           className="relative isolate flex flex-col gap-6 overflow-hidden rounded-card border border-hairline bg-stage p-6 sm:p-8 lg:col-span-7"
         >
-          {/* The stage: a tinted, lit, textured backdrop so the example reads
-              as a showcase rather than another card on the page. */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_55%_at_50%_40%,var(--accent-soft),transparent_75%)]"
-          />
-          <div
-            aria-hidden
-            className="dot-texture pointer-events-none absolute inset-0 -z-10 opacity-70"
-          />
+          {/* The stage: a tinted panel, so the example reads as a showcase
+              rather than another card on the page. */}
           <p className="text-base leading-relaxed text-fg">
             {current.text}
           </p>

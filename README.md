@@ -2,6 +2,8 @@
 
 Albanian-first marketing site for a web development, hosting, and maintenance studio — a single-page Next.js application with a SQLite-backed contact pipeline.
 
+New to the code? Start with **[CODE_TOUR.md](CODE_TOUR.md)**: a guided walkthrough of which files to read, in what order.
+
 ## Overview
 
 Krijo Studio is the public site of a small digital studio in Tirana. It presents the studio's services, pricing packages, selected work, and process in Albanian, and collects project inquiries through a contact form. Submissions are validated, rate-limited, and stored in a local SQLite database, then reviewed through a Basic-Auth-protected admin dashboard.

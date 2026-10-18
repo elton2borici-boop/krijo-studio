@@ -8,9 +8,6 @@ import fs from "node:fs";
 const DATA_DIR =
   process.env.DATA_DIR ||
   path.join(/* turbopackIgnore: true */ process.cwd(), "data");
-if (!fs.existsSync(/* turbopackIgnore: true */ DATA_DIR)) {
-  fs.mkdirSync(/* turbopackIgnore: true */ DATA_DIR, { recursive: true });
-}
 
 const DB_PATH = path.join(/* turbopackIgnore: true */ DATA_DIR, "krijo.db");
 
@@ -19,44 +16,88 @@ declare global {
 }
 
 function createDb() {
+  if (!fs.existsSync(/* turbopackIgnore: true */ DATA_DIR)) {
+    fs.mkdirSync(/* turbopackIgnore: true */ DATA_DIR, { recursive: true });
+  }
+
   const db = new Database(/* turbopackIgnore: true */ DB_PATH);
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
 
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS contacts (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      email TEXT NOT NULL,
-      phone TEXT,
-      business TEXT,
-      package TEXT,
-      message TEXT NOT NULL,
-      ip TEXT,
-      user_agent TEXT,
-      created_at TEXT DEFAULT (datetime('now'))
-    );
-    CREATE INDEX IF NOT EXISTS idx_contacts_created ON contacts(created_at);
-    CREATE INDEX IF NOT EXISTS idx_contacts_email ON contacts(email);
-  `);
+  // In case several processes open a fresh database at once: an IMMEDIATE
+  // transaction takes the write lock before reading the schema, so the others
+  // wait (better-sqlite3's default 5s busy timeout) and then see the finished
+  // table instead of each trying to add the same column.
+  db.transaction(() => {
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS contacts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT,
+        business TEXT,
+        package TEXT,
+        message TEXT NOT NULL,
+        ip TEXT,
+        user_agent TEXT,
+        created_at TEXT DEFAULT (datetime('now')),
+        client_token TEXT
+      );
+      CREATE INDEX IF NOT EXISTS idx_contacts_created ON contacts(created_at);
+      CREATE INDEX IF NOT EXISTS idx_contacts_email ON contacts(email);
+    `);
 
-  // Migration: per-browser token used for rate limiting. Added after launch,
-  // so existing databases need the column patched in.
-  const columns = db
-    .prepare("PRAGMA table_info(contacts)")
-    .all() as { name: string }[];
-  if (!columns.some((c) => c.name === "client_token")) {
-    db.exec("ALTER TABLE contacts ADD COLUMN client_token TEXT");
-  }
-  db.exec(
-    "CREATE INDEX IF NOT EXISTS idx_contacts_token ON contacts(client_token)"
-  );
+    // Migration: per-browser token used for rate limiting. Added after
+    // launch, so databases created before it need the column patched in.
+    const columns = db
+      .prepare("PRAGMA table_info(contacts)")
+      .all() as { name: string }[];
+    if (!columns.some((c) => c.name === "client_token")) {
+      db.exec("ALTER TABLE contacts ADD COLUMN client_token TEXT");
+    }
+
+    // The rate limiter filters on (ip | client_token) AND created_at, so
+    // each gets a composite index; the old token-only one is superseded.
+    db.exec(`
+      CREATE INDEX IF NOT EXISTS idx_contacts_ip_created ON contacts(ip, created_at);
+      CREATE INDEX IF NOT EXISTS idx_contacts_token_created ON contacts(client_token, created_at);
+      DROP INDEX IF EXISTS idx_contacts_token;
+    `);
+  }).immediate();
 
   return db;
 }
 
-export const db: Database.Database =
-  global.__krijoDb ?? (global.__krijoDb = createDb());
+function prepareStatements(db: Database.Database) {
+  return {
+    insert: db.prepare(`
+      INSERT INTO contacts (name, email, phone, business, package, message, ip, user_agent, client_token)
+      VALUES (@name, @email, @phone, @business, @package, @message, @ip, @user_agent, @client_token)
+      RETURNING *;
+    `),
+    list: db.prepare("SELECT * FROM contacts ORDER BY id DESC LIMIT ?"),
+    countByIp: db.prepare(
+      "SELECT COUNT(*) as c FROM contacts WHERE ip = ? AND created_at >= datetime('now', ?)"
+    ),
+    countByToken: db.prepare(
+      "SELECT COUNT(*) as c FROM contacts WHERE client_token = ? AND created_at >= datetime('now', ?)"
+    ),
+  };
+}
+
+let statements: ReturnType<typeof prepareStatements> | undefined;
+
+/**
+ * The connection is opened on the first query, not at import: `next build`
+ * loads this module in several page-data workers at once and has no reason
+ * to create or lock the database file. Statements are prepared once and
+ * reused, since preparing compiles the SQL.
+ */
+function stmts() {
+  return (statements ??= prepareStatements(
+    (global.__krijoDb ??= createDb())
+  ));
+}
 
 export type ContactRow = {
   id: number;
@@ -83,12 +124,7 @@ export function insertContact(input: {
   user_agent?: string | null;
   client_token?: string | null;
 }): ContactRow {
-  const stmt = db.prepare(`
-    INSERT INTO contacts (name, email, phone, business, package, message, ip, user_agent, client_token)
-    VALUES (@name, @email, @phone, @business, @package, @message, @ip, @user_agent, @client_token)
-    RETURNING *;
-  `);
-  return stmt.get({
+  return stmts().insert.get({
     name: input.name,
     email: input.email,
     phone: input.phone ?? null,
@@ -102,18 +138,17 @@ export function insertContact(input: {
 }
 
 export function listContacts(limit = 100): ContactRow[] {
-  return db
-    .prepare("SELECT * FROM contacts ORDER BY id DESC LIMIT ?")
-    .all(limit) as ContactRow[];
+  return stmts().list.all(limit) as ContactRow[];
 }
 
-export function countContactsSince(seconds: number, ip: string | null): number {
+export function countContactsSinceByIp(
+  seconds: number,
+  ip: string | null
+): number {
   if (!ip) return 0;
-  const row = db
-    .prepare(
-      "SELECT COUNT(*) as c FROM contacts WHERE ip = ? AND created_at >= datetime('now', ?)"
-    )
-    .get(ip, `-${seconds} seconds`) as { c: number };
+  const row = stmts().countByIp.get(ip, `-${seconds} seconds`) as {
+    c: number;
+  };
   return row.c;
 }
 
@@ -122,10 +157,8 @@ export function countContactsSinceByToken(
   token: string | null
 ): number {
   if (!token) return 0;
-  const row = db
-    .prepare(
-      "SELECT COUNT(*) as c FROM contacts WHERE client_token = ? AND created_at >= datetime('now', ?)"
-    )
-    .get(token, `-${seconds} seconds`) as { c: number };
+  const row = stmts().countByToken.get(token, `-${seconds} seconds`) as {
+    c: number;
+  };
   return row.c;
 }

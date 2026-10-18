@@ -49,8 +49,9 @@ export function Process() {
           alt=""
           fill
           sizes="100vw"
+          // Under a 55–90% navy scrim, so the default quality is wasted bytes.
+          quality={50}
           className="object-cover object-center"
-          priority={false}
         />
       </div>
       {/* Navy scrim: solid behind the text on the left, thinning to the

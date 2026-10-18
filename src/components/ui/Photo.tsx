@@ -19,7 +19,6 @@ export function Photo({
   width,
   height,
   sizes,
-  priority = false,
   className,
   imgClassName,
 }: {
@@ -28,7 +27,6 @@ export function Photo({
   width: number;
   height: number;
   sizes: string;
-  priority?: boolean;
   className?: string;
   imgClassName?: string;
 }) {
@@ -40,7 +38,6 @@ export function Photo({
         width={width}
         height={height}
         sizes={sizes}
-        priority={priority}
         className={cn("h-full w-full object-cover", imgClassName)}
       />
     </div>

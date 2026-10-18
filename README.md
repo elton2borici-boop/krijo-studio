@@ -48,7 +48,7 @@ Browser
                         data/krijo.db (WAL mode, auto-created)
 ```
 
-The database layer (`src/lib/db.ts`) opens a single shared connection, creates the schema on first use, and exposes three typed functions: `insertContact`, `listContacts`, and `countContactsSince` (used by the rate limiter). There is no ORM and no migration tooling — the schema is one table.
+The database layer (`src/lib/db.ts`) opens a single shared connection on the first query (never at build time), creates the schema then, and exposes four typed functions: `insertContact`, `listContacts`, and `countContactsSinceByIp` / `countContactsSinceByToken` (used by the rate limiter). There is no ORM and no migration tooling — the schema is one table.
 
 `src/proxy.ts` is the Next.js 16 proxy file (the renamed `middleware` convention). It enforces Basic Auth for `/admin` and `/api/contacts` in production and is a no-op in development.
 

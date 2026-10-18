@@ -395,7 +395,6 @@
 .hero-wall-col-2 { --drift: 54s; animation-direction: reverse; }
 .hero-wall-col-3 { --drift: 46s; }
 .hero-wall-col-4 { --drift: 62s; animation-direction: reverse; }
-.hero-wall-col-5 { display: none; }
 
 @media (max-width: 1023px) {
   .hero-wall-inner {
@@ -404,10 +403,15 @@
     transform: scale(1.18);
   }
 
-  .hero-wall-col-4,
-  .hero-wall-col-5 {
+  .hero-wall-col-4 {
     display: none;
   }
+}
+
+/* Set by MotionLayer while the hero is scrolled out of view, so the wall
+   isn't composited for the rest of the page. */
+.hero-wall.is-paused .hero-wall-col {
+  animation-play-state: paused;
 }
 
 /* Owner's call: the wall keeps moving under prefers-reduced-motion, but at a

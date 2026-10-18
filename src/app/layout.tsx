@@ -4,19 +4,22 @@ import { site } from "@/lib/site";
 import { localBusinessJsonLd } from "@/lib/structured-data";
 import "./globals.css";
 
+/* Both families are variable fonts, so one file per family covers every
+   weight. Only `latin` is preloaded: Albanian's ç and ë, plus € and —, are
+   all in it. The other subsets stay declared and download only if a page
+   actually uses one of their characters. */
+
 /* Body face. */
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
   display: "swap",
 });
 
 /* Display face — headlines and the wordmark. */
 const sora = Sora({
   variable: "--font-sora",
-  subsets: ["latin", "latin-ext"],
-  weight: ["600", "700", "800"],
+  subsets: ["latin"],
   display: "swap",
 });
 
@@ -52,9 +55,12 @@ export const metadata: Metadata = {
     title: "Krijo Studio — Faqe interneti për biznesin tënd",
     description:
       "Studio e vogël dixhitale shqiptare. Faqe, domain, hosting, mirëmbajtje.",
+    url: "/",
+    siteName: site.name,
     type: "website",
     locale: "sq_AL",
   },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({

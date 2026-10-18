@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import {
   insertContact,
-  countContactsSince,
+  countContactsSinceByIp,
   countContactsSinceByToken,
 } from "@/lib/db";
 import { notifyNewLead } from "@/lib/notify";
@@ -134,7 +134,7 @@ export async function POST(req: Request) {
   const tooManyForBrowser =
     countContactsSinceByToken(RATE_WINDOW_SECONDS, token) >= MAX_PER_TOKEN;
   const tooManyForIp =
-    ip !== null && countContactsSince(RATE_WINDOW_SECONDS, ip) >= MAX_PER_IP;
+    ip !== null && countContactsSinceByIp(RATE_WINDOW_SECONDS, ip) >= MAX_PER_IP;
 
   if (tooManyForBrowser || tooManyForIp) {
     return withToken(
@@ -161,9 +161,10 @@ export async function POST(req: Request) {
       client_token: token,
     });
 
-    // Best-effort: the lead is already stored, so a failed notification is
-    // logged but never surfaced to the visitor as an error.
-    await notifyNewLead(row);
+    // Best-effort, and sent after the response: the lead is already stored,
+    // so the visitor shouldn't wait on (up to 5s of) email/Telegram calls,
+    // and a failed notification is logged, never surfaced to them.
+    after(() => notifyNewLead(row));
 
     return withToken(NextResponse.json({ ok: true, id: row.id }, { status: 201 }));
   } catch (err) {

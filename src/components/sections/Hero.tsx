@@ -38,8 +38,10 @@ export function Hero() {
       />
 
       <Container>
+        {/* The chips over the wall are near-opaque rather than frosted: a
+            backdrop blur over a moving layer is re-rendered every frame. */}
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-          <p className="inline-flex items-center gap-2 rounded-full border border-hairline bg-surface/80 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-fg-muted shadow-card backdrop-blur-sm">
+          <p className="inline-flex items-center gap-2 rounded-full border border-hairline bg-surface/90 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-fg-muted shadow-card">
             <span aria-hidden className="size-1.5 rounded-full bg-accent" />
             Studio krijuese · Tiranë
           </p>
@@ -79,7 +81,7 @@ export function Hero() {
             </ButtonLink>
           </div>
 
-          <dl className="mt-16 grid w-full max-w-2xl grid-cols-3 divide-x divide-hairline rounded-card border border-hairline bg-surface/80 shadow-card backdrop-blur-sm">
+          <dl className="mt-16 grid w-full max-w-2xl grid-cols-3 divide-x divide-hairline rounded-card border border-hairline bg-surface/90 shadow-card">
             {proof.map((p) => (
               <div key={p.value} className="flex flex-col-reverse gap-1 px-3 py-4 sm:px-6 sm:py-5">
                 <dt className="text-xs leading-snug text-fg-muted">{p.label}</dt>

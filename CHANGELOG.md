@@ -1,5 +1,34 @@
 # Changelog
 
+## 2026-10-18 — Optimisation pass
+
+No visual or content changes: screenshots of the hero and Process section in both themes, on desktop and mobile, match the previous build to within 4/255 per pixel, apart from photo compression.
+
+### Fixes
+
+- **Fresh builds failed**: on a checkout with no `data/` directory, `next build`'s parallel workers each opened the new database and raced to add the `client_token` column ("duplicate column name"). The database is now opened on the first query instead of at import, so building never touches it, and the schema setup runs in an `IMMEDIATE` transaction in case two processes ever start at once.
+- **`/privatesia` claimed to be the homepage**: it inherited the root layout's `canonical: "/"` and Open Graph card. It now has its own canonical URL and card.
+
+### Speed
+
+- Fonts: `latin` subset only (Albanian's ç and ë are in it), so 2 font preloads instead of 4.
+- Hero: the two frosted chips over the drifting wall are now near-opaque, not `backdrop-blur` — a blur over a moving layer was re-rendered every frame.
+- Hero wall: dropped the fifth column, which was always `display: none` but still rendered 10 tiles (~200 DOM nodes; 1,729 → 1,529 on the homepage). The drift now pauses while the hero is scrolled out of view.
+- Images: AVIF with WebP fallback (13–25% smaller photos), and the Process background, which sits under a heavy scrim, at quality 50 (31 KB → 9 KB at 1920px). Next 16's deprecated `priority` prop removed from `Photo`.
+- `X-Powered-By` header off.
+
+### SEO
+
+- Open Graph `url` and `siteName`, and a large Twitter card.
+- JSON-LD now includes an `image` (the generated Open Graph card).
+- Sitemap `lastmod` is a fixed date per page instead of the build time, which crawlers learn to ignore.
+
+### Backend
+
+- Lead notifications (email/Telegram) are sent with `after()`, once the response is out — the visitor no longer waits up to 5s on them.
+- SQL statements are prepared once and reused instead of on every call.
+- Rate-limit queries use composite `(ip, created_at)` and `(client_token, created_at)` indexes (the per-IP check previously scanned the table); existing databases pick them up on start. `countContactsSince` is now `countContactsSinceByIp`.
+
 ## 2026-10-06 — Visual depth pass
 
 The first redesign was clean but every section shared one template (eyebrow, heading, grid of identical white cards) on near-identical backgrounds. This pass gives the page rhythm and focal points without new dependencies, extra fonts or a second accent colour.

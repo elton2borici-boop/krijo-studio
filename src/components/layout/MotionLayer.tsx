@@ -5,10 +5,21 @@ import { useEffect } from "react";
 /**
  * Progressive enhancement only — applies the `.reveal` class via JS so content
  * stays visible without JS. IntersectionObserver, so nothing runs on scroll.
+ *
+ * Also pauses the hero wall's drift while the hero is off-screen. That runs
+ * even under reduced motion, where the wall still moves (slowed, see CSS).
  */
 export function MotionLayer() {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const wall = document.querySelector<HTMLElement>(".hero-wall");
+    const wallObserver = new IntersectionObserver(([entry]) => {
+      wall?.classList.toggle("is-paused", !entry.isIntersecting);
+    });
+    if (wall) wallObserver.observe(wall);
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return () => wallObserver.disconnect();
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -31,7 +42,10 @@ export function MotionLayer() {
       observer.observe(section);
     });
 
-    return () => observer.disconnect();
+    return () => {
+      wallObserver.disconnect();
+      observer.disconnect();
+    };
   }, []);
 
   return null;

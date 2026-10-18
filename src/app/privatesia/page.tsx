@@ -6,10 +6,25 @@ import { Logo } from "@/components/layout/Logo";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { site } from "@/lib/site";
 
+const title = "Politika e privatësisë — Krijo Studio";
+const description =
+  "Çfarë të dhënash mbledh formulari i kontaktit, pse i mbledhim, sa kohë i ruajmë dhe si mund t'i fshish.";
+
 export const metadata: Metadata = {
-  title: "Politika e privatësisë — Krijo Studio",
-  description:
-    "Çfarë të dhënash mbledh formulari i kontaktit, pse i mbledhim, sa kohë i ruajmë dhe si mund t'i fshish.",
+  title,
+  description,
+  // Both must be set here: otherwise this page inherits the homepage's
+  // canonical ("/") and Open Graph card from the root layout, and tells
+  // search engines it is a duplicate of the homepage.
+  alternates: { canonical: "/privatesia" },
+  openGraph: {
+    title,
+    description,
+    url: "/privatesia",
+    siteName: site.name,
+    type: "website",
+    locale: "sq_AL",
+  },
   robots: { index: true, follow: true },
 };
 

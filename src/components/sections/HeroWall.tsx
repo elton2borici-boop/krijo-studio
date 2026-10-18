@@ -171,9 +171,10 @@ function Menu() {
   );
 }
 
-/* Five columns, each a different mix and length so no two read as the same
-   list scrolling twice. Narrow columns keep the tiles small, which is what
-   makes this look like a wall of many pages rather than a few big panels.
+/* Four columns (three on phones), each a different mix and length so no two
+   read as the same list scrolling twice. Narrow columns keep the tiles small,
+   which is what makes this look like a wall of many pages rather than a few
+   big panels.
 
    Five tiles per column, and not only for looks: after the loop shifts a
    column by exactly one block, that block has to still fill the frame on its
@@ -185,7 +186,6 @@ const columns = [
   [Portfolio, Booking, Landing, Menu, Article],
   [Menu, Article, Portfolio, Booking, Shop],
   [Shop, Landing, Booking, Article, Portfolio],
-  [Article, Menu, Portfolio, Shop, Landing],
 ];
 
 export function HeroWall() {

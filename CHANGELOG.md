@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026-10-18 — Bold redesign
+
+A darker, higher-contrast look with the same content, structure and behaviour.
+
+- **Hero**: a navy band with a blue glow and a fine grid. The headline sits on the left; on the right is an example site (the law-office mock from the format picker) in a browser window, tilted slightly toward the text on desktop, with three floating chips taken from the base package's features. The faded wireframe wall is gone, along with its CSS and the code that paused it.
+- **Navbar**: light text on the navy hero (`.ink-tokens`, the navy palette without its background), turning into the frosted light bar once scrolled.
+- **Type and controls**: bigger, heavier section headings; section labels are pills with a dot; primary buttons have a subtle gradient, inner highlight and blue glow, and both button styles lift on hover.
+- **Format**: the example preview is drawn at 1.4× (`.work-thumb-lg`), and the picker, not the preview, is now the sticky column.
+- **Pricing**: the recommended plan is lit with the hero's glow.
+- **Services**: gradient icon tiles; the large faint numbers no longer get cut off at the top of each card; a soft accent light on hover.
+- **Testimonials**: the featured quote is a navy panel with a large quote mark, which fixes the empty gap it had before.
+- **Footer**: navy with glow and grid, so the page opens and closes on the same note.
+- Glows are radial gradients, never `filter: blur()`, so they cost nothing to repaint (blur filters made View Transition snapshots of the page noticeably slower).
+- Still zero axe-core violations (WCAG 2.1 AA) on `/` and `/privatesia`, in both themes, on desktop and mobile.
+
 ## 2026-10-18 — Optimisation pass
 
 No visual or content changes: screenshots of the hero and Process section in both themes, on desktop and mobile, match the previous build to within 4/255 per pixel, apart from photo compression.

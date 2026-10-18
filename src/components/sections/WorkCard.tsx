@@ -21,12 +21,15 @@ export function WorkCard({
   tag,
   title,
   caption,
+  large = false,
   children,
 }: {
   domain: string;
   tag: string;
   title: string;
   caption: string;
+  /** Draws the thumbnail at 1.4× from 640px up (see .work-thumb-lg). */
+  large?: boolean;
   children: React.ReactNode;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -45,7 +48,7 @@ export function WorkCard({
         <span className="sr-only">Shiko {title} nga afër</span>
         {/* The thumbnail is a picture of a page; its micro-copy is read in
             the dialog, at a legible size. */}
-        <span aria-hidden className="block">
+        <span aria-hidden className={cn("block", large && "work-thumb-lg mx-auto")}>
           <BrowserFrame domain={domain}>{children}</BrowserFrame>
         </span>
       </button>

@@ -27,19 +27,25 @@ export function Services() {
             key={s.title}
             style={{ "--i": i } as React.CSSProperties}
             className={cn(
-              "card card-hover relative flex flex-col overflow-hidden p-6 sm:p-7",
+              "card card-hover group relative isolate flex flex-col overflow-hidden p-6 sm:p-8",
               wide.has(i) && "lg:col-span-2"
             )}
           >
-            {/* Oversized faint numeral as a quiet graphic anchor. Drawn as
-                CSS content so it stays pure decoration, not page text. */}
+            {/* Oversized faint numeral as a quiet graphic anchor, kept fully
+                inside the card. Drawn as CSS content so it stays pure
+                decoration, not page text. */}
             <span
               aria-hidden
               data-n={String(i + 1).padStart(2, "0")}
-              className="pointer-events-none absolute -top-3 right-4 font-display text-8xl font-extrabold tabular-nums text-fg/[0.04] before:content-[attr(data-n)]"
+              className="pointer-events-none absolute top-5 right-6 font-display text-6xl leading-none font-extrabold tabular-nums text-fg/[0.06] before:content-[attr(data-n)]"
+            />
+            {/* Accent light in the corner on hover. */}
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_0%_0%,var(--accent-soft),transparent_45%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
             />
 
-            <span className="grid size-12 place-items-center rounded-control bg-accent-soft text-accent">
+            <span className="grid size-12 place-items-center rounded-control bg-[linear-gradient(180deg,var(--accent-fill),color-mix(in_srgb,var(--accent-fill)_78%,#000))] text-on-accent shadow-[inset_0_1px_0_rgb(255_255_255/0.2),0_10px_20px_-10px_var(--accent-fill)]">
               <ServiceIconGlyph name={s.icon} />
             </span>
             <h3 className="mt-5 font-display text-xl font-semibold leading-tight text-fg">

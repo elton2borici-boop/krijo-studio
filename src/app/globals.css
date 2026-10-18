@@ -233,8 +233,12 @@
      cards, buttons and links inside it adapt with no per-component work.
      Same values in both themes (it is the page's one dark moment in light
      mode, and a navy lift off the near-black canvas in dark mode).
-     Contrast vs #0c1830: fg 15.7, muted 8.6, accent 8.4, line-strong 3.6. */
-  .tone-ink {
+     Contrast vs #0c1830: fg 15.7, muted 8.6, accent 8.4, line-strong 3.6.
+
+     `.ink-tokens` is the same palette without the background — for things
+     that sit on top of a navy band, like the navbar over the hero. */
+  .tone-ink,
+  .ink-tokens {
     color-scheme: dark;
     --canvas: #0c1830;
     --canvas-raised: #0f1d39;
@@ -252,8 +256,28 @@
     --accent-soft: rgb(138 180 248 / 0.14);
     --shadow-color: 0 0 0;
     --shadow-strength: 2.5;
-    background-color: var(--canvas);
     color: var(--fg);
+  }
+
+  .tone-ink {
+    background-color: var(--canvas);
+  }
+
+  /* Blue light pooling in a navy band: two soft radial glows. Paint-once. */
+  .ink-glow {
+    background:
+      radial-gradient(ellipse 55% 60% at 78% 30%, rgb(47 107 208 / 0.45), transparent 70%),
+      radial-gradient(ellipse 45% 50% at 8% 90%, rgb(138 180 248 / 0.16), transparent 70%);
+  }
+
+  /* Fine blueprint grid, faded out toward the edges. */
+  .grid-texture {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--fg) 7%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--fg) 7%, transparent) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, #000 20%, transparent 75%);
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, #000 20%, transparent 75%);
   }
 
   /* Static dot texture, faded toward the edges. Paint-once, no motion. */
@@ -313,113 +337,58 @@
 }
 
 /* =============================================================================
-   Hero wall
+   Hero showcase
    -----------------------------------------------------------------------------
-   Drifting columns of layout wireframes behind the hero. Only `transform` is
-   animated, on the column wrappers, so this composites and costs no per-frame
-   repaint no matter how many tiles are in a column.
+   The example site in the hero. The mocks are authored at 360px with 6–13px
+   type (see SiteMocks.tsx), so the window is drawn at that width and `zoom`ed
+   up — zoom scales layout with the type, so the 4:3 frame grows with it.
    ========================================================================== */
 
-.hero-wall {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  /* Kept low so the headline never fights the texture behind it; the tiles'
-     own ink is dialled up to compensate (see HeroWall.tsx). */
-  opacity: 0.2;
-  /* Two intersected masks: a long fade at the bottom, a short one at the
-     sides where the scaled grid would otherwise be sliced flat. */
-  -webkit-mask-image:
-    linear-gradient(to bottom, #000 34%, transparent 88%),
-    linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
-  mask-image:
-    linear-gradient(to bottom, #000 34%, transparent 88%),
-    linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
+.hero-shot {
+  width: 100%;
 }
 
-[data-theme="dark"] .hero-wall {
-  opacity: 0.14;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .hero-wall {
-    opacity: 0.14;
+@media (min-width: 640px) {
+  .hero-shot {
+    width: 360px;
+    zoom: 1.35;
   }
 }
 
-.hero-wall-inner {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  /* Each column sizes to its own content, so translateY(-50%) lands exactly
-     on the start of the second copy of its tiles. */
-  align-items: start;
-  gap: 14px;
-  height: 100%;
-  padding: 0 2%;
-  /* Pushes the outer columns past the frame so the side mask has something
-     to fade instead of ending on a tile edge. */
-  transform: scale(1.14);
-  transform-origin: center;
-}
+@media (min-width: 1024px) {
+  .hero-shot {
+    zoom: 1.4;
+  }
 
-/* Stagger alternate columns so the tiles don't lock into visible rows. */
-.hero-wall-col-2,
-.hero-wall-col-4 {
-  margin-top: -76px;
-}
-
-.hero-wall-col {
-  display: flex;
-  flex-direction: column;
-  will-change: transform;
-  animation: hero-wall-drift var(--drift) linear infinite;
-}
-
-/* Spacing lives on the tiles, not as `gap`: with gap, 2n tiles have 2n-1
-   gaps and -50% would land half a gap off, jumping on every loop. */
-.hero-wall-col > * {
-  margin-bottom: 14px;
-}
-
-@keyframes hero-wall-drift {
-  to {
-    transform: translate3d(0, -50%, 0);
+  /* A slight turn toward the headline, so the window reads as an object in
+     space rather than a screenshot pasted beside the text. */
+  .hero-tilt {
+    transform: perspective(1600px) rotateY(-9deg) rotateX(3deg);
   }
 }
 
-/* Slow, deliberate drift. */
-.hero-wall-col-1 { --drift: 40s; }
-.hero-wall-col-2 { --drift: 54s; animation-direction: reverse; }
-.hero-wall-col-3 { --drift: 46s; }
-.hero-wall-col-4 { --drift: 62s; animation-direction: reverse; }
-
-@media (max-width: 1023px) {
-  .hero-wall-inner {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    transform: scale(1.18);
-  }
-
-  .hero-wall-col-4 {
-    display: none;
+/* Feature chips drift a few pixels — slow enough to read as alive, not busy.
+   Stopped under prefers-reduced-motion (see the end of this file). */
+@keyframes float {
+  50% {
+    transform: translateY(-6px);
   }
 }
 
-/* Set by MotionLayer while the hero is scrolled out of view, so the wall
-   isn't composited for the rest of the page. */
-.hero-wall.is-paused .hero-wall-col {
-  animation-play-state: paused;
+.float {
+  animation: float 6s ease-in-out infinite;
 }
 
-/* Owner's call: the wall keeps moving under prefers-reduced-motion, but at a
-   third of the speed — slow, low-contrast, background-only motion. Delete the
-   `animation-duration` line and add `animation: none` to stop it instead. */
-@media (prefers-reduced-motion: reduce) {
-  .hero-wall-col {
-    animation-duration: calc(var(--drift) * 3);
+.float-delay {
+  animation-delay: -3s;
+}
+
+/* Format picker: the same zoom trick for the larger example thumbnail. */
+@media (min-width: 640px) {
+  .work-thumb-lg {
+    width: 360px;
+    max-width: none;
+    zoom: 1.4;
   }
 }
 
@@ -563,8 +532,7 @@
     scroll-behavior: auto !important;
   }
 
-  /* Everything stops except the hero wall (slowed above). */
-  *:not(.hero-wall-col),
+  *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;

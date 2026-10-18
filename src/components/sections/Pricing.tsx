@@ -37,14 +37,20 @@ export function Pricing() {
               // The recommended plan is the page's focal card: a navy panel
               // (tone-ink re-themes its contents) standing a little taller.
               p.starred
-                ? "tone-ink border-accent/40 shadow-raised lg:-my-4 lg:py-10"
+                ? "tone-ink isolate border-accent/50 shadow-[0_30px_60px_-24px_rgb(31_95_191/0.55)] lg:-my-4 lg:py-10"
                 : "card-hover"
             )}
           >
             {p.starred && (
-              <span className="absolute -top-3 left-6 rounded-full bg-accent-fill px-3 py-1 text-xs font-semibold text-on-accent shadow-card">
-                Rekomanduar për biznese të reja
-              </span>
+              <>
+                <div
+                  aria-hidden
+                  className="ink-glow pointer-events-none absolute inset-0 -z-10 rounded-[inherit]"
+                />
+                <span className="absolute -top-3 left-6 rounded-full bg-[linear-gradient(180deg,var(--accent-fill),color-mix(in_srgb,var(--accent-fill)_80%,#000))] px-3 py-1 text-xs font-semibold text-on-accent shadow-card">
+                  Rekomanduar për biznese të reja
+                </span>
+              </>
             )}
 
             <span className="text-xs font-semibold uppercase tracking-[0.12em] text-fg-muted">

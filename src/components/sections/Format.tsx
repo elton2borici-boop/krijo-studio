@@ -45,7 +45,7 @@ export function Format() {
         {/* Picker — left column on desktop, full width on mobile */}
         <ol
           aria-label="Formatet e mundshme"
-          className="flex flex-col gap-2 lg:col-span-5"
+          className="flex flex-col gap-2 lg:sticky lg:top-28 lg:col-span-5 lg:self-start"
         >
           {formats.map((f, i) => {
             const isActive = i === selected;
@@ -102,10 +102,14 @@ export function Format() {
         <div
           id="punet-preview"
           aria-live="polite"
-          className="relative isolate flex flex-col gap-6 overflow-hidden rounded-card border border-hairline bg-stage p-6 sm:p-8 lg:sticky lg:top-24 lg:col-span-7 lg:self-start"
+          className="relative isolate flex flex-col gap-6 overflow-hidden rounded-card border border-hairline bg-stage p-6 sm:p-8 lg:col-span-7"
         >
-          {/* The stage: a tinted, textured backdrop so the example reads as
-              a showcase rather than another card on the page. */}
+          {/* The stage: a tinted, lit, textured backdrop so the example reads
+              as a showcase rather than another card on the page. */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_55%_at_50%_40%,var(--accent-soft),transparent_75%)]"
+          />
           <div
             aria-hidden
             className="dot-texture pointer-events-none absolute inset-0 -z-10 opacity-70"
@@ -114,19 +118,20 @@ export function Format() {
             {current.text}
           </p>
 
-          <div className="grid gap-6 sm:grid-cols-2 sm:items-center">
-            {/* key: forces a fresh WorkCard per format so its <dialog>
-                never holds the previous example's markup. */}
-            <WorkCard
-              key={current.example.domain}
-              domain={current.example.domain}
-              tag={current.tag}
-              title={current.example.label}
-              caption={current.example.caption}
-            >
-              <Mock />
-            </WorkCard>
+          {/* key: forces a fresh WorkCard per format so its <dialog> never
+              holds the previous example's markup. */}
+          <WorkCard
+            key={current.example.domain}
+            domain={current.example.domain}
+            tag={current.tag}
+            title={current.example.label}
+            caption={current.example.caption}
+            large
+          >
+            <Mock />
+          </WorkCard>
 
+          <div className="grid gap-6 border-t border-hairline pt-6 sm:grid-cols-2">
             <ul className="flex flex-col gap-2.5">
               {current.bullets.map((b) => (
                 <li key={b} className="flex gap-2.5 text-sm leading-relaxed text-fg">
@@ -135,19 +140,20 @@ export function Format() {
                 </li>
               ))}
             </ul>
+
+            <div className="flex flex-col items-start gap-5">
+              <p className="text-sm leading-relaxed text-fg">
+                <span className="mb-1 block text-xs font-semibold uppercase tracking-[0.12em] text-fg-muted">
+                  Më i përshtatshëm
+                </span>
+                {current.best}
+              </p>
+              <ButtonLink href="#kontakt">
+                Ky format më përshtatet
+                <span aria-hidden>→</span>
+              </ButtonLink>
+            </div>
           </div>
-
-          <p className="text-sm leading-relaxed text-fg">
-            <span className="mr-2 text-xs font-semibold uppercase tracking-[0.12em] text-fg-muted">
-              Më i përshtatshëm
-            </span>
-            {current.best}
-          </p>
-
-          <ButtonLink href="#kontakt" className="w-fit">
-            Ky format më përshtatet
-            <span aria-hidden>→</span>
-          </ButtonLink>
         </div>
       </div>
     </Section>

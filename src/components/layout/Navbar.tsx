@@ -66,7 +66,9 @@ export function Navbar() {
       <div
         className={cn(
           "mx-auto flex w-full max-w-6xl items-center justify-between gap-4 rounded-card border px-4 py-2.5 transition-[background-color,border-color,box-shadow] duration-300",
-          scrolled || open ? "nav-surface" : "border-transparent"
+          // At the top it sits on the navy hero, so it borrows the hero's
+          // palette; once scrolled it becomes the frosted light bar.
+          scrolled || open ? "nav-surface" : "ink-tokens border-transparent"
         )}
       >
         <Logo />

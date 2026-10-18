@@ -35,8 +35,8 @@ export function SectionHeading({
       <h2
         id={id}
         className={cn(
-          "max-w-3xl font-display font-bold leading-[1.1] tracking-tight text-fg",
-          size === "lg" ? "text-4xl sm:text-5xl" : "text-3xl sm:text-4xl"
+          "max-w-3xl font-display font-extrabold leading-[1.05] tracking-tight text-fg",
+          size === "lg" ? "text-4xl sm:text-6xl" : "text-4xl sm:text-5xl"
         )}
       >
         {title}

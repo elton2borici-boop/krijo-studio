@@ -66,7 +66,7 @@ src/
 │  └─ globals.css              # Design tokens (light + dark) and shared CSS
 ├─ components/
 │  ├─ layout/                  # Navbar, ThemeToggle, Footer, Logo, MotionLayer
-│  ├─ sections/                # Hero, HeroWall, Format, WorkCard, SiteMocks, Pricing,
+│  ├─ sections/                # Hero, Format, WorkCard, SiteMocks, Pricing,
 │  │                           # Services, Process, Testimonials, Faq, Contact, ContactForm
 │  └─ ui/                      # Button, Section, SectionHeading, Eyebrow, Container,
 │                              # Photo, CheckIcon, SocialIcons

@@ -1,5 +1,4 @@
 import { Section } from "@/components/ui/Section";
-import { Photo } from "@/components/ui/Photo";
 import { site, addressLine, telHref, whatsappHref } from "@/lib/site";
 import { ContactForm } from "./ContactForm";
 
@@ -55,32 +54,6 @@ export function Contact() {
             përgjigjemi brenda 24 orësh, me një propozim falas e pa asnjë
             angazhim.
           </p>
-
-          {/* The headline offers a coffee; the studio shot answers the
-              question a stranger has at this point: who am I emailing? */}
-          <figure className="mt-10">
-            <div className="grid grid-cols-2 gap-3">
-              <Photo
-                src="/images/kafe.webp"
-                alt="Një espresso dhe një bloknot mbi tavolinën e një kafenaje në Tiranë."
-                width={1408}
-                height={690}
-                sizes="(min-width: 1024px) 225px, 45vw"
-                className="aspect-[4/3] rounded-card border border-hairline"
-              />
-              <Photo
-                src="/images/studio.webp"
-                alt="Dy anëtarë të studios duke diskutuar një projekt në zyrën e tyre në Tiranë."
-                width={1376}
-                height={690}
-                sizes="(min-width: 1024px) 225px, 45vw"
-                className="aspect-[4/3] rounded-card border border-hairline"
-              />
-            </div>
-            <figcaption className="mt-3 text-sm leading-relaxed text-fg-muted">
-              Studioja jonë në Tiranë — projektet zhvillohen një nga një.
-            </figcaption>
-          </figure>
 
           <dl className="mt-10 flex flex-col text-sm">
             {details.map((d) => (

@@ -71,7 +71,7 @@ src/
 │  ├─ sections/                # Hero, HeroWall, Format, WorkCard, SiteMocks,
 │  │                           # Pricing, Services, Process, Faq, Contact, ContactForm
 │  └─ ui/                      # Button, Section, SectionHeading, Container,
-│                              # Photo, CheckIcon, SocialIcons
+│                              # CheckIcon, SocialIcons
 ├─ content/                    # All page copy as typed data (packages, formats, …)
 ├─ lib/
 │  ├─ db.ts                    # SQLite connection, schema, typed queries

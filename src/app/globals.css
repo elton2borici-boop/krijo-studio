@@ -430,36 +430,6 @@
 }
 
 /* =============================================================================
-   Photography
-   -----------------------------------------------------------------------------
-   The photos are warm daylight shots; a low-opacity `mix-blend-mode: color`
-   layer shifts their hue toward the accent without touching luminance, so
-   they sit inside the palette. `isolation` keeps the blend inside the frame.
-   ========================================================================== */
-
-.photo {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  background: var(--canvas-raised);
-}
-
-.photo img {
-  display: block;
-  filter: saturate(0.92);
-}
-
-.photo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: var(--accent-fill);
-  mix-blend-mode: color;
-  opacity: 0.12;
-}
-
-/* =============================================================================
    Portfolio lightbox
    ========================================================================== */
 

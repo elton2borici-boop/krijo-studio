@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { EdgeFade } from "@/components/ui/EdgeFade";
 import { Section } from "@/components/ui/Section";
 import { site, addressLine, telHref, whatsappHref } from "@/lib/site";
 import { ContactForm } from "./ContactForm";
@@ -36,9 +37,36 @@ export function Contact() {
     <Section
       id="kontakt"
       labelledBy="kontakt-titulli"
+      className="isolate"
+      background={
+        <>
+          {/* The café still life, washed back to a texture under the text. */}
+          <div aria-hidden className="absolute inset-0 -z-20">
+            <Image
+              src="/images/kafe.webp"
+              alt=""
+              fill
+              sizes="100vw"
+              // Under a page-colour wash, so the default quality is wasted bytes.
+              quality={50}
+              // Lands the cup in the open space below the contact details.
+              className="object-cover object-[center_55%]"
+            />
+          </div>
+          {/* Page-colour wash: solid behind the heading and details, thinning
+              below them so the cup shows beside the taller form. Even on
+              phones, where the form follows the text. */}
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 bg-page/90 lg:bg-transparent lg:bg-gradient-to-b lg:from-page lg:from-50% lg:to-page/25 lg:to-80% lg:dark:to-page/60"
+          />
+          <EdgeFade side="top" />
+          <EdgeFade side="bottom" />
+        </>
+      }
     >
       <div className="grid gap-14 lg:grid-cols-12 lg:gap-8">
-        <div className="lg:col-span-5 lg:flex lg:flex-col">
+        <div className="lg:col-span-5">
           <h2
             id="kontakt-titulli"
             className="font-display text-5xl font-extrabold leading-[1.02] tracking-tight text-fg sm:text-6xl"
@@ -77,19 +105,6 @@ export function Contact() {
               </div>
             ))}
           </dl>
-
-          <div
-            aria-hidden
-            className="relative mt-10 hidden min-h-56 flex-1 overflow-hidden rounded-card border border-hairline lg:block"
-          >
-            <Image
-              src="/images/kafe.webp"
-              alt=""
-              fill
-              sizes="(min-width: 1280px) 460px, 36vw"
-              className="object-cover object-[center_72%]"
-            />
-          </div>
         </div>
 
         <div className="lg:col-span-6 lg:col-start-7">

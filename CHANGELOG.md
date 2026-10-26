@@ -2,11 +2,12 @@
 
 ## 2026-10-26 — Hero wall back, reviews out
 
-- **Hero**: the slowly drifting wall of page wireframes is back, now behind the navy hero. The headline, buttons and example site sit on top, unchanged. It still pauses while the hero is off-screen and slows to a third of its speed (instead of stopping) under `prefers-reduced-motion`.
+- **Hero**: the slowly drifting wall of page wireframes is back, now behind the navy hero. It still pauses while the hero is off-screen and slows to a third of its speed (instead of stopping) under `prefers-reduced-motion`.
+- **Hero layout**: the white example-site window is gone (it was the brightest thing on screen and fought the headline; the format picker right below already shows the examples). The headline is centered and larger, with the buttons and the proof line under it, and the wall fades to about a third behind the text while staying full strength at the sides.
 - **Reviews removed**: the "Zëra klientësh" section is gone (`Testimonials.tsx`, `content/testimonials.ts`). The quotes weren't from real clients. Put a section back once there are real ones.
 - **Contact photos removed**: the café shot and the "two studio members" shot (with the "Studioja jonë në Tiranë" caption) are gone, along with the now-unused `Photo` component and `.photo` styles. They weren't real photos of the studio. The Process background photo stays.
 - **New Process background**: `tavolina.webp`, a top-down desk with a laptop, phone and a sketchbook of wireframes, replaces `puna.webp` (whose sketch read "Lorem Ipsum"). The empty desk sits on the left, under the text.
-- **Contact image**: `kafe.webp` (espresso, water and a navy notebook on a café table) fills the left column under the email and hours, ending level with the form. Desktop only, so on phones the form follows the text. Decorative: no caption, empty alt.
+- **Contact background**: `kafe.webp` (espresso, water and a navy notebook on a café table) lies behind the whole contact section under a page-colour wash, the same treatment as the Process photo: solid behind the heading and details, thinner on the right where the form card sits, and fading into the page at the top and bottom. Decorative: no caption, empty alt. `Section` takes a `background` prop for layers like these.
 - **No hard section lines**: navy bands (hero, Process, footer) dissolve into the page colour over a tall strip (`EdgeFade`, with padding added so no text sits in it), and raised sections fade in and out of the page colour (`.tone-raised`), so light sections meet without a visible line. `--page` keeps the page colour reachable inside navy bands.
 
 ## 2026-10-18 — Plainer, less template-like

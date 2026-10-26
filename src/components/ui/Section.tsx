@@ -17,6 +17,7 @@ export function Section({
   tone = "default",
   labelledBy,
   className,
+  background,
   children,
 }: {
   id?: string;
@@ -24,6 +25,8 @@ export function Section({
   /** id of the section's heading, for an accessible region name. */
   labelledBy?: string;
   className?: string;
+  /** Layers positioned against the whole section, outside the container. */
+  background?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -32,6 +35,7 @@ export function Section({
       aria-labelledby={labelledBy}
       className={cn("relative py-20 sm:py-28", tones[tone], className)}
     >
+      {background}
       <Container>{children}</Container>
     </section>
   );

@@ -355,31 +355,6 @@
 }
 
 /* =============================================================================
-   Hero showcase
-   -----------------------------------------------------------------------------
-   The example site in the hero. The mocks are authored at 360px with 6–13px
-   type (see SiteMocks.tsx), so the window is drawn at that width and `zoom`ed
-   up — zoom scales layout with the type, so the 4:3 frame grows with it.
-   ========================================================================== */
-
-.hero-shot {
-  width: 100%;
-}
-
-@media (min-width: 640px) {
-  .hero-shot {
-    width: 360px;
-    zoom: 1.35;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-shot {
-    zoom: 1.4;
-  }
-}
-
-/* =============================================================================
    Hero wall
    -----------------------------------------------------------------------------
    Drifting columns of page wireframes behind the hero. Only `transform` on the
@@ -392,12 +367,15 @@
   overflow: hidden;
   pointer-events: none;
   opacity: 0.22;
+  /* Fades top, bottom and sides, and quiets the wall behind the headline. */
   -webkit-mask-image:
     linear-gradient(to bottom, transparent 0%, #000 16%, #000 62%, transparent 100%),
-    linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+    linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%),
+    radial-gradient(ellipse 45% 40% at 50% 45%, rgb(0 0 0 / 0.35), #000);
   mask-image:
     linear-gradient(to bottom, transparent 0%, #000 16%, #000 62%, transparent 100%),
-    linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+    linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%),
+    radial-gradient(ellipse 45% 40% at 50% 45%, rgb(0 0 0 / 0.35), #000);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
@@ -466,7 +444,8 @@
   }
 }
 
-/* Format picker: the same zoom trick for the larger example thumbnail. */
+/* Format picker: the mocks are authored at 360px with 6–13px type, so the
+   larger thumbnail is drawn at that width and `zoom`ed up with its text. */
 @media (min-width: 640px) {
   .work-thumb-lg {
     width: 360px;

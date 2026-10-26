@@ -31,7 +31,7 @@ Run it while you read (`npm run dev`, then http://localhost:3000). Change someth
 <Services />      ← 6 service cards
 <Process />       ← 4 steps on the photo
 <Faq />
-<Contact />       ← headline + form
+<Contact />       ← headline + form on the café photo
 <Footer />
 ```
 

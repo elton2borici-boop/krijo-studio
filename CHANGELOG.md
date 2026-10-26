@@ -5,6 +5,7 @@
 - **Hero**: the slowly drifting wall of page wireframes is back, now behind the navy hero. The headline, buttons and example site sit on top, unchanged. It still pauses while the hero is off-screen and slows to a third of its speed (instead of stopping) under `prefers-reduced-motion`.
 - **Reviews removed**: the "Zëra klientësh" section is gone (`Testimonials.tsx`, `content/testimonials.ts`). The quotes weren't from real clients. Put a section back once there are real ones.
 - **Contact photos removed**: the café shot and the "two studio members" shot (with the "Studioja jonë në Tiranë" caption) are gone, along with the now-unused `Photo` component and `.photo` styles. They weren't real photos of the studio. The Process background photo stays.
+- **New Process background**: `tavolina.webp`, a top-down desk with a laptop, phone and a sketchbook of wireframes, replaces `puna.webp` (whose sketch read "Lorem Ipsum"). The empty desk sits on the left, under the text.
 
 ## 2026-10-18 — Plainer, less template-like
 

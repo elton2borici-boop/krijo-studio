@@ -45,7 +45,7 @@ export function Process() {
       {/* Background photograph, washed back far enough to sit under text. */}
       <div aria-hidden className="absolute inset-0 -z-20">
         <Image
-          src="/images/puna.webp"
+          src="/images/tavolina.webp"
           alt=""
           fill
           sizes="100vw"

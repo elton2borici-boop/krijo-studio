@@ -1,6 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { ButtonLink } from "@/components/ui/Button";
 import { packages } from "@/content/packages";
+import { HeroWall } from "./HeroWall";
 import { LawPreview } from "./SiteMocks";
 
 /** Cheapest one-off build, so the claim follows the price list. */
@@ -25,7 +26,11 @@ const proof = [
  */
 export function Hero() {
   return (
-    <section className="tone-ink relative pt-32 pb-20 sm:pt-40 sm:pb-24 lg:pb-28">
+    <section className="tone-ink relative isolate overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-24 lg:pb-28">
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <HeroWall />
+      </div>
+
       <Container>
         <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-6">

@@ -333,6 +333,93 @@
   }
 }
 
+/* =============================================================================
+   Hero wall
+   -----------------------------------------------------------------------------
+   Drifting columns of page wireframes behind the hero. Only `transform` on the
+   column wrappers animates, so it composites without repaints.
+   ========================================================================== */
+
+.hero-wall {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.22;
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent 0%, #000 16%, #000 62%, transparent 100%),
+    linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  mask-image:
+    linear-gradient(to bottom, transparent 0%, #000 16%, #000 62%, transparent 100%),
+    linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.hero-wall-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: start;
+  gap: 14px;
+  height: 100%;
+  padding: 0 2%;
+  transform: scale(1.14);
+  transform-origin: center;
+}
+
+.hero-wall-col-2,
+.hero-wall-col-4 {
+  margin-top: -76px;
+}
+
+.hero-wall-col {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  animation: hero-wall-drift var(--drift) linear infinite;
+}
+
+/* Margin, not `gap`: 2n tiles have 2n-1 gaps, so -50% would land half a gap
+   off and jump on every loop. */
+.hero-wall-col > * {
+  margin-bottom: 14px;
+}
+
+@keyframes hero-wall-drift {
+  to {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+.hero-wall-col-1 { --drift: 40s; }
+.hero-wall-col-2 { --drift: 54s; animation-direction: reverse; }
+.hero-wall-col-3 { --drift: 46s; }
+.hero-wall-col-4 { --drift: 62s; animation-direction: reverse; }
+
+@media (max-width: 1023px) {
+  .hero-wall-inner {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    transform: scale(1.18);
+  }
+
+  .hero-wall-col-4 {
+    display: none;
+  }
+}
+
+.hero-wall.is-paused .hero-wall-col {
+  animation-play-state: paused;
+}
+
+/* Under reduced motion the wall keeps drifting, at a third of the speed. Swap
+   this for `animation: none` to stop it instead. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-wall-col {
+    animation-duration: calc(var(--drift) * 3);
+  }
+}
+
 /* Format picker: the same zoom trick for the larger example thumbnail. */
 @media (min-width: 640px) {
   .work-thumb-lg {
@@ -482,7 +569,7 @@
     scroll-behavior: auto !important;
   }
 
-  *,
+  *:not(.hero-wall-col),
   *::before,
   *::after {
     animation-duration: 0.01ms !important;

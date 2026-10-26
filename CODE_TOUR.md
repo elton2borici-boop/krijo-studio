@@ -30,7 +30,6 @@ Run it while you read (`npm run dev`, then http://localhost:3000). Change someth
 <Pricing />       ← the 4 packages
 <Services />      ← 6 service cards
 <Process />       ← 4 steps on the photo
-<Testimonials />
 <Faq />
 <Contact />       ← headline + form
 <Footer />
@@ -54,7 +53,6 @@ You can edit these without understanding React. They are just lists of text:
 | `services.ts` | The 6 service cards |
 | `process.ts` | The 4 process steps |
 | `formats.ts` | The 4 site types in the "format" picker |
-| `testimonials.ts` | The client quotes |
 
 Also **`src/lib/site.ts`** holds the business details: email, phone, address, social links and the website URL. Anything left as `null` is simply hidden on the site.
 
@@ -98,7 +96,7 @@ Follow one message through the code:
 ## 8. Small files you can skip for now
 - `privatesia/page.tsx`: the privacy policy page.
 - `sitemap.ts`, `robots.ts`, `opengraph-image.tsx`, `lib/structured-data.ts`: for Google and for the image shown when the link is shared.
-- `MotionLayer.tsx`: the fade-in-on-scroll effect.
+- `MotionLayer.tsx`: the fade-in-on-scroll effect, and pausing the hero wall once it's scrolled out of view.
 - `next.config.ts`, `tsconfig.json`, `eslint.config.mjs`, `postcss.config.mjs`: project settings.
 - `README.md` (setup) and `CHANGELOG.md` (history of what changed).
 
@@ -110,7 +108,7 @@ Follow one message through the code:
 |---|---|
 | Change a price or a package | `src/content/packages.ts` |
 | Change email, phone, address, socials | `src/lib/site.ts` |
-| Edit an FAQ, service, step or testimonial | the matching file in `src/content/` |
+| Edit an FAQ, service or step | the matching file in `src/content/` |
 | Change the big headline at the top | `src/components/sections/Hero.tsx` |
 | Change the order of sections, or remove one | `src/app/page.tsx` |
 | Change colours | top of `src/app/globals.css` |

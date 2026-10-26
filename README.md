@@ -12,7 +12,7 @@ The site is intentionally lightweight: no CMS, no animation frameworks, no exter
 
 ## Features
 
-- Single-page layout: Hero, Format picker (with enlargeable example sites), Pricing, Services, Process, Testimonials, FAQ, Contact
+- Single-page layout: Hero, Format picker (with enlargeable example sites), Pricing, Services, Process, FAQ, Contact
 - Contact form with Zod validation, spam honeypot, and per-IP rate limiting (5 submissions / 10 minutes)
 - Submissions persisted to SQLite via `better-sqlite3` (synchronous, zero-config)
 - Admin dashboard at `/admin` and JSON listing at `/api/contacts`, both behind Basic Auth in production
@@ -68,9 +68,9 @@ src/
 │  └─ globals.css              # Design tokens (light + dark) and shared CSS
 ├─ components/
 │  ├─ layout/                  # Navbar, ThemeToggle, Footer, Logo, MotionLayer
-│  ├─ sections/                # Hero, Format, WorkCard, SiteMocks, Pricing,
-│  │                           # Services, Process, Testimonials, Faq, Contact, ContactForm
-│  └─ ui/                      # Button, Section, SectionHeading, Eyebrow, Container,
+│  ├─ sections/                # Hero, HeroWall, Format, WorkCard, SiteMocks,
+│  │                           # Pricing, Services, Process, Faq, Contact, ContactForm
+│  └─ ui/                      # Button, Section, SectionHeading, Container,
 │                              # Photo, CheckIcon, SocialIcons
 ├─ content/                    # All page copy as typed data (packages, formats, …)
 ├─ lib/

@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-26 — Hero wall back, reviews out
+
+- **Hero**: the slowly drifting wall of page wireframes is back, now behind the navy hero. The headline, buttons and example site sit on top, unchanged. It still pauses while the hero is off-screen and slows to a third of its speed (instead of stopping) under `prefers-reduced-motion`.
+- **Reviews removed**: the "Zëra klientësh" section is gone (`Testimonials.tsx`, `content/testimonials.ts`). The quotes weren't from real clients. Put a section back once there are real ones.
+
 ## 2026-10-18 — Plainer, less template-like
 
 Removed the effects that made the page read as a generated template. Content, layout and behaviour are unchanged.

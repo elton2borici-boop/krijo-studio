@@ -3,7 +3,7 @@ import { Container } from "./Container";
 
 const tones = {
   default: "bg-canvas",
-  raised: "bg-canvas-raised",
+  raised: "tone-raised",
   /** Deep-navy band; re-themes everything inside it (see .tone-ink). */
   ink: "tone-ink",
 } as const;

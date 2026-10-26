@@ -6,6 +6,8 @@
 - **Reviews removed**: the "Zëra klientësh" section is gone (`Testimonials.tsx`, `content/testimonials.ts`). The quotes weren't from real clients. Put a section back once there are real ones.
 - **Contact photos removed**: the café shot and the "two studio members" shot (with the "Studioja jonë në Tiranë" caption) are gone, along with the now-unused `Photo` component and `.photo` styles. They weren't real photos of the studio. The Process background photo stays.
 - **New Process background**: `tavolina.webp`, a top-down desk with a laptop, phone and a sketchbook of wireframes, replaces `puna.webp` (whose sketch read "Lorem Ipsum"). The empty desk sits on the left, under the text.
+- **Contact image**: `kafe.webp` (espresso, water and a navy notebook on a café table) fills the left column under the email and hours, ending level with the form. Desktop only, so on phones the form follows the text. Decorative: no caption, empty alt.
+- **No hard section lines**: navy bands (hero, Process, footer) dissolve into the page colour over a tall strip (`EdgeFade`, with padding added so no text sits in it), and raised sections fade in and out of the page colour (`.tone-raised`), so light sections meet without a visible line. `--page` keeps the page colour reachable inside navy bands.
 
 ## 2026-10-18 — Plainer, less template-like
 

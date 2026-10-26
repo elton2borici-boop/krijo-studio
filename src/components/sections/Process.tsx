@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
+import { EdgeFade } from "@/components/ui/EdgeFade";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { cn } from "@/lib/utils";
 import { steps } from "@/content/process";
@@ -39,7 +40,7 @@ export function Process() {
   return (
     <section
       id="procesi"
-      className="tone-ink relative isolate overflow-hidden py-20 sm:py-28"
+      className="tone-ink relative isolate py-52 sm:py-68"
       aria-labelledby="procesi-titulli"
     >
       {/* Background photograph, washed back far enough to sit under text. */}
@@ -61,6 +62,8 @@ export function Process() {
         aria-hidden
         className="absolute inset-0 -z-10 bg-canvas/90 lg:bg-transparent lg:bg-gradient-to-r lg:from-canvas lg:from-35% lg:via-canvas/90 lg:to-canvas/55"
       />
+      <EdgeFade side="top" />
+      <EdgeFade side="bottom" />
 
       <Container>
         <SectionHeading

@@ -70,7 +70,7 @@ src/
 │  ├─ layout/                  # Navbar, ThemeToggle, Footer, Logo, MotionLayer
 │  ├─ sections/                # Hero, HeroWall, Format, WorkCard, SiteMocks,
 │  │                           # Pricing, Services, Process, Faq, Contact, ContactForm
-│  └─ ui/                      # Button, Section, SectionHeading, Container,
+│  └─ ui/                      # Button, Section, SectionHeading, EdgeFade, Container,
 │                              # CheckIcon, SocialIcons
 ├─ content/                    # All page copy as typed data (packages, formats, …)
 ├─ lib/

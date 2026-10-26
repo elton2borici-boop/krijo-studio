@@ -1,4 +1,5 @@
 import { Container } from "@/components/ui/Container";
+import { EdgeFade } from "@/components/ui/EdgeFade";
 import { InstagramIcon, FacebookIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 import { site, addressLine, telHref, whatsappHref } from "@/lib/site";
 
@@ -53,7 +54,8 @@ export function Footer() {
 
   return (
     // Navy, like the hero, so the page opens and closes on the same note.
-    <footer className="tone-ink py-16 sm:py-20">
+    <footer className="tone-ink relative isolate pt-52 pb-16 sm:pt-68 sm:pb-20">
+      <EdgeFade side="top" />
       <Container>
         {/* Decorative wordmark — the name is already in the header logo. */}
         <p

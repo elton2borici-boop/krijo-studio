@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Section } from "@/components/ui/Section";
 import { site, addressLine, telHref, whatsappHref } from "@/lib/site";
 import { ContactForm } from "./ContactForm";
@@ -37,7 +38,7 @@ export function Contact() {
       labelledBy="kontakt-titulli"
     >
       <div className="grid gap-14 lg:grid-cols-12 lg:gap-8">
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-5 lg:flex lg:flex-col">
           <h2
             id="kontakt-titulli"
             className="font-display text-5xl font-extrabold leading-[1.02] tracking-tight text-fg sm:text-6xl"
@@ -76,6 +77,19 @@ export function Contact() {
               </div>
             ))}
           </dl>
+
+          <div
+            aria-hidden
+            className="relative mt-10 hidden min-h-56 flex-1 overflow-hidden rounded-card border border-hairline lg:block"
+          >
+            <Image
+              src="/images/kafe.webp"
+              alt=""
+              fill
+              sizes="(min-width: 1280px) 460px, 36vw"
+              className="object-cover object-[center_72%]"
+            />
+          </div>
         </div>
 
         <div className="lg:col-span-6 lg:col-start-7">

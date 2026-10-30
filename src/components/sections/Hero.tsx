@@ -3,6 +3,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { EdgeFade } from "@/components/ui/EdgeFade";
 import { packages } from "@/content/packages";
 import { HeroWall } from "./HeroWall";
+import { HeroCreature } from "./HeroCreature";
 
 /** Cheapest one-off build, so the claim follows the price list. */
 const fromPrice = Math.min(
@@ -16,12 +17,14 @@ const proof = [
   "Përgjigje brenda 24 orësh",
 ];
 
-/** Navy hero: a centered headline over the drifting wall. */
+/** Navy hero: a centered headline over the drifting wall, with koi swimming
+    between the two. */
 export function Hero() {
   return (
     <section className="tone-ink relative isolate pt-32 pb-52 sm:pt-40 sm:pb-64 lg:pb-68">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <HeroWall />
+        <HeroCreature />
       </div>
       <EdgeFade side="bottom" />
 

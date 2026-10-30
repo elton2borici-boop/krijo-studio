@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Footer } from "@/components/layout/Footer";
 import { Logo } from "@/components/layout/Logo";
-import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { site } from "@/lib/site";
 
 const title = "Politika e privatësisë — Krijo Studio";
@@ -92,7 +91,6 @@ export default function PrivacyPage() {
       <header className="px-3 pt-3 sm:px-6">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2.5">
           <Logo />
-          <ThemeToggle />
         </div>
       </header>
       <main id="permbajtja" className="relative flex-1 pt-12 pb-24 sm:pt-16 sm:pb-32">
@@ -156,10 +154,6 @@ export default function PrivacyPage() {
                 tregon kush je, skadon pas 30 ditësh dhe shërben vetëm për të
                 mbrojtur formularin nga spam-i. Nuk përdorim cookies analitike
                 ose reklamash.
-              </p>
-              <p className="mt-3">
-                Nëse zgjedh temën e çelët ose të errët, zgjedhja ruhet vetëm në
-                shfletuesin tënd (localStorage) dhe nuk na dërgohet ne.
               </p>
             </Section>
 

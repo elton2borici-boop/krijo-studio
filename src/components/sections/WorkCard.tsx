@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 
@@ -33,6 +33,19 @@ export function WorkCard({
   children: React.ReactNode;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const [open, setOpen] = useState(false);
+
+  // The enlarged copy stays out of the document until someone asks for it.
+  // showModal focuses the dialog; the close event (button, backdrop, Escape)
+  // is what drops it again, so focus returns to the thumbnail.
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!open || !dialog) return;
+    dialog.showModal();
+    const onClose = () => setOpen(false);
+    dialog.addEventListener("close", onClose);
+    return () => dialog.removeEventListener("close", onClose);
+  }, [open]);
 
   function close() {
     dialogRef.current?.close();
@@ -42,7 +55,7 @@ export function WorkCard({
     <article className="group w-full">
       <button
         type="button"
-        onClick={() => dialogRef.current?.showModal()}
+        onClick={() => setOpen(true)}
         className="block w-full cursor-zoom-in rounded-card text-left focus-visible:outline-offset-4"
       >
         <span className="sr-only">Shiko {title} nga afër</span>
@@ -63,49 +76,51 @@ export function WorkCard({
         {caption}
       </p>
 
-      <dialog
-        ref={dialogRef}
-        className="work-dialog"
-        aria-label={title}
-        // Clicking the backdrop hits the dialog element itself, never its
-        // contents, so this closes on outside-click without a wrapper listener.
-        onClick={(e) => {
-          if (e.target === dialogRef.current) close();
-        }}
-      >
-        <div className="flex flex-col items-center gap-4 p-4 sm:p-6">
-          <div className="flex w-full items-baseline justify-between gap-4">
-            <div className="min-w-0">
-              <h3 className="truncate font-display text-lg font-semibold text-fg">
-                {title}
-              </h3>
-              <p className="mt-0.5 text-sm leading-snug text-fg-muted">
-                {caption}
-              </p>
+      {open && (
+        <dialog
+          ref={dialogRef}
+          className="work-dialog"
+          aria-label={title}
+          // Clicking the backdrop hits the dialog element itself, never its
+          // contents, so this closes on outside-click without a wrapper listener.
+          onClick={(e) => {
+            if (e.target === dialogRef.current) close();
+          }}
+        >
+          <div className="flex flex-col items-center gap-4 p-4 sm:p-6">
+            <div className="flex w-full items-baseline justify-between gap-4">
+              <div className="min-w-0">
+                <h3 className="truncate font-display text-lg font-semibold text-fg">
+                  {title}
+                </h3>
+                <p className="mt-0.5 text-sm leading-snug text-fg-muted">
+                  {caption}
+                </p>
+              </div>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={close}
+                className="shrink-0 px-3.5"
+              >
+                Mbyll
+              </Button>
             </div>
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={close}
-              className="shrink-0 px-3.5"
-            >
-              Mbyll
-            </Button>
-          </div>
 
-          <div className="work-dialog-zoom">
-            <div className="w-[360px]">
-              {/* Not interactive: this copy lives inside the card's `group`, so
-                  the hover lift and 1.03 inner scale would fire whenever the
-                  pointer sat over the card behind the dialog — cropping the
-                  enlarged mock at its edges. */}
-              <BrowserFrame domain={domain} interactive={false}>
-                {children}
-              </BrowserFrame>
+            <div className="work-dialog-zoom">
+              <div className="w-[360px]">
+                {/* Not interactive: this copy lives inside the card's `group`, so
+                    the hover lift and 1.03 inner scale would fire whenever the
+                    pointer sat over the card behind the dialog — cropping the
+                    enlarged mock at its edges. */}
+                <BrowserFrame domain={domain} interactive={false}>
+                  {children}
+                </BrowserFrame>
+              </div>
             </div>
           </div>
-        </div>
-      </dialog>
+        </dialog>
+      )}
     </article>
   );
 }

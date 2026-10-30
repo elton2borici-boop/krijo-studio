@@ -11,17 +11,19 @@ import type { CreatureKind } from "./heroCreatureScene";
  *
  * three.js and the scene are one chunk, imported once the page is idle, so
  * they never compete with first paint. Visitors who prefer reduced motion, or
- * whose browser has no WebGL 2, never download it.
+ * whose browser has no WebGL 2, never download it — unless the URL has
+ * `?motion`, so someone with reduced motion on can still preview the hero.
  */
 export function HeroCreature({ kind = "koi" }: { kind?: CreatureKind }) {
   const hostRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const host = hostRef.current;
+    const forced = new URLSearchParams(location.search).has("motion");
     if (
       !host ||
       !("WebGL2RenderingContext" in window) ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      (window.matchMedia("(prefers-reduced-motion: reduce)").matches && !forced)
     ) {
       return;
     }

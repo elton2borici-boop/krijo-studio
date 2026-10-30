@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Logo } from "./Logo";
-import { ThemeToggle } from "./ThemeToggle";
 import { ButtonLink } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
@@ -19,37 +18,52 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
 
-  // Scroll-spy: highlight the link for the section crossing a band ~45% down
-  // the viewport. A passive scroll read also drives the nav background and
-  // clears the highlight while still in the hero.
+  // Scroll-spy and the frosted bar both come from IntersectionObserver, so
+  // nothing reads layout on every scroll event.
   useEffect(() => {
     const els = links
       .map((l) => document.getElementById(l.href.slice(1)))
       .filter((el): el is HTMLElement => el !== null);
 
-    const onScroll = () => {
-      setScrolled(window.scrollY > 8);
-      if (els[0] && els[0].getBoundingClientRect().top > window.innerHeight * 0.55) {
-        setActive("");
-      }
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const sentinel = document.createElement("div");
+    sentinel.ariaHidden = "true";
+    sentinel.style.cssText =
+      "position:absolute;top:8px;left:0;width:1px;height:1px;pointer-events:none;";
+    document.body.appendChild(sentinel);
 
-    const observer = new IntersectionObserver(
+    const bar = new IntersectionObserver(([entry]) => {
+      setScrolled(!entry.isIntersecting);
+    });
+    bar.observe(sentinel);
+
+    const visible = new Map<Element, number>();
+    const sections = new IntersectionObserver(
       (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]) setActive(visible[0].target.id);
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.set(entry.target, entry.intersectionRatio);
+          else visible.delete(entry.target);
+        }
+        if (visible.size === 0) {
+          setActive("");
+          return;
+        }
+        let bestId = "";
+        let best = -1;
+        for (const [el, ratio] of visible) {
+          if (ratio < best) continue;
+          best = ratio;
+          bestId = el.id;
+        }
+        setActive(bestId);
       },
       { rootMargin: "-45% 0px -50% 0px", threshold: [0, 0.25, 0.5, 1] }
     );
-    els.forEach((el) => observer.observe(el));
+    els.forEach((el) => sections.observe(el));
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      observer.disconnect();
+      bar.disconnect();
+      sections.disconnect();
+      sentinel.remove();
     };
   }, []);
 
@@ -101,7 +115,6 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <ThemeToggle />
           <ButtonLink href="#kontakt" size="sm" className="hidden lg:inline-flex">
             Kontakt
           </ButtonLink>

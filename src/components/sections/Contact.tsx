@@ -58,7 +58,7 @@ export function Contact() {
               phones, where the form follows the text. */}
           <div
             aria-hidden
-            className="absolute inset-0 -z-10 bg-page/90 lg:bg-transparent lg:bg-gradient-to-b lg:from-page lg:from-50% lg:to-page/25 lg:to-80% lg:dark:to-page/60"
+            className="absolute inset-0 -z-10 bg-page/90 lg:bg-transparent lg:bg-gradient-to-b lg:from-page lg:from-50% lg:to-page/60 lg:to-80%"
           />
           <EdgeFade side="top" />
           <EdgeFade side="bottom" />

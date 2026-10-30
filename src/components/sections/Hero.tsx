@@ -1,21 +1,8 @@
 import { Container } from "@/components/ui/Container";
 import { ButtonLink } from "@/components/ui/Button";
 import { EdgeFade } from "@/components/ui/EdgeFade";
-import { packages } from "@/content/packages";
 import { HeroWall } from "./HeroWall";
 import { HeroCreature } from "./HeroCreature";
-
-/** Cheapest one-off build, so the claim follows the price list. */
-const fromPrice = Math.min(
-  ...packages.filter((p) => !p.monthly).map((p) => p.price)
-);
-
-/* Facts already promised elsewhere on the page (pricing, FAQ, contact). */
-const proof = [
-  `Nga €${fromPrice}`,
-  "Dorëzim zakonisht 5–7 ditë",
-  "Përgjigje brenda 24 orësh",
-];
 
 /** Navy hero: a centered headline over the drifting wall, with koi swimming
     between the two. */
@@ -46,19 +33,6 @@ export function Hero() {
               Shiko çmimet <span aria-hidden>↓</span>
             </ButtonLink>
           </div>
-
-          <ul className="mt-10 flex flex-col items-center justify-center gap-1 text-sm text-fg-muted sm:flex-row sm:gap-5">
-            {proof.map((p, i) => (
-              <li key={p} className="flex items-center gap-5">
-                {i > 0 && (
-                  <span aria-hidden className="hidden text-fg-faint sm:inline">
-                    ·
-                  </span>
-                )}
-                {p}
-              </li>
-            ))}
-          </ul>
         </div>
       </Container>
     </section>

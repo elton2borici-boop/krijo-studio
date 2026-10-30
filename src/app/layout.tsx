@@ -23,18 +23,9 @@ const sora = Sora({
   display: "swap",
 });
 
-/**
- * Runs before first paint so the page never flashes the wrong theme: a stored
- * choice wins, otherwise the OS setting — which it keeps following live until
- * the visitor picks one with the toggle.
- */
-const themeScript = `(function(){try{var d=document.documentElement,m=matchMedia("(prefers-color-scheme: dark)");function a(){var s=localStorage.getItem("theme");d.dataset.theme=s==="dark"||s==="light"?s:m.matches?"dark":"light"}a();m.addEventListener("change",a)}catch(e){}})()`;
-
+/* The site is dark only (see globals.css), so the browser chrome matches. */
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fbfaf7" },
-    { media: "(prefers-color-scheme: dark)", color: "#0e1014" },
-  ],
+  themeColor: "#0e1014",
 };
 
 export const metadata: Metadata = {
@@ -69,15 +60,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="sq"
-      className={`${dmSans.variable} ${sora.variable} h-full`}
-      // The theme script sets data-theme before React hydrates.
-      suppressHydrationWarning
-    >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang="sq" className={`${dmSans.variable} ${sora.variable} h-full`}>
       <body className="relative flex min-h-full flex-col bg-canvas text-fg">
         <script
           type="application/ld+json"

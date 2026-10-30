@@ -20,7 +20,7 @@ export function GastroPreview() {
   return (
     <div className="flex h-full flex-col bg-[#ffffff] text-[#15181d]">
       <div className="flex items-center justify-between border-b border-[#15181d]/10 px-4 py-2.5">
-        <span className="serif text-[11px] font-semibold tracking-tight">Bukë &amp; Verë</span>
+        <span className="font-serif text-[11px] font-semibold tracking-tight">Bukë &amp; Verë</span>
         <span className="flex items-center gap-2.5 text-[6.5px] uppercase tracking-[0.12em] text-[#15181d]/70">
           <span>Menuja</span>
           <span>Historia</span>
@@ -30,7 +30,7 @@ export function GastroPreview() {
 
       <div className="relative mx-3 mt-2.5 flex h-[70px] shrink-0 items-center gap-2.5 overflow-hidden rounded-[3px] bg-[#eef2f8] px-3">
         <div className="min-w-0 flex-1">
-          <span className="serif block text-[11.5px] font-semibold leading-tight text-[#15181d]">
+          <span className="font-serif block text-[11.5px] font-semibold leading-tight text-[#15181d]">
             Kuzhinë shqiptare,
             <br />
             me zjarr të ngadaltë.
@@ -60,7 +60,7 @@ export function GastroPreview() {
         ].map(([dish, price]) => (
           <div key={dish} className="flex items-baseline justify-between py-[3px] text-[7px]">
             <span>{dish}</span>
-            <span className="tnum font-semibold text-[#1f5fbf]">{price}</span>
+            <span className="tabular-nums font-semibold text-[#1f5fbf]">{price}</span>
           </div>
         ))}
       </div>
@@ -73,7 +73,7 @@ export function LawPreview() {
   return (
     <div className="flex h-full flex-col bg-[#f7f6f4] text-[#15181d]">
       <div className="flex items-center justify-between border-b border-[#15181d]/12 px-4 py-2.5">
-        <span className="serif text-[10.5px] font-semibold tracking-tight">
+        <span className="font-serif text-[10.5px] font-semibold tracking-tight">
           Avokatura <span className="text-[#1f5fbf]">Arta</span>
         </span>
         <span className="rounded-sm border border-[#15181d]/25 px-1.5 py-0.5 text-[6.5px] uppercase tracking-[0.12em]">
@@ -84,7 +84,7 @@ export function LawPreview() {
         <span className="text-[6px] uppercase tracking-[0.2em] text-[#1f5fbf]">
           Studio ligjore · Tiranë
         </span>
-        <p className="serif mt-1 text-[12px] font-semibold leading-snug">
+        <p className="font-serif mt-1 text-[12px] font-semibold leading-snug">
           Këshillim i qartë,
           <br />
           pa zhargon ligjor.
@@ -112,7 +112,7 @@ export function ShopPreview() {
   return (
     <div className="flex h-full flex-col bg-white text-[#15181d]">
       <div className="flex items-center justify-between px-4 py-2.5">
-        <span className="serif text-[10.5px] font-semibold tracking-tight">Atelier № 12</span>
+        <span className="font-serif text-[10.5px] font-semibold tracking-tight">Atelier № 12</span>
         <span className="flex items-center gap-2 text-[6.5px] uppercase tracking-[0.12em] text-[#15181d]/70">
           <span>Koleksioni</span>
           <span className="relative">
@@ -135,7 +135,7 @@ export function ShopPreview() {
           <div key={name} className="flex flex-col">
             <div className="aspect-square rounded-sm" style={{ backgroundColor: tone }} />
             <span className="mt-1 truncate text-[6.5px] font-medium">{name}</span>
-            <span className="tnum text-[6.5px] font-semibold text-[#1f5fbf]">{price}</span>
+            <span className="tabular-nums text-[6.5px] font-semibold text-[#1f5fbf]">{price}</span>
           </div>
         ))}
       </div>
@@ -151,7 +151,7 @@ export function StudioPreview() {
   return (
     <div className="flex h-full flex-col bg-[#f7f6f4] text-[#15181d]">
       <div className="flex items-center justify-between px-4 py-2.5">
-        <span className="serif text-[10.5px] font-semibold tracking-tight">
+        <span className="font-serif text-[10.5px] font-semibold tracking-tight">
           Elira Nushi
         </span>
         <span className="flex items-center gap-2.5 text-[6.5px] uppercase tracking-[0.12em] text-[#15181d]/70">

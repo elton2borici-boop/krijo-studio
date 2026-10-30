@@ -1,122 +1,53 @@
 @import "tailwindcss";
 
-/* Dark mode follows `data-theme` on <html>, which the inline script in
-   layout.tsx sets before first paint (stored choice, else the OS setting). */
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
 /* =============================================================================
    Design tokens
    -----------------------------------------------------------------------------
-   Raw values live on :root and are swapped per theme; the @theme block below
+   The site is dark only. Raw values live on :root; the @theme block below
    maps them onto Tailwind utilities (bg-canvas, text-fg, rounded-card, …).
-   Components only ever use the semantic names, never a hex value, so both
-   themes come from this one file.
+   Components only ever use the semantic names, never a hex value.
 
-   Contrast (WCAG 2.x) measured against the theme's canvas / surface:
-                    light            dark
-     fg             17.1 / 17.8      16.7 / 14.8
-     fg-muted        7.4 /  7.7       8.4 /  7.5
-     accent          6.8 /  7.0       9.0 /  8.0
-     placeholder     4.5 /  4.7       6.0 /  5.3
-     line-strong     3.5 /  3.7       3.9 /  3.5   (≥3:1 for control borders)
-     white on accent-fill: 6.1 light, 5.1 dark
+   Contrast (WCAG 2.x) measured against canvas / surface:
+     fg             16.7 / 14.8
+     fg-muted        8.4 /  7.5
+     accent          9.0 /  8.0
+     placeholder     6.0 /  5.3
+     line-strong     3.9 /  3.5   (≥3:1 for control borders)
+     white on accent-fill: 5.1
    ========================================================================== */
 
 :root {
-  color-scheme: light;
-
-  --canvas: #fbfaf7; /* page background */
-  --canvas-raised: #f3f1ec; /* alternate sections */
-  --canvas-deep: #ebe8e1; /* footer */
-  --surface: #ffffff; /* cards, inputs, menus */
-
-  --fg: #15181d;
-  --fg-muted: #4e535c;
-  --fg-faint: #7c8290; /* decorative only — below 4.5:1 */
-  --fg-placeholder: #6e747f;
-
-  --line: #e3dfd6; /* dividers, card edges */
-  --line-strong: #8b8579; /* control borders */
-
-  --accent: #1b56ad; /* text, icons, focus */
-  --accent-fill: #1f5fbf; /* button backgrounds */
-  --on-accent: #ffffff;
-  --accent-soft: rgb(31 95 191 / 0.1);
-
-  --danger: #b42318;
-
-  /* Accent-tinted surface for showcase areas. */
-  --stage: #eaf0fa;
-
-  --shadow-color: 21 24 29;
-  --shadow-strength: 1;
-
-  /* The page colour, resolved here so navy bands (which re-point --canvas)
-     can still fade into it. */
-  --page: var(--canvas);
-}
-
-/* Dark palette — applied by explicit choice (data-theme="dark"), or by the OS
-   setting when no choice has been made. The two blocks must stay identical;
-   the media-query copy is what visitors without JavaScript get. */
-:root[data-theme="dark"] {
   color-scheme: dark;
 
-  --canvas: #0e1014;
-  --canvas-raised: #15181e;
-  --canvas-deep: #0a0c0f;
-  --surface: #1a1d24;
+  --canvas: #0e1014; /* page background */
+  --canvas-raised: #15181e; /* alternate sections */
+  --canvas-deep: #0a0c0f; /* footer */
+  --surface: #1a1d24; /* cards, inputs, menus */
 
   --fg: #eef0f3;
   --fg-muted: #a7adb8;
-  --fg-faint: #6b7280;
+  --fg-faint: #6b7280; /* decorative only — below 4.5:1 */
   --fg-placeholder: #8b919c;
 
-  --line: #262a31;
-  --line-strong: #6b7280;
+  --line: #262a31; /* dividers, card edges */
+  --line-strong: #6b7280; /* control borders */
 
-  --accent: #8ab4f8;
-  --accent-fill: #2f6bd0;
+  --accent: #8ab4f8; /* text, icons, focus */
+  --accent-fill: #2f6bd0; /* button backgrounds */
   --on-accent: #ffffff;
   --accent-soft: rgb(138 180 248 / 0.12);
 
   --danger: #f97066;
 
+  /* Accent-tinted surface for showcase areas. */
   --stage: #172238;
 
   --shadow-color: 0 0 0;
   --shadow-strength: 2.5;
-}
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-
-    --canvas: #0e1014;
-    --canvas-raised: #15181e;
-    --canvas-deep: #0a0c0f;
-    --surface: #1a1d24;
-
-    --fg: #eef0f3;
-    --fg-muted: #a7adb8;
-    --fg-faint: #6b7280;
-    --fg-placeholder: #8b919c;
-
-    --line: #262a31;
-    --line-strong: #6b7280;
-
-    --accent: #8ab4f8;
-    --accent-fill: #2f6bd0;
-    --on-accent: #ffffff;
-    --accent-soft: rgb(138 180 248 / 0.12);
-
-    --danger: #f97066;
-
-    --stage: #172238;
-
-    --shadow-color: 0 0 0;
-    --shadow-strength: 2.5;
-  }
+  /* The page colour, resolved here so navy bands (which re-point --canvas)
+     can still fade into it. */
+  --page: var(--canvas);
 }
 
 @theme inline {
@@ -235,9 +166,8 @@
   }
 
   /* Deep-navy band: re-points the tokens for its whole subtree, so headings,
-     cards, buttons and links inside it adapt with no per-component work.
-     Same values in both themes (it is the page's one dark moment in light
-     mode, and a navy lift off the near-black canvas in dark mode).
+     cards, buttons and links inside it adapt with no per-component work —
+     a navy lift off the near-black canvas.
      Contrast vs #0c1830: fg 15.7, muted 8.6, accent 8.4, line-strong 3.6.
 
      `.ink-tokens` is the same palette without the background — for things
@@ -367,6 +297,9 @@
   overflow: hidden;
   pointer-events: none;
   opacity: 0.22;
+  --wall-ink: color-mix(in srgb, var(--fg) 36%, transparent);
+  --wall-soft: color-mix(in srgb, var(--fg) 24%, transparent);
+  --wall-accent: color-mix(in srgb, var(--accent-fill) 90%, transparent);
   /* Fades top, bottom and sides, and quiets the wall behind the headline. */
   -webkit-mask-image:
     linear-gradient(to bottom, transparent 0%, #000 16%, #000 62%, transparent 100%),
@@ -407,6 +340,222 @@
    off and jump on every loop. */
 .hero-wall-col > * {
   margin-bottom: 14px;
+}
+
+/* One node per sketch. Chrome sits on ::before; the page body is background
+   layers, so a column of these stays cheap to paint while it drifts. */
+.wall-card {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 2px solid color-mix(in srgb, var(--fg) 30%, transparent);
+  background-color: var(--surface);
+  background-repeat: no-repeat;
+}
+
+.wall-card::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  left: 8px;
+  height: 8px;
+  background:
+    radial-gradient(circle at 2px 50%, color-mix(in srgb, var(--fg) 55%, transparent) 1.6px, transparent 1.8px),
+    radial-gradient(circle at 8px 50%, color-mix(in srgb, var(--fg) 45%, transparent) 1.6px, transparent 1.8px),
+    radial-gradient(circle at 14px 50%, color-mix(in srgb, var(--fg) 32%, transparent) 1.6px, transparent 1.8px),
+    linear-gradient(color-mix(in srgb, var(--fg) 22%, transparent), color-mix(in srgb, var(--fg) 22%, transparent))
+      20px 0 / calc(100% - 20px) 8px no-repeat;
+}
+
+.wall-landing {
+  height: 226px;
+  background-image:
+    linear-gradient(var(--wall-accent), var(--wall-accent)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-ink), var(--wall-ink)),
+    linear-gradient(var(--wall-accent), var(--wall-accent));
+  background-size:
+    calc(100% - 16px) 16px,
+    calc((100% - 32px) / 3) 32px,
+    calc((100% - 32px) / 3) 32px,
+    calc((100% - 32px) / 3) 32px,
+    48% 8px,
+    66% 8px,
+    calc(100% - 16px) 36px;
+  background-position:
+    8px calc(100% - 8px),
+    8px 100px,
+    calc(16px + (100% - 32px) / 3) 100px,
+    calc(24px + 2 * (100% - 32px) / 3) 100px,
+    8px 84px,
+    8px 70px,
+    8px 28px;
+}
+
+.wall-shop {
+  height: 256px;
+  background-image:
+    linear-gradient(var(--wall-accent), var(--wall-accent)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-ink), var(--wall-ink));
+  background-size:
+    calc(100% - 16px) 14px,
+    calc((100% - 32px) / 3) 52px,
+    calc((100% - 32px) / 3) 52px,
+    calc((100% - 32px) / 3) 52px,
+    calc((100% - 32px) / 3) 52px,
+    calc((100% - 32px) / 3) 52px,
+    calc((100% - 32px) / 3) 52px,
+    20px 8px,
+    32px 8px;
+  background-position:
+    8px calc(100% - 8px),
+    8px 48px,
+    calc(16px + (100% - 32px) / 3) 48px,
+    calc(24px + 2 * (100% - 32px) / 3) 48px,
+    8px 108px,
+    calc(16px + (100% - 32px) / 3) 108px,
+    calc(24px + 2 * (100% - 32px) / 3) 108px,
+    right 8px top 28px,
+    8px 28px;
+}
+
+.wall-article {
+  height: 282px;
+  background-image:
+    linear-gradient(var(--wall-accent), var(--wall-accent)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-ink), var(--wall-ink));
+  background-size:
+    25% 12px,
+    calc(66% - 16px) 6px,
+    calc(100% - 16px) 6px,
+    calc(100% - 16px) 6px,
+    calc(84% - 16px) 6px,
+    calc(100% - 16px) 6px,
+    calc(100% - 16px) 56px,
+    33% 6px,
+    80% 10px;
+  background-position:
+    8px 196px,
+    8px 176px,
+    8px 164px,
+    8px 152px,
+    8px 140px,
+    8px 128px,
+    8px 64px,
+    8px 48px,
+    8px 28px;
+}
+
+.wall-portfolio {
+  height: 205px;
+  background-image:
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-ink), var(--wall-ink)),
+    linear-gradient(var(--wall-ink), var(--wall-ink)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-accent), var(--wall-accent)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-ink), var(--wall-ink));
+  background-size:
+    calc((100% - 24px) / 2) calc((100% - 62px) / 2),
+    calc((100% - 24px) / 2) calc((100% - 62px) / 2),
+    calc((100% - 24px) / 2) calc((100% - 62px) / 2),
+    calc((100% - 24px) / 2) calc((100% - 62px) / 2),
+    16px 6px,
+    16px 6px,
+    28px 8px;
+  background-position:
+    8px 48px,
+    calc(16px + (100% - 24px) / 2) 48px,
+    8px calc(54px + (100% - 62px) / 2),
+    calc(16px + (100% - 24px) / 2) calc(54px + (100% - 62px) / 2),
+    right 8px top 29px,
+    right 28px top 29px,
+    8px 28px;
+}
+
+.wall-booking {
+  height: 237px;
+  background-image:
+    linear-gradient(var(--wall-accent), var(--wall-accent)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-ink), var(--wall-ink));
+  background-size:
+    calc(100% - 16px) 16px,
+    calc((100% - 24px) / 2) 16px,
+    calc((100% - 24px) / 2) 16px,
+    calc(100% - 16px) 16px,
+    calc(100% - 16px) 16px,
+    calc(100% - 16px) 16px,
+    50% 8px;
+  background-position:
+    8px calc(100% - 8px),
+    8px 124px,
+    calc(16px + (100% - 24px) / 2) 124px,
+    8px 100px,
+    8px 76px,
+    8px 52px,
+    8px 28px;
+}
+
+.wall-menu {
+  height: 216px;
+  background-image:
+    linear-gradient(var(--wall-accent), var(--wall-accent)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-accent), var(--wall-accent)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-accent), var(--wall-accent)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-accent), var(--wall-accent)),
+    linear-gradient(var(--wall-soft), var(--wall-soft)),
+    linear-gradient(var(--wall-accent), var(--wall-accent)),
+    linear-gradient(var(--wall-ink), var(--wall-ink));
+  background-size:
+    12px 6px,
+    calc(100% - 44px) 6px,
+    12px 6px,
+    calc(100% - 44px) 6px,
+    12px 6px,
+    calc(100% - 44px) 6px,
+    12px 6px,
+    calc(100% - 44px) 6px,
+    40% 6px,
+    calc(100% - 16px) 32px;
+  background-position:
+    right 8px top 168px,
+    8px 168px,
+    right 8px top 150px,
+    8px 150px,
+    right 8px top 132px,
+    8px 132px,
+    right 8px top 114px,
+    8px 114px,
+    8px 92px,
+    8px 28px;
 }
 
 @keyframes hero-wall-drift {
@@ -546,14 +695,6 @@
 /* Keyboard focus never lands in a half-faded section. */
 .reveal:focus-within {
   transition: none;
-}
-
-/* Theme switch: a short cross-fade via the View Transitions API where
-   supported (see ThemeToggle); elsewhere the switch is instant. */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: 0.3s;
-  animation-timing-function: ease;
 }
 
 @media (prefers-reduced-motion: reduce) {

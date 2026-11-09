@@ -97,7 +97,9 @@
 
 @layer base {
   html {
-    scroll-padding-top: 6rem; /* clear the fixed nav on anchor jumps and focus */
+    /* One clearance for the fixed header. Anchor targets intentionally have
+       no scroll-margin: it stacks with this and would double the gap. */
+    scroll-padding-top: 6rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -290,6 +292,31 @@
    Drifting columns of page wireframes behind the hero. Only `transform` on the
    column wrappers animates, so it composites without repaints.
    ========================================================================== */
+
+/* Navy pool behind the hero copy only, so the subline stays readable
+   where the wall and the koi pass through the type. */
+.hero-copy {
+  position: relative;
+  overflow-x: clip;
+}
+
+.hero-copy::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -2.75rem 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 140% 78% at center,
+    color-mix(in srgb, var(--canvas) 92%, transparent) 0%,
+    color-mix(in srgb, var(--canvas) 84%, transparent) 58%,
+    transparent 100%
+  );
+}
+
+.hero-copy p {
+  color: color-mix(in srgb, var(--fg) 70%, var(--fg-muted));
+}
 
 .hero-wall {
   position: absolute;

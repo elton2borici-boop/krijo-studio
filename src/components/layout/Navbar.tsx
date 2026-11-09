@@ -116,7 +116,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <ButtonLink href="#kontakt" size="sm" className="hidden lg:inline-flex">
-            Kontakt
+            Merr ofertë falas
           </ButtonLink>
           <button
             type="button"
@@ -155,7 +155,7 @@ export function Navbar() {
                   onClick={() => setOpen(false)}
                   className="w-full"
                 >
-                  Kontakt
+                  Merr ofertë falas
                 </ButtonLink>
               </li>
             </ul>

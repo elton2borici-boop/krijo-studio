@@ -16,12 +16,12 @@ export function Hero() {
       <EdgeFade side="bottom" />
 
       <Container>
-        <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
+        <div className="hero-copy mx-auto flex max-w-4xl flex-col items-center text-center">
           <h1 className="font-display text-5xl font-extrabold leading-[1.02] tracking-tight text-fg sm:text-6xl lg:text-8xl">
             Krijojmë faqe që <span className="text-accent">punojnë.</span>
           </h1>
 
-          <p className="mx-auto mt-7 max-w-xl text-pretty text-lg leading-relaxed text-fg-muted sm:text-xl">
+          <p className="mx-auto mt-7 max-w-xl text-pretty text-lg leading-relaxed sm:text-xl">
             Zhvillim, hosting dhe mirëmbajtje — gjithçka në një vend.
           </p>
 
